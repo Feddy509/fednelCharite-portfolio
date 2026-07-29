@@ -1,5 +1,6 @@
 name: CI/CD Pipeline
 
+# Déclencheurs / Triggers
 on:
   push:
     branches: [ main ]
@@ -12,26 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Récupération du code source / Checkout source code
       - name: Checkout repository / Récupérer le code
         uses: actions/checkout@v4
 
+      # 2. Installation de pnpm / Install pnpm
       - name: Install pnpm / Installer pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
+      # 3. Configuration de Node.js / Setup Node.js environment
       - name: Setup Node.js / Configurer Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
 
+      # 4. Installation des dépendances avec pnpm / Install dependencies
       - name: Install dependencies / Installer les dépendances
         run: pnpm install
 
+      # 5. Vérification de la qualité du code (ESLint) / Run ESLint check
       - name: Run Linter / Exécuter le linter
         run: pnpm run lint
 
+      # 6. Vérification des types TypeScript / Run TypeScript check
       - name: Type check / Vérifier les types TypeScript
         run: npx tsc --noEmit
 
@@ -41,12 +48,15 @@ jobs:
     needs: lint-and-typecheck
 
     steps:
+      # 1. Récupération du code source / Checkout source code
       - name: Checkout repository / Récupérer le code
         uses: actions/checkout@v4
 
+      # 2. Configuration de Docker Buildx / Set up Docker Buildx
       - name: Set up Docker Buildx / Configurer Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # 3. Test de construction de l'image Docker / Test Docker image build
       - name: Build Docker image / Tester la construction de l'image
         uses: docker/build-push-action@v6
         with:

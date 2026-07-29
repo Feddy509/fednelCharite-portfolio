@@ -1,8 +1,8 @@
-# 1. Étape de base : Image Node.js
+# 1. Étape de base : Image Node.js 20
 FROM node:20-alpine AS base
 
-# Activation de pnpm via corepack / Activer pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Activation de pnpm v9 via corepack / Activer pnpm
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # 2. Étape des dépendances : Installation des paquets avec pnpm
 FROM base AS deps
@@ -19,7 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Désactivation de la télémétrie Next.js
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN pnpm run build
 
@@ -27,8 +27,8 @@ RUN pnpm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -43,7 +43,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
