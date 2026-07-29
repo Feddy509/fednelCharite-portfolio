@@ -1,13 +1,16 @@
 # 1. Étape de base : Image Node.js
 FROM node:18-alpine AS base
 
-# 2. Étape des dépendances : Installation des paquets
+# Activation de pnpm via corepack / Activer pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# 2. Étape des dépendances : Installation des paquets avec pnpm
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # 3. Étape de construction : Build de l'application
 FROM base AS builder
@@ -18,7 +21,7 @@ COPY . .
 # Désactivation de la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN npm run build
+RUN pnpm run build
 
 # 4. Étape d'exécution : Environnement final léger pour lancer le site
 FROM base AS runner
