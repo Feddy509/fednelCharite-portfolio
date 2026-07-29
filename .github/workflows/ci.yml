@@ -17,22 +17,28 @@ jobs:
       - name: Checkout repository / Récupérer le code
         uses: actions/checkout@v4
 
-      # 2. Configuration de Node.js / Setup Node.js environment
+      # 2. Installation de pnpm / Install pnpm
+      - name: Install pnpm / Installer pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      # 3. Configuration de Node.js / Setup Node.js environment
       - name: Setup Node.js / Configurer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: 'npm'
+          node-version: 20
+          cache: 'pnpm'
 
-      # 3. Installation des dépendances / Install dependencies
+      # 4. Installation des dépendances avec pnpm / Install dependencies
       - name: Install dependencies / Installer les dépendances
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      # 4. Vérification de la qualité du code (ESLint) / Run ESLint check
+      # 5. Vérification de la qualité du code (ESLint) / Run ESLint check
       - name: Run Linter / Exécuter le linter
-        run: npm run lint
+        run: pnpm run lint
 
-      # 5. Vérification des types TypeScript / Run TypeScript check
+      # 6. Vérification des types TypeScript / Run TypeScript check
       - name: Type check / Vérifier les types TypeScript
         run: npx tsc --noEmit
 
@@ -56,4 +62,4 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: false # Ne publie pas l'image, vérifie seulement si le build fonctionne / Only test build, do not push
+          push: false # Ne publie pas l'image, vérifie seulement si le build fonctionne / Only test build
