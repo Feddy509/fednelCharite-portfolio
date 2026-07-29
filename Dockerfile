@@ -1,5 +1,5 @@
 # 1. Étape de base : Image Node.js
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Activation de pnpm via corepack / Activer pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -9,8 +9,8 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install
 
 # 3. Étape de construction : Build de l'application
 FROM base AS builder
