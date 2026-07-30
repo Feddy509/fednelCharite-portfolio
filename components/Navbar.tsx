@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, FileText } from "lucide-react";
 import { navLinks, personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
@@ -57,6 +58,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Bouton Chanje Lang (Desktop) */}
+          <LanguageSwitcher />
+
           <button
             onClick={openModal}
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex"
@@ -64,6 +68,7 @@ export default function Navbar() {
             <FileText size={15} />
             CV
           </button>
+          
           <button
             aria-label="Ouvrir le menu"
             onClick={() => setMobileOpen((v) => !v)}
@@ -100,16 +105,19 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  openModal();
-                }}
-                className="mt-2 flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2.5 font-sans text-sm font-medium text-paper"
-              >
-                <FileText size={15} />
-                Télécharger le CV
-              </button>
+
+              <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-3">
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openModal();
+                  }}
+                  className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper"
+                >
+                  <FileText size={15} />
+                  Télécharger le CV
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

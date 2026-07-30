@@ -4,44 +4,79 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Code2, Server, ShieldCheck, Award } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
-import { projects, skills, type ProjectCategory, type Skill } from "@/data/portfolioData";
+import { skills, portfolioData, type ProjectCategory, type Skill } from "@/data/portfolioData";
+import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
 type FilterKey = "all" | ProjectCategory;
 
-const filters: { key: FilterKey; label: string }[] = [
-  { key: "all", label: "Tout" },
-  { key: "full-stack", label: "Full-Stack" },
-  { key: "security", label: "DevSecOps / Security" },
-  { key: "mobile-cloud", label: "Mobile / Cloud" },
-];
-
-const skillGroups: { key: Skill["category"]; label: string; icon: typeof Code2 }[] = [
-  { key: "frontend", label: "Frontend", icon: Code2 },
-  { key: "backend", label: "Backend", icon: Server },
-  { key: "security", label: "Security / DevOps", icon: ShieldCheck },
-  { key: "certification", label: "Certifications", icon: Award },
-];
-
 export default function ProjectsPage() {
+  const { language } = useLanguage();
+  const data = portfolioData[language];
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
 
+  const labels = {
+    fr: {
+      badge: "Projets & Compétences",
+      title: "Études de cas, pas juste une liste de liens",
+      subtitle:
+        "Chaque projet est présenté sous forme de problème résolu — parce qu'un lien GitHub seul ne raconte jamais toute l'histoire.",
+      empty: "Aucun projet dans cette catégorie pour le moment.",
+      skillsBadge: "Compétences",
+      skillsTitle: "La boîte à outils",
+      filters: {
+        all: "Tout",
+        "full-stack": "Full-Stack",
+        security: "DevSecOps / Security",
+        "mobile-cloud": "Mobile / Cloud",
+      },
+    },
+    en: {
+      badge: "Projects & Skills",
+      title: "Case studies, not just a list of links",
+      subtitle:
+        "Every project is presented as a solved problem — because a GitHub link alone never tells the whole story.",
+      empty: "No projects in this category at the moment.",
+      skillsBadge: "Skills",
+      skillsTitle: "The Toolbox",
+      filters: {
+        all: "All",
+        "full-stack": "Full-Stack",
+        security: "DevSecOps / Security",
+        "mobile-cloud": "Mobile / Cloud",
+      },
+    },
+  }[language];
+
+  const filters: { key: FilterKey; label: string }[] = [
+    { key: "all", label: labels.filters.all },
+    { key: "full-stack", label: labels.filters["full-stack"] },
+    { key: "security", label: labels.filters.security },
+    { key: "mobile-cloud", label: labels.filters["mobile-cloud"] },
+  ];
+
+  const skillGroups: { key: Skill["category"]; label: string; icon: typeof Code2 }[] = [
+    { key: "frontend", label: "Frontend", icon: Code2 },
+    { key: "backend", label: "Backend", icon: Server },
+    { key: "security", label: "Security / DevOps", icon: ShieldCheck },
+    { key: "certification", label: "Certifications", icon: Award },
+  ];
+
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "all") return projects;
-    return projects.filter((p) => p.categories.includes(activeFilter));
-  }, [activeFilter]);
+    if (activeFilter === "all") return data.projects;
+    return data.projects.filter((p) => p.categories.includes(activeFilter));
+  }, [activeFilter, data.projects]);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-        Projets &amp; Compétences
+        {labels.badge}
       </p>
       <h1 className="mt-2 font-sans text-3xl font-bold text-paper sm:text-4xl">
-        Études de cas, pas juste une liste de liens
+        {labels.title}
       </h1>
       <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-paper/65">
-        Chaque projet est présenté sous forme de problème résolu — parce
-        qu&apos;un lien GitHub seul ne raconte jamais toute l&apos;histoire.
+        {labels.subtitle}
       </p>
 
       {/* Filters */}
@@ -74,17 +109,17 @@ export default function ProjectsPage() {
 
       {filteredProjects.length === 0 && (
         <p className="mt-10 font-sans text-sm text-paper/50">
-          Aucun projet dans cette catégorie pour le moment.
+          {labels.empty}
         </p>
       )}
 
       {/* Skills */}
       <div className="mt-20">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-          Compétences
+          {labels.skillsBadge}
         </p>
         <h2 className="mt-2 font-sans text-2xl font-bold text-paper">
-          La boîte à outils
+          {labels.skillsTitle}
         </h2>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

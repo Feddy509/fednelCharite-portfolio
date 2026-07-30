@@ -1,13 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Mail, ShieldCheck, Code2, Rocket } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import HeroIllustration from "@/components/HeroIllustration";
-import {
-  personalInfo,
-  projects,
-  socialProof,
-  aboutIdentities,
-} from "@/data/portfolioData";
+import { portfolioData } from "@/data/portfolioData";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 const identityIcons = {
   engineer: Code2,
@@ -16,7 +14,39 @@ const identityIcons = {
 };
 
 export default function HomePage() {
-  const featuredProjects = projects.filter((p) => p.featured);
+  const { language } = useLanguage();
+  const data = portfolioData[language];
+
+  const featuredProjects = data.projects.filter((p) => p.featured);
+
+  const labels = {
+    fr: {
+      btnProjects: "Voir les projets",
+      btnContact: "Me contacter",
+      featuredBadge: "Featured Projects",
+      featuredTitle: "Ce que j'ai construit",
+      allProjects: "Tous les projets",
+      perspectiveBadge: "Point de vue",
+      perspectiveTitle: "Développer en pensant sécurité, pas en la rattrapant",
+      perspectivePara1:
+        "En 2026, la vitesse d'expédition d'un produit ne suffit plus à le rendre compétitif. Les équipes qui gagnent la confiance de leurs utilisateurs sont celles qui traitent la sécurité comme une exigence de conception dès le premier commit, pas comme une case à cocher avant la mise en production.",
+      perspectivePara2:
+        "C'est la conviction qui guide mon travail : construire des interfaces soignées avec React et Next.js, tout en gardant les réflexes DevSecOps — gestion des secrets, durcissement des API, conteneurisation propre — au même niveau de priorité que l'expérience utilisateur.",
+    },
+    en: {
+      btnProjects: "View Projects",
+      btnContact: "Contact Me",
+      featuredBadge: "Featured Projects",
+      featuredTitle: "What I've Built",
+      allProjects: "All Projects",
+      perspectiveBadge: "Perspective",
+      perspectiveTitle: "Engineering for security, not retrofitting it",
+      perspectivePara1:
+        "In 2026, shipping speed alone is no longer enough to make a product competitive. The teams that earn user trust are those that treat security as a core design requirement from the first commit, not as a checkbox right before production release.",
+      perspectivePara2:
+        "This is the core belief that drives my work: building polished interfaces with React and Next.js, while maintaining strong DevSecOps practices — secret management, API hardening, clean containerization — at the same level of priority as user experience.",
+    },
+  }[language];
 
   return (
     <>
@@ -29,16 +59,16 @@ export default function HomePage() {
           {/* Colonne Gauche : Présentation et Textes */}
           <div className="z-10 animate-fade-up opacity-0 [animation-delay:0.05s]">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-              {personalInfo.roles.join(" · ")}
+              {data.personalInfo.roles.join(" · ")}
             </p>
             <h1 className="mt-4 text-balance font-sans text-4xl font-bold leading-[1.1] text-paper sm:text-5xl">
-              {personalInfo.name}
+              {data.personalInfo.name}
             </h1>
             <p className="mt-6 max-w-xl text-balance font-sans text-lg leading-relaxed text-paper/70">
-              {personalInfo.heroVision}
+              {data.personalInfo.heroVision}
             </p>
             <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-paper/50">
-              {personalInfo.heroSubline}
+              {data.personalInfo.heroSubline}
             </p>
 
             {/* Boutons d'action (CTA) */}
@@ -47,7 +77,7 @@ export default function HomePage() {
                 href="/projects"
                 className="flex items-center gap-2 rounded-xl bg-cta-gradient px-5 py-3 font-sans text-sm font-semibold text-paper shadow-glow transition hover:brightness-110"
               >
-                Voir les projets
+                {labels.btnProjects}
                 <ArrowRight size={16} />
               </Link>
               <Link
@@ -55,13 +85,13 @@ export default function HomePage() {
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 font-sans text-sm font-semibold text-paper transition hover:border-white/25 hover:bg-white/[0.06]"
               >
                 <Mail size={16} />
-                Me contacter
+                {labels.btnContact}
               </Link>
             </div>
 
             {/* Badges d'identité (Ingénieur, Sécuriste, Entrepreneur) */}
             <div className="mt-10 flex flex-wrap gap-4">
-              {aboutIdentities.map((identity) => {
+              {data.aboutIdentities.map((identity) => {
                 const Icon =
                   identityIcons[identity.key as keyof typeof identityIcons];
                 return (
@@ -96,17 +126,17 @@ export default function HomePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-              Featured Projects
+              {labels.featuredBadge}
             </p>
             <h2 className="mt-2 font-sans text-2xl font-bold text-paper sm:text-3xl">
-              Ce que j&apos;ai construit
+              {labels.featuredTitle}
             </h2>
           </div>
           <Link
             href="/projects"
             className="flex items-center gap-1 font-sans text-sm font-medium text-accent-300 hover:text-accent-200"
           >
-            Tous les projets
+            {labels.allProjects}
             <ArrowRight size={14} />
           </Link>
         </div>
@@ -126,27 +156,15 @@ export default function HomePage() {
           <div className="grid gap-10 lg:grid-cols-[0.4fr_0.6fr]">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-                Point de vue
+                {labels.perspectiveBadge}
               </p>
               <h2 className="mt-2 font-sans text-2xl font-bold text-paper sm:text-3xl">
-                Développer en pensant sécurité, pas en la rattrapant
+                {labels.perspectiveTitle}
               </h2>
             </div>
             <div className="space-y-4 font-sans text-base leading-relaxed text-paper/65">
-              <p>
-                En 2026, la vitesse d&apos;expédition d&apos;un produit ne suffit plus à
-                le rendre compétitif. Les équipes qui gagnent la confiance de
-                leurs utilisateurs sont celles qui traitent la sécurité comme
-                une exigence de conception dès le premier commit, pas comme
-                une case à cocher avant la mise en production.
-              </p>
-              <p>
-                C&apos;est la conviction qui guide mon travail : construire des
-                interfaces soignées avec React et Next.js, tout en gardant les
-                réflexes DevSecOps — gestion des secrets, durcissement des
-                API, conteneurisation propre — au même niveau de priorité que
-                l&apos;expérience utilisateur.
-              </p>
+              <p>{labels.perspectivePara1}</p>
+              <p>{labels.perspectivePara2}</p>
             </div>
           </div>
         </div>
@@ -157,7 +175,7 @@ export default function HomePage() {
       {/* ---------------------------------------------------------------- */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-6 sm:grid-cols-3">
-          {socialProof.map((item) => (
+          {data.socialProof.map((item) => (
             <div
               key={item.label}
               className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-center shadow-card"

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
+import { LanguageProvider } from "@/app/context/LanguageContext";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -40,13 +41,15 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${jakarta.variable} ${jetbrainsMono.variable}`}>
       <body className="bg-ink font-sans text-paper antialiased selection:bg-accent-600/30 selection:text-paper">
-        <ResumeModalProvider>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </ResumeModalProvider>
+        <LanguageProvider>
+          <ResumeModalProvider>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ResumeModalProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
