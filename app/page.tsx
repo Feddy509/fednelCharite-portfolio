@@ -71,24 +71,27 @@ export default function HomePage() {
               {data.personalInfo.heroSubline}
             </p>
 
-            {/* Boutons d'action (CTA) */}
+            {/* Boutons d'action (CTA) réactifs avec effet Zoom et Glow */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
+              {/* Bouton 1 : Voir les projets */}
               <Link
                 href="/projects"
-                className="flex items-center gap-2 rounded-xl bg-cta-gradient px-5 py-3 font-sans text-sm font-semibold text-paper shadow-glow transition hover:brightness-110"
+                className="group flex items-center gap-2 rounded-xl bg-cta-gradient px-5 py-3 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
               >
                 {labels.btnProjects}
-                <ArrowRight size={16} />
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
+
+              {/* Bouton 2 : Me contacter */}
               <Link
                 href="/contact"
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 font-sans text-sm font-semibold text-paper transition hover:border-white/25 hover:bg-white/[0.06]"
+                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 font-sans text-sm font-semibold text-paper transition-all duration-300 hover:scale-105 hover:border-accent-400/50 hover:bg-white/[0.08] hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95"
               >
                 <Mail size={16} />
                 {labels.btnContact}
               </Link>
             </div>
-
+            
             {/* Badges d'identité (Ingénieur, Sécuriste, Entrepreneur) */}
             <div className="mt-10 flex flex-wrap gap-4">
               {data.aboutIdentities.map((identity) => {

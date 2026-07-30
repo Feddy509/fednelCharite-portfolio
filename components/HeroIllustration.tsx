@@ -8,77 +8,53 @@ export default function HeroIllustration() {
   return (
     <div className={styles.container}>
       {/* ---------------------------------------------------------------- */}
-      {/* Formes SVG d'arrière-plan (Cercles & Arcs)                       */}
+      {/* SVG Coursera Shapes (Grand secteur blanc + Arc bleu)            */}
       {/* ---------------------------------------------------------------- */}
       <svg
         className={styles.heroSvg}
-        viewBox="0 0 760 760"
+        viewBox="0 0 700 700"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Contour extérieur — ouvert en bas (arc de 270°, gap de 90°
-            centré à 6h) pour laisser "sortir" la photo à travers */}
+        {/* 1. Grand fond blanc solide en forme de camembert / secteur */}
         <path
-          d="M167.3 602.7 A315 315 0 1 1 612.7 602.7"
-          className={styles.outlineCircle}
+          d="M 350 350 L 120 700 A 380 380 0 0 1 680 150 Z"
+          className={styles.courseraWhiteFill}
         />
 
-        {/* Arc gris extérieur */}
-        <circle
-          cx="390"
-          cy="380"
-          r="255"
-          className={styles.grayArc}
+        {/* 2. Secteur bleu massif posé par-dessus */}
+        <path
+          d="M 350 350 L 220 650 A 300 300 0 0 1 620 220 Z"
+          className={styles.courseraBlueFill}
         />
 
-        {/* Arc bleu principal */}
-        <circle
-          cx="390"
-          cy="380"
-          r="205"
-          className={styles.blueArc}
-        />
-
-        {/* Arc intérieur */}
-        <circle
-          cx="390"
-          cy="380"
-          r="150"
-          className={styles.innerArc}
+        {/* 3. Ligne d'accentuation fine à l'intérieur */}
+        <path
+          d="M 230 640 A 290 290 0 0 1 610 230"
+          className={styles.innerLine}
         />
       </svg>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Effet d'éclairage (Glow)                                         */}
-      {/* ---------------------------------------------------------------- */}
-      <div className={styles.glow} />
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Badge/Carte Terminal                                             */}
-      {/* ---------------------------------------------------------------- */}
-      <div className={styles.terminalCard}>
+      {/* Badge Terminal sur la forme bleue */}
+      <div className={styles.terminalBadge}>
         <Terminal size={22} />
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Photo de profil principale                                       */}
+      {/* Photo de profil superposée à droite                             */}
       {/* ---------------------------------------------------------------- */}
-      <div className={styles.photoContainer}>
+      <div className={styles.photoWrapper}>
         <Image
           src="/images/fednel-transparent.png"
           alt="Fednel Charité"
-          width={760}
-          height={980}
+          width={700}
+          height={850}
           priority
           className={styles.photo}
         />
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Éléments de décoration / Flous d'ambiance                        */}
-      {/* ---------------------------------------------------------------- */}
-      <div className={styles.blurOne} />
-      <div className={styles.blurTwo} />
+      <div className={styles.glowEffect} />
     </div>
   );
 }

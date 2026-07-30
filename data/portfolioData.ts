@@ -42,7 +42,7 @@ export const personalInfo = {
   initials: "FC",
   email: "contact@fednelcharite.com",
   social: {
-    github: "https://github.com/fednelcharite",
+    github: "https://github.com/feddy509",
     linkedin: "https://linkedin.com/in/fednelcharite",
     website: "https://fednelcharite.com",
   },
@@ -75,9 +75,9 @@ export const portfolioData = {
       ],
       location: "Basé en Haïti",
       heroVision:
-        "Je conçois des logiciels qui tiennent la route à la fois côté produit et côté sécurité — parce qu'en 2026, un système rapide qui n'est pas défendable n'est déjà plus compétitif.",
+        "Ingénieur Logiciel Full-Stack & aspirant DevSecOps. Je conçois des systèmes web complets - de l'architecture backend robuste à l'interface utilisateur fluide - intégrés dans des environnements cloud hautement sécurisés.",
       heroSubline:
-        "Full-stack TypeScript/React/Next.js le jour, réflexes DevSecOps en continu : je construis en pensant menaces, pas seulement fonctionnalités.",
+        "Mon écosystème : TypeScript, React/Next.js, Node.js, APIs REST, Docker & pipelines CI/CD sécurisés. Je construis des applications scalables, pensées dès la conception pour résister aux cybermenaces.",
     },
     aboutIdentities: [
       {
@@ -205,9 +205,9 @@ export const portfolioData = {
       ],
       location: "Based in Haiti",
       heroVision:
-        "I build software that holds up on both product experience and security — because in 2026, a fast system that isn't defensible is already obsolete.",
+        "Full-Stack Software Engineer & Aspiring DevSecOps. I design complete web systems - from robust backend architecture to seamless user interfaces - integrated into highly secure cloud environments.",
       heroSubline:
-        "Full-stack TypeScript/React/Next.js by day, continuous DevSecOps mindset: I engineer thinking about threats, not just features.",
+        "My tech stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, and secure CI/CD pipelines. I build scalable applications engineered from day one to withstand cyber threats.",
     },
     aboutIdentities: [
       {

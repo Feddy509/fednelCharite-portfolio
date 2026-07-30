@@ -1,22 +1,21 @@
 /* ==========================================================
-   HERO ILLUSTRATION MODULE CSS
-   Description : Illustration Hero pèsonalize ak efè cyber/dark
+   HERO ILLUSTRATION (REPRODUCTION EXACTE COURSERA)
 ========================================================== */
 
 .container {
   position: relative;
   width: 100%;
-  max-width: 650px;
+  max-width: 680px;
   height: 600px;
   margin-left: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   overflow: visible;
 }
 
 /* ==========================================================
-   SVG ET ARCS GÉOMÉTRIQUES
+   FORME GÉOMÉTRIQUE COURSERA (FILL PATHS)
 ========================================================== */
 
 .heroSvg {
@@ -28,185 +27,116 @@
   z-index: 1;
 }
 
-/* Contour extérieur blanc discret — dessiné comme un arc de 270°
-   (path, plus un cercle complet) pour laisser un espace de 90° en
-   bas, exactement là où la photo vient "sortir" du cercle */
-.outlineCircle {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 2;
-  stroke-linecap: round;
+/* Grand secteur blanc de fond */
+.courseraWhiteFill {
+  fill: rgba(245, 247, 250, 0.95);
 }
 
-/* Arc extérieur translucide */
-.grayArc {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.06);
-  stroke-width: 60;
-  stroke-linecap: round;
-  stroke-dasharray: 1220;
-  stroke-dashoffset: 255;
+/* Secteur bleu vif au milieu */
+.courseraBlueFill {
+  fill: #0a6bff;
+  filter: drop-shadow(0 10px 30px rgba(10, 107, 255, 0.4));
 }
 
-/* Arc bleu principal */
-.blueArc {
+/* Ligne fine blanche d'accent */
+.innerLine {
   fill: none;
-  stroke: #0a6bff;
-  stroke-width: 70;
-  stroke-linecap: round;
-  stroke-dasharray: 980;
-  stroke-dashoffset: 175;
-  filter: drop-shadow(0 0 25px rgba(10, 107, 255, 0.35));
-}
-
-/* Arc intérieur sombre */
-.innerArc {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.04);
-  stroke-width: 40;
-  stroke-linecap: round;
-  stroke-dasharray: 760;
-  stroke-dashoffset: 150;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 2.5;
 }
 
 /* ==========================================================
-   ÉCLAIRAGE ET GLOW
+   BADGE TERMINAL
 ========================================================== */
 
-.glow {
+.terminalBadge {
   position: absolute;
-  width: 320px;
-  height: 320px;
-  right: 100px;
-  top: 120px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(10, 107, 255, 0.32),
-    rgba(10, 107, 255, 0.08),
-    transparent 70%
-  );
-  filter: blur(35px);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ==========================================================
-   CARTE / BADGE TERMINAL
-========================================================== */
-
-.terminalCard {
-  position: absolute;
-  top: 30%;
-  left: 12%;
+  top: 32%;
+  left: 38%;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border-radius: 12px;
-  background: rgba(13, 20, 36, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #38bdf8;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.terminalCard:hover {
-  transform: scale(1.1);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0a6bff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* ==========================================================
-   PHOTO DE PROFIL
-   — positionnement en absolu (plutôt que flex) pour pouvoir faire
-   "descendre" la photo et la sortir volontairement du cercle par
-   l'ouverture ménagée dans .outlineCircle
+   PHOTO DE PROFIL (POSÉE SUR LE CÔTÉ DROIT AVEC GRADIENT)
 ========================================================== */
 
-.photoContainer {
-  position: relative;
-  z-index: 10;
-  width: 100%;
+.photoWrapper {
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  width: 80%;
   height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  /* Gradient fade nan pati anba an pou l pa koupe sèk */
+  mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
 .photo {
-  position: absolute;
-  left: 50%;
-  bottom: -40px; /* fè foto a desann pi ba pase sèk la, sòti nan ouvèti a */
-  transform: translateX(-50%);
-  width: auto;
-  height: 92%;
-  max-height: 560px;
+  width: auto !important;
+  height: 90% !important;
+  max-height: 520px !important;
   object-fit: contain;
-  object-position: bottom;
-  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
-  transition: transform 0.4s ease;
-}
-
-.photo:hover {
-  transform: translateX(-50%) scale(1.02);
+  object-position: bottom right;
+  filter: drop-shadow(-15px 15px 25px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================
-   FLOUS DE DÉCORATION D'AMBIANCE
+   GLOW EFFECT
 ========================================================== */
 
-.blurOne {
+.glowEffect {
   position: absolute;
-  bottom: 0;
-  left: 20%;
-  width: 200px;
-  height: 100px;
-  background: rgba(56, 189, 248, 0.15);
-  filter: blur(40px);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.blurTwo {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  width: 150px;
-  height: 150px;
-  background: rgba(10, 107, 255, 0.12);
-  filter: blur(45px);
-  z-index: 2;
+  width: 350px;
+  height: 350px;
+  right: 50px;
+  top: 100px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(10, 107, 255, 0.2),
+    transparent 70%
+  );
+  filter: blur(50px);
+  z-index: 0;
   pointer-events: none;
 }
 
 /* ==========================================================
-   RESPONSIVE (ADAPTATION MOBILES ET TABLETTES)
+   RESPONSIVE
 ========================================================== */
 
 @media (max-width: 1024px) {
   .container {
-    max-width: 546px; /* te 500px */
-    height: 546px; /* te 480px — ogmante jan Fednel mande a */
+    max-width: 500px;
+    height: 480px;
     margin: 0 auto;
   }
 
   .photo {
-    max-height: 500px;
-    bottom: -32px;
-  }
-
-  .terminalCard {
-    left: 5%;
-    top: 25%;
+    max-height: 400px !important;
   }
 }
 
 @media (max-width: 640px) {
   .container {
-    max-width: 360px;
-    height: 380px;
+    max-width: 350px;
+    height: 360px;
   }
 
   .photo {
-    max-height: 350px;
-    bottom: -20px;
+    max-height: 300px !important;
   }
 }
