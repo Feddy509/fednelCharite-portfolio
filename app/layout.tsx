@@ -19,16 +19,20 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// Kontwòl san danje pou URL metadataBase la
+const siteUrl = personalInfo?.social?.website || "https://fednelcharite.com";
+
 export const metadata: Metadata = {
   title: `${personalInfo.name} — Software Engineer & Full-Stack Developer`,
   description: personalInfo.heroVision,
-  metadataBase: new URL(personalInfo.social.website),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: `${personalInfo.name} — Software Engineer & Full-Stack Developer`,
     description: personalInfo.heroVision,
-    url: personalInfo.social.website,
+    url: siteUrl,
     siteName: personalInfo.name,
     locale: "fr_FR",
+    alternateLocales: ["en_US"],
     type: "website",
   },
 };

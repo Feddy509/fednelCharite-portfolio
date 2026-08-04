@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Mail, ShieldCheck, Code2, Cloud } from "lucide-react";
+import { ArrowRight, Mail, ShieldCheck, Code2, Rocket } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import HeroIllustration from "@/components/HeroIllustration";
 import { portfolioData } from "@/data/portfolioData";
@@ -10,7 +10,7 @@ import { useLanguage } from "@/app/context/LanguageContext";
 const identityIcons: Record<string, any> = {
   engineer: Code2,
   securiste: ShieldCheck,
-  cloud: Cloud,
+  entrepreneur: Rocket,
 };
 
 export default function HomePage() {
@@ -19,8 +19,35 @@ export default function HomePage() {
 
   const featuredProjects = (data?.projects || []).filter((p: any) => p?.featured);
 
-  const labels = {
-    fr: {
+  const labels =
+    {
+      fr: {
+        btnProjects: "Voir les projets",
+        btnContact: "Me contacter",
+        featuredBadge: "PROJETS EN VEDETTE",
+        featuredTitle: "Ce que j'ai conçu",
+        allProjects: "Tous les projets",
+        perspectiveBadge: "VISION TECHNIQUE",
+        perspectiveTitle: "Au-delà de la syntaxe : résoudre des problèmes avec méthode",
+        perspectivePara1:
+          "En 2026, développer un logiciel va bien au-delà de l'écriture de code. C'est une démarche globale qui allie méthodologies Agiles, réflexion stratégique et livraison progressive pour répondre à de vrais besoins.",
+        perspectivePara2:
+          "Pour moi, un bon ingénieur se distingue par sa vision : anticiper les défis, intégrer la sécurité dès la conception (DevSecOps) et concevoir des architectures durables et évolutives.",
+      },
+      en: {
+        btnProjects: "View Projects",
+        btnContact: "Contact Me",
+        featuredBadge: "FEATURED PROJECTS",
+        featuredTitle: "What I've Built",
+        allProjects: "All Projects",
+        perspectiveBadge: "TECHNICAL PERSPECTIVE",
+        perspectiveTitle: "Beyond Syntax: Engineering as a Problem-Solving Discipline",
+        perspectivePara1:
+          "In 2026, software engineering extends far beyond writing syntax. It is a holistic mindset combining Agile practices, strategic problem-solving, and continuous, iterative delivery.",
+        perspectivePara2:
+          "I believe great engineers are defined by their vision: anticipating edge cases, embedding security by design (DevSecOps), and architecting systems built for long-term scalability.",
+      },
+    }[language] || {
       btnProjects: "Voir les projets",
       btnContact: "Me contacter",
       featuredBadge: "PROJETS EN VEDETTE",
@@ -28,35 +55,9 @@ export default function HomePage() {
       allProjects: "Tous les projets",
       perspectiveBadge: "VISION TECHNIQUE",
       perspectiveTitle: "Au-delà de la syntaxe : résoudre des problèmes avec méthode",
-      perspectivePara1:
-        "En 2026, développer un logiciel va bien au-delà de l'écriture de code. C'est une démarche globale qui allie méthodologies Agiles, réflexion stratégique et livraison progressive pour répondre à de vrais besoins.",
-      perspectivePara2:
-        "Pour moi, un bon ingénieur se distingue par sa vision : anticiper les défis, intégrer la sécurité dès la conception (DevSecOps) et concevoir des architectures durables et évolutives.",
-    },
-    en: {
-      btnProjects: "View Projects",
-      btnContact: "Contact Me",
-      featuredBadge: "FEATURED PROJECTS",
-      featuredTitle: "What I've Built",
-      allProjects: "All Projects",
-      perspectiveBadge: "TECHNICAL PERSPECTIVE",
-      perspectiveTitle: "Beyond Syntax: Engineering as a Problem-Solving Discipline",
-      perspectivePara1:
-        "In 2026, software engineering extends far beyond writing syntax. It is a holistic mindset combining Agile practices, strategic problem-solving, and continuous, iterative delivery.",
-      perspectivePara2:
-        "I believe great engineers are defined by their vision: anticipating edge cases, embedding security by design (DevSecOps), and architecting systems built for long-term scalability.",
-    },
-  }[language] || {
-    btnProjects: "Voir les projets",
-    btnContact: "Me contacter",
-    featuredBadge: "PROJETS EN VEDETTE",
-    featuredTitle: "Ce que j'ai conçu",
-    allProjects: "Tous les projets",
-    perspectiveBadge: "VISION TECHNIQUE",
-    perspectiveTitle: "Au-delà de la syntaxe : résoudre des problèmes avec méthode",
-    perspectivePara1: "",
-    perspectivePara2: "",
-  };
+      perspectivePara1: "",
+      perspectivePara2: "",
+    };
 
   return (
     <>
@@ -151,11 +152,11 @@ export default function HomePage() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {featuredProjects.map((project: any) => (
+          {featuredProjects.map((project: any) =>
             typeof ProjectCard === "function" ? (
               <ProjectCard key={project.slug} project={project} />
             ) : null
-          ))}
+          )}
         </div>
       </section>
 

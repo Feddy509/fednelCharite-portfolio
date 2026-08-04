@@ -34,20 +34,27 @@ export interface Project {
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
 // ----------------------------------------------------------------------------
-// Static Personal / Social Data (Shared across languages)
+// Base Personal / Social Data (Default / Fallback per Server Components)
 // ----------------------------------------------------------------------------
 
 export const personalInfo = {
   name: "Fednel Charité",
   initials: "FC",
   email: "contact@fednelcharite.com",
+  roles: [
+    "INGÉNIEUR LOGICIEL FULL-STACK",
+    "ASPIRING DEVSECOPS",
+  ],
+  location: "Basé en Haïti",
   social: {
     github: "https://github.com/feddy509",
     linkedin: "https://linkedin.com/in/fednelcharite",
     website: "https://fednelcharite.com",
   },
   heroVision:
-    "Je conçois des logiciels qui tiennent la route à la fois côté produit et côté sécurité - parce qu'en 2026, un système rapide qui n'est pas défendable n'est déjà plus compétitif.",
+    "Je développe des applications web modernes et évolutives, en adoptant une approche axée sur la sécurité et l'automatisation CI/CD dès les premières étapes du code.",
+  heroSubline:
+    "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
 };
 
 // ----------------------------------------------------------------------------
@@ -64,19 +71,10 @@ export const portfolioData = {
     ],
     personalInfo: {
       ...personalInfo,
-      roles: [
-        "INGÉNIEUR LOGICIEL FULL-STACK",
-        "ASPIRING DEVSECOPS",
-      ],
       founderLines: [
         { label: "Fondateur", org: "Solutions Technologies Hub" },
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
-      location: "Basé en Haïti",
-      heroVision:
-        "Je développe des applications web modernes et évolutives, en adoptant une approche axée sur la sécurité et l'automatisation CI/CD dès les premières étapes du code.",
-      heroSubline:
-        "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
     },
     aboutIdentities: [
       {
@@ -151,15 +149,15 @@ export const portfolioData = {
     socialProof: [
       {
         stat: "6+",
-        label: "certifications professionnelles obtenues (IBM, Cisco)",
+        label: "Certifications professionnelles obtenues (IBM, Cisco)",
       },
       {
         stat: "3",
-        label: "produits logiciels complets conçus du cahier des charges au déploiement",
+        label: "Applications web complètes conçues et déployées",
       },
       {
         stat: "2",
-        label: "initiatives technologiques lancées — une agence logicielle et une plateforme de cybersécurité",
+        label: "Plateformes & initiatives technologiques lancées",
       },
     ],
     resumeProfiles: [
@@ -280,15 +278,15 @@ export const portfolioData = {
     socialProof: [
       {
         stat: "6+",
-        label: "professional certifications earned (IBM, Cisco)",
+        label: "Validated professional certifications earned (IBM, Cisco)",
       },
       {
         stat: "3",
-        label: "end-to-end software products engineered from specification to deployment",
+        label: "End-to-end web applications engineered & deployed",
       },
       {
         stat: "2",
-        label: "tech initiatives launched — a software agency and a cybersecurity platform",
+        label: "Tech initiatives & digital platforms launched",
       },
     ],
     resumeProfiles: [

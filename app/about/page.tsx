@@ -1,45 +1,56 @@
 "use client";
 
+import React from "react";
 import { GraduationCap, Code2, ShieldCheck, Rocket, Clock, Award, CheckCircle2 } from "lucide-react";
 import { certifications, portfolioData } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-const identityIcons = {
+const identityIcons: Record<string, React.ElementType> = {
   engineer: Code2,
   securiste: ShieldCheck,
+  cloud: Rocket,
   entrepreneur: Rocket,
 };
 
 export default function AboutPage() {
   const { language } = useLanguage();
-  const data = portfolioData[language];
+  const data = portfolioData?.[language] || portfolioData?.fr || {};
 
-  const completed = certifications.filter((c) => c.status === "completed");
-  const inProgress = certifications.filter((c) => c.status === "in-progress");
+  const completed = (certifications || []).filter((c) => c?.status === "completed");
+  const inProgress = (certifications || []).filter((c) => c?.status === "in-progress");
 
   // Diksyonè ti tèks estatik pou paj À propos / About
-  const labels = {
-    fr: {
+  const labels =
+    {
+      fr: {
+        badge: "À propos",
+        title: "Trois identités, un seul objectif : livrer un logiciel fiable",
+        subtitle:
+          "Je n'aborde pas le développement logiciel comme une seule discipline. Chaque projet passe par trois filtres : celui de l'ingénieur, celui du sécuriste, et celui de l'entrepreneur qui doit livrer quelque chose de réellement utilisable.",
+        academic: "Parcours académique",
+        certifications: "Certifications & Spécialisations",
+        certSubtitle: "Formation continue, vérifiée et validée",
+        inProgress: "En préparation & Certifications à venir",
+      },
+      en: {
+        badge: "About",
+        title: "Three identities, one goal: deliver reliable software",
+        subtitle:
+          "I don't approach software development as a single discipline. Every project goes through three filters: the engineer, the security practitioner, and the entrepreneur who needs to ship something truly usable.",
+        academic: "Academic background",
+        certifications: "Certifications & Specializations",
+        certSubtitle: "Continuous learning, verified & validated",
+        inProgress: "In progress & Upcoming certifications",
+      },
+    }[language] || {
       badge: "À propos",
       title: "Trois identités, un seul objectif : livrer un logiciel fiable",
-      subtitle:
-        "Je n'aborde pas le développement logiciel comme une seule discipline. Chaque projet passe par trois filtres : celui de l'ingénieur, celui du sécuriste, et celui de l'entrepreneur qui doit livrer quelque chose de réellement utilisable.",
+      subtitle: "",
       academic: "Parcours académique",
       certifications: "Certifications & Spécialisations",
       certSubtitle: "Formation continue, vérifiée et validée",
       inProgress: "En préparation & Certifications à venir",
-    },
-    en: {
-      badge: "About",
-      title: "Three identities, one goal: deliver reliable software",
-      subtitle:
-        "I don't approach software development as a single discipline. Every project goes through three filters: the engineer, the security practitioner, and the entrepreneur who needs to ship something truly usable.",
-      academic: "Academic background",
-      certifications: "Certifications & Specializations",
-      certSubtitle: "Continuous learning, verified & validated",
-      inProgress: "In progress & Upcoming certifications",
-    },
-  }[language];
+    };
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
@@ -62,21 +73,21 @@ export default function AboutPage() {
       {/* Triple identité (Grille Moderne & Aérée)                         */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-16 grid gap-8 sm:grid-cols-3">
-        {data.aboutIdentities.map((identity) => {
-          const Icon = identityIcons[identity.key as keyof typeof identityIcons];
+        {(data?.aboutIdentities || []).map((identity: any) => {
+          const Icon = identityIcons[identity?.key as keyof typeof identityIcons] || Code2;
           return (
             <div
-              key={identity.key}
+              key={identity?.key || identity?.title}
               className="group relative rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/40 hover:shadow-glow"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
                 <Icon size={22} />
               </span>
               <h3 className="mt-6 font-sans text-lg font-bold text-paper">
-                {identity.title}
+                {identity?.title}
               </h3>
               <p className="mt-3 font-sans text-sm leading-relaxed text-paper/65">
-                {identity.description}
+                {identity?.description}
               </p>
             </div>
           );
@@ -97,16 +108,16 @@ export default function AboutPage() {
           </span>
           <div className="space-y-1">
             <h3 className="font-sans text-xl font-bold text-paper">
-              {data.education.degree}
+              {data?.education?.degree}
             </h3>
             <p className="font-sans text-sm font-medium text-paper/70">
-              {data.education.school}
+              {data?.education?.school}
             </p>
             <p className="font-mono text-xs font-semibold text-accent-300">
-              {data.education.status}
+              {data?.education?.status}
             </p>
             <p className="pt-2 font-sans text-sm leading-relaxed text-paper/60">
-              {data.education.note}
+              {data?.education?.note}
             </p>
           </div>
         </div>
