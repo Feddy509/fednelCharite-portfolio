@@ -1,12 +1,12 @@
 /* ==========================================================
-   HERO ILLUSTRATION (REPRODUCTION EXACTE COURSERA)
+   HERO ILLUSTRATION (COMPACT COURSERA FIT)
 ========================================================== */
 
 .container {
   position: relative;
   width: 100%;
-  max-width: 680px;
-  height: 600px;
+  max-width: 520px; /* Redwi de 680px pou vini 520px */
+  height: 480px;    /* Redwi de 600px pou vini 480px */
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -15,7 +15,7 @@
 }
 
 /* ==========================================================
-   FORME GÉOMÉTRIQUE COURSERA (FILL PATHS)
+   FORME GÉOMÉTRIQUE
 ========================================================== */
 
 .heroSvg {
@@ -27,22 +27,20 @@
   z-index: 1;
 }
 
-/* Grand secteur blanc de fond */
 .courseraWhiteFill {
   fill: rgba(245, 247, 250, 0.95);
+  filter: drop-shadow(-5px 5px 15px rgba(0, 0, 0, 0.15));
 }
 
-/* Secteur bleu vif au milieu */
 .courseraBlueFill {
   fill: #0a6bff;
-  filter: drop-shadow(0 10px 30px rgba(10, 107, 255, 0.4));
+  filter: drop-shadow(0 8px 25px rgba(10, 107, 255, 0.35));
 }
 
-/* Ligne fine blanche d'accent */
 .innerLine {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.8);
-  stroke-width: 2.5;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 2;
 }
 
 /* ==========================================================
@@ -51,46 +49,45 @@
 
 .terminalBadge {
   position: absolute;
-  top: 32%;
-  left: 38%;
+  top: 30%;
+  left: 36%;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 8px;
+  border-radius: 8px;
   background: #ffffff;
   color: #0a6bff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* ==========================================================
-   PHOTO DE PROFIL (POSÉE SUR LE CÔTÉ DROIT AVEC GRADIENT)
+   PHOTO DE PROFIL
 ========================================================== */
 
 .photoWrapper {
   position: absolute;
-  right: -20px;
+  right: -10px;
   bottom: 0;
-  width: 80%;
+  width: 82%;
   height: 100%;
   z-index: 10;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
 
-  /* Gradient fade nan pati anba an pou l pa koupe sèk */
-  mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
 .photo {
   width: auto !important;
-  height: 90% !important;
-  max-height: 520px !important;
+  height: 92% !important;
+  max-height: 440px !important; /* Redwi de 520px pou vini 440px */
   object-fit: contain;
   object-position: bottom right;
-  filter: drop-shadow(-15px 15px 25px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(-10px 10px 20px rgba(0, 0, 0, 0.45));
 }
 
 /* ==========================================================
@@ -99,17 +96,17 @@
 
 .glowEffect {
   position: absolute;
-  width: 350px;
-  height: 350px;
-  right: 50px;
-  top: 100px;
+  width: 280px;
+  height: 280px;
+  right: 20px;
+  top: 60px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(10, 107, 255, 0.2),
+    rgba(10, 107, 255, 0.18),
     transparent 70%
   );
-  filter: blur(50px);
+  filter: blur(40px);
   z-index: 0;
   pointer-events: none;
 }
@@ -120,23 +117,23 @@
 
 @media (max-width: 1024px) {
   .container {
-    max-width: 500px;
-    height: 480px;
+    max-width: 440px;
+    height: 400px;
     margin: 0 auto;
   }
 
   .photo {
-    max-height: 400px !important;
+    max-height: 360px !important;
   }
 }
 
 @media (max-width: 640px) {
   .container {
-    max-width: 350px;
-    height: 360px;
+    max-width: 320px;
+    height: 320px;
   }
 
   .photo {
-    max-height: 300px !important;
+    max-height: 280px !important;
   }
 }

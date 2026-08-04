@@ -8,7 +8,7 @@ export default function HeroIllustration() {
   return (
     <div className={styles.container}>
       {/* ---------------------------------------------------------------- */}
-      {/* SVG Coursera Shapes (Grand secteur blanc + Arc bleu)            */}
+      {/* SVG Shapes (Grand secteur blanc + Arc bleu)                     */}
       {/* ---------------------------------------------------------------- */}
       <svg
         className={styles.heroSvg}
@@ -16,28 +16,28 @@ export default function HeroIllustration() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* 1. Grand fond blanc solide en forme de camembert / secteur */}
+        {/* 1. Grand fond blanc solide */}
         <path
           d="M 350 350 L 120 700 A 380 380 0 0 1 680 150 Z"
           className={styles.courseraWhiteFill}
         />
 
-        {/* 2. Secteur bleu massif posé par-dessus */}
+        {/* 2. Secteur bleu massif */}
         <path
           d="M 350 350 L 220 650 A 300 300 0 0 1 620 220 Z"
           className={styles.courseraBlueFill}
         />
 
-        {/* 3. Ligne d'accentuation fine à l'intérieur */}
+        {/* 3. Ligne d'accentuation fine */}
         <path
           d="M 230 640 A 290 290 0 0 1 610 230"
           className={styles.innerLine}
         />
       </svg>
 
-      {/* Badge Terminal sur la forme bleue */}
+      {/* Badge Terminal */}
       <div className={styles.terminalBadge}>
-        <Terminal size={22} />
+        {Terminal ? <Terminal size={22} /> : null}
       </div>
 
       {/* ---------------------------------------------------------------- */}

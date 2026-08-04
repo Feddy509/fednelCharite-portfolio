@@ -1,114 +1,118 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Mail, ShieldCheck, Code2, Rocket } from "lucide-react";
+import { ArrowRight, Mail, ShieldCheck, Code2, Cloud } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import HeroIllustration from "@/components/HeroIllustration";
 import { portfolioData } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-const identityIcons = {
+const identityIcons: Record<string, any> = {
   engineer: Code2,
   securiste: ShieldCheck,
-  entrepreneur: Rocket,
+  cloud: Cloud,
 };
 
 export default function HomePage() {
   const { language } = useLanguage();
-  const data = portfolioData[language];
+  const data = portfolioData?.[language] || portfolioData?.fr || {};
 
-  const featuredProjects = data.projects.filter((p) => p.featured);
+  const featuredProjects = (data?.projects || []).filter((p: any) => p?.featured);
 
   const labels = {
     fr: {
       btnProjects: "Voir les projets",
       btnContact: "Me contacter",
-      featuredBadge: "Featured Projects",
-      featuredTitle: "Ce que j'ai construit",
+      featuredBadge: "PROJETS EN VEDETTE",
+      featuredTitle: "Ce que j'ai conçu",
       allProjects: "Tous les projets",
-      perspectiveBadge: "Point de vue",
-      perspectiveTitle: "Développer en pensant sécurité, pas en la rattrapant",
+      perspectiveBadge: "VISION TECHNIQUE",
+      perspectiveTitle: "Au-delà de la syntaxe : résoudre des problèmes avec méthode",
       perspectivePara1:
-        "En 2026, la vitesse d'expédition d'un produit ne suffit plus à le rendre compétitif. Les équipes qui gagnent la confiance de leurs utilisateurs sont celles qui traitent la sécurité comme une exigence de conception dès le premier commit, pas comme une case à cocher avant la mise en production.",
+        "En 2026, développer un logiciel va bien au-delà de l'écriture de code. C'est une démarche globale qui allie méthodologies Agiles, réflexion stratégique et livraison progressive pour répondre à de vrais besoins.",
       perspectivePara2:
-        "C'est la conviction qui guide mon travail : construire des interfaces soignées avec React et Next.js, tout en gardant les réflexes DevSecOps — gestion des secrets, durcissement des API, conteneurisation propre — au même niveau de priorité que l'expérience utilisateur.",
+        "Pour moi, un bon ingénieur se distingue par sa vision : anticiper les défis, intégrer la sécurité dès la conception (DevSecOps) et concevoir des architectures durables et évolutives.",
     },
     en: {
       btnProjects: "View Projects",
       btnContact: "Contact Me",
-      featuredBadge: "Featured Projects",
+      featuredBadge: "FEATURED PROJECTS",
       featuredTitle: "What I've Built",
       allProjects: "All Projects",
-      perspectiveBadge: "Perspective",
-      perspectiveTitle: "Engineering for security, not retrofitting it",
+      perspectiveBadge: "TECHNICAL PERSPECTIVE",
+      perspectiveTitle: "Beyond Syntax: Engineering as a Problem-Solving Discipline",
       perspectivePara1:
-        "In 2026, shipping speed alone is no longer enough to make a product competitive. The teams that earn user trust are those that treat security as a core design requirement from the first commit, not as a checkbox right before production release.",
+        "In 2026, software engineering extends far beyond writing syntax. It is a holistic mindset combining Agile practices, strategic problem-solving, and continuous, iterative delivery.",
       perspectivePara2:
-        "This is the core belief that drives my work: building polished interfaces with React and Next.js, while maintaining strong DevSecOps practices — secret management, API hardening, clean containerization — at the same level of priority as user experience.",
+        "I believe great engineers are defined by their vision: anticipating edge cases, embedding security by design (DevSecOps), and architecting systems built for long-term scalability.",
     },
-  }[language];
+  }[language] || {
+    btnProjects: "Voir les projets",
+    btnContact: "Me contacter",
+    featuredBadge: "PROJETS EN VEDETTE",
+    featuredTitle: "Ce que j'ai conçu",
+    allProjects: "Tous les projets",
+    perspectiveBadge: "VISION TECHNIQUE",
+    perspectiveTitle: "Au-delà de la syntaxe : résoudre des problèmes avec méthode",
+    perspectivePara1: "",
+    perspectivePara2: "",
+  };
 
   return (
     <>
       {/* ---------------------------------------------------------------- */}
-      {/* Section Hero (Accueil) - Aérée & Pro                               */}
+      {/* Hero Section                                                     */}
       {/* ---------------------------------------------------------------- */}
-      <section className="mx-auto max-w-7xl px-6 pb-24 pt-12 sm:pt-16">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <section className="mx-auto max-w-7xl px-6 pb-12 pt-4 sm:pt-6">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           
-          {/* Colonne Gauche : Présentation et Textes */}
-          <div className="z-10 animate-fade-up opacity-0 [animation-delay:0.05s]">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-              {data.personalInfo.roles.join(" · ")}
+          <div className="z-10">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
+              {data?.personalInfo?.roles?.join(" · ") || ""}
             </p>
-            <h1 className="mt-4 text-balance font-sans text-4xl font-extrabold leading-[1.1] text-paper sm:text-5xl lg:text-6xl">
-              {data.personalInfo.name}
+            
+            <h1 className="mt-2 text-balance font-sans text-3xl font-extrabold leading-[1.15] text-paper sm:text-4xl lg:text-5xl">
+              {data?.personalInfo?.name || "Fednel Charité"}
             </h1>
-            <p className="mt-6 max-w-2xl text-balance font-sans text-lg leading-relaxed text-paper/80">
-              {data.personalInfo.heroVision}
+            
+            <p className="mt-4 max-w-xl text-balance font-sans text-base leading-relaxed text-paper/80">
+              {data?.personalInfo?.heroVision || ""}
             </p>
-            <p className="mt-3 max-w-2xl font-sans text-sm leading-relaxed text-paper/50">
-              {data.personalInfo.heroSubline}
+            
+            <p className="mt-2 max-w-xl font-sans text-xs leading-relaxed text-paper/50">
+              {data?.personalInfo?.heroSubline || ""}
             </p>
 
-            {/* Boutons d'action (CTA) réactifs avec effet Zoom, Glow & Group Hover */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              {/* Bouton 1 : Voir les projets */}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="/projects"
-                className="group flex items-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
+                className="group flex items-center gap-2 rounded-lg bg-cta-gradient px-5 py-2.5 font-sans text-xs font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 {labels.btnProjects}
-                <ArrowRight
-                  size={16}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
+                <ArrowRight size={14} />
               </Link>
 
-              {/* Bouton 2 : Me contacter */}
               <Link
                 href="/contact"
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3.5 font-sans text-sm font-semibold text-paper transition-all duration-300 hover:scale-105 hover:border-accent-400/50 hover:bg-white/[0.08] hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95"
+                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-5 py-2.5 font-sans text-xs font-semibold text-paper transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                <Mail size={16} />
+                <Mail size={14} />
                 {labels.btnContact}
               </Link>
             </div>
             
-            {/* Badges d'identité (Ingénieur, Sécuriste, Entrepreneur) */}
-            <div className="mt-10 flex flex-wrap gap-3">
-              {data.aboutIdentities.map((identity) => {
-                const Icon =
-                  identityIcons[identity.key as keyof typeof identityIcons];
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              {(data?.aboutIdentities || []).map((identity: any) => {
+                const Icon = identityIcons[identity.key as keyof typeof identityIcons] || Code2;
                 return (
                   <div
                     key={identity.key}
-                    className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] py-2 pl-2 pr-4 backdrop-blur-md transition hover:border-white/20"
+                    className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-2 pr-3.5 backdrop-blur-md"
                   >
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-600/20 text-accent-300">
-                      <Icon size={14} />
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-600/20 text-accent-300">
+                      <Icon size={12} />
                     </span>
-                    <span className="font-sans text-xs font-medium text-paper/80">
+                    <span className="font-sans text-[11px] font-medium text-paper/80">
                       {identity.title}
                     </span>
                   </div>
@@ -117,59 +121,60 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Colonne Droite : Visuel HeroIllustration */}
-          <div className="animate-fade-up opacity-0 [animation-delay:0.15s]">
-            <HeroIllustration />
+          <div className="flex justify-center lg:justify-end">
+            {typeof HeroIllustration === "function" ? <HeroIllustration /> : null}
           </div>
 
         </div>
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section : Projets en vedette (Featured projects)                  */}
+      {/* Featured Projects                                                */}
       {/* ---------------------------------------------------------------- */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-6">
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
               {labels.featuredBadge}
             </p>
-            <h2 className="mt-2 font-sans text-3xl font-bold text-paper sm:text-4xl">
+            <h2 className="mt-1 font-sans text-2xl font-bold text-paper sm:text-3xl">
               {labels.featuredTitle}
             </h2>
           </div>
           <Link
             href="/projects"
-            className="group flex items-center gap-1.5 font-sans text-sm font-medium text-accent-300 transition hover:text-accent-200"
+            className="group flex items-center gap-1.5 font-sans text-xs font-medium text-accent-300 transition hover:text-accent-200"
           >
             {labels.allProjects}
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            <ArrowRight size={14} />
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.map((project: any) => (
+            typeof ProjectCard === "function" ? (
+              <ProjectCard key={project.slug} project={project} />
+            ) : null
           ))}
         </div>
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section : Vision & Philosophie DevSecOps                         */}
+      {/* Vision Section                                                   */}
       {/* ---------------------------------------------------------------- */}
       <section className="border-y border-white/10 bg-ink-surface/30 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="grid gap-12 lg:grid-cols-[0.4fr_0.6fr] lg:items-center">
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:items-center">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
                 {labels.perspectiveBadge}
               </p>
-              <h2 className="mt-3 font-sans text-3xl font-extrabold leading-tight text-paper sm:text-4xl">
+              <h2 className="mt-2 font-sans text-2xl font-extrabold leading-tight text-paper sm:text-3xl">
                 {labels.perspectiveTitle}
               </h2>
             </div>
-            <div className="space-y-6 font-sans text-base leading-relaxed text-paper/75">
-              <p className="rounded-xl border border-white/5 bg-white/[0.02] p-6 shadow-inner">
+            <div className="space-y-4 font-sans text-sm leading-relaxed text-paper/75">
+              <p className="rounded-xl border border-white/5 bg-white/[0.02] p-5 shadow-inner">
                 {labels.perspectivePara1}
               </p>
               <p className="px-2">
@@ -181,19 +186,19 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section : Impact et preuves sociales (Social proof)              */}
+      {/* Social proof                                                     */}
       {/* ---------------------------------------------------------------- */}
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-8 sm:grid-cols-3">
-          {data.socialProof.map((item) => (
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-6 sm:grid-cols-3">
+          {(data.socialProof || []).map((item: any) => (
             <div
               key={item.label}
-              className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-8 text-center transition-all duration-300 hover:border-accent-500/30 hover:shadow-glow"
+              className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-6 text-center transition-all duration-300 hover:border-accent-500/30"
             >
-              <p className="font-mono text-5xl font-black text-accent-300 transition-transform duration-300 group-hover:scale-110">
+              <p className="font-mono text-4xl font-black text-accent-300">
                 {item.stat}
               </p>
-              <p className="mt-4 font-sans text-sm font-medium leading-relaxed text-paper/70">
+              <p className="mt-2 font-sans text-xs font-medium leading-relaxed text-paper/70">
                 {item.label}
               </p>
             </div>

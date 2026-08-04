@@ -1,5 +1,5 @@
 // ============================================================================
-// portfolioData.ts — single source of truth for all portfolio content.
+// portfolioData.ts - Single source of truth for all portfolio content.
 // Multi-language support (fr / en) with TypeScript safety.
 // ============================================================================
 
@@ -47,7 +47,7 @@ export const personalInfo = {
     website: "https://fednelcharite.com",
   },
   heroVision:
-    "Je conçois des logiciels qui tiennent la route à la fois côté produit et côté sécurité — parce qu'en 2026, un système rapide qui n'est pas défendable n'est déjà plus compétitif.",
+    "Je conçois des logiciels qui tiennent la route à la fois côté produit et côté sécurité - parce qu'en 2026, un système rapide qui n'est pas défendable n'est déjà plus compétitif.",
 };
 
 // ----------------------------------------------------------------------------
@@ -65,9 +65,8 @@ export const portfolioData = {
     personalInfo: {
       ...personalInfo,
       roles: [
-        "Ingénieur Logiciel",
-        "Développeur Full-Stack",
-        "Aspirant Ingénieur DevSecOps",
+        "INGÉNIEUR LOGICIEL FULL-STACK",
+        "ASPIRING DEVSECOPS",
       ],
       founderLines: [
         { label: "Fondateur", org: "Solutions Technologies Hub" },
@@ -75,61 +74,47 @@ export const portfolioData = {
       ],
       location: "Basé en Haïti",
       heroVision:
-        "Ingénieur Logiciel Full-Stack & aspirant DevSecOps. Je conçois des systèmes web complets - de l'architecture backend robuste à l'interface utilisateur fluide - intégrés dans des environnements cloud hautement sécurisés.",
+        "Je développe des applications web modernes et évolutives, en adoptant une approche axée sur la sécurité et l'automatisation CI/CD dès les premières étapes du code.",
       heroSubline:
-        "Mon écosystème : TypeScript, React/Next.js, Node.js, APIs REST, Docker & pipelines CI/CD sécurisés. Je construis des applications scalables, pensées dès la conception pour résister aux cybermenaces.",
+        "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
     },
     aboutIdentities: [
       {
         key: "engineer",
-        title: "L'Ingénieur",
+        title: "Full-Stack Dev",
         description:
-          "Développeur full-stack formé sur l'écosystème TypeScript — React, Next.js, NestJS, PostgreSQL. J'aime les architectures propres, documentées, et pensées pour durer au-delà du premier déploiement.",
+          "Développeur full-stack spécialisé sur l'écosystème TypeScript - React, Next.js, NestJS, PostgreSQL. J'aime les architectures propres, documentées, et pensées pour durer.",
       },
       {
         key: "securiste",
-        title: "Le Sécuriste",
+        title: "Sensibilité DevSecOps",
         description:
-          "Co-fondateur de Zye Klere, plateforme de sensibilisation à la cybersécurité. Je pars du principe qu'un produit n'est terminé que lorsqu'on a aussi réfléchi à comment on pourrait le compromettre.",
+          "Co-fondateur de Zye Klere. Je pars du principe qu'un produit n'est pas terminé si l'on n'a pas audité ses vulnérabilités et automatisé ses garde-fous de sécurité.",
       },
       {
-        key: "entrepreneur",
-        title: "L'Entrepreneur",
+        key: "cloud",
+        title: "CI/CD & Automation",
         description:
-          "Fondateur de Solutions Technologies Hub, une agence de développement logiciel. Diriger mes propres projets, du cahier des charges à la mise en production, m'a appris à livrer — pas seulement à coder.",
+          "Passionné par l'intégration continue et le déploiement. Je conçois des pipelines automatisés et des environnements conteneurisés avec Docker pour des livraisons fiables.",
       },
     ],
     education: {
       degree: "Licence en Sciences Informatiques",
-      school: "Université de technologie d'Haiti (Unitech)",
-      status: "Diplomation prévue - Novembre 2026",
-      note: "Projet de mémoire en cours de finalisation avant soutenance.",
+      school: "Université de technologie d'Haiti (UNITECH)",
+      status: "Diplomation prévue - Fin 2026",
+      note: "Projet de mémoire en cours de finalisation.",
     },
     projects: [
       {
-        slug: "solutions-technologies-hub",
-        title: "Solutions Technologies Hub",
-        tagline: "Agence de développement logiciel — de zéro à une présence digitale complète.",
-        categories: ["full-stack"],
-        problem:
-          "Les petites entreprises et créateurs manquent souvent d'un partenaire technique fiable pour construire une présence digitale professionnelle et sécurisée.",
-        solution:
-          "Fondation de l'agence et livraison d'un site vitrine multi-pages complet (Accueil, À propos, Services, Portfolio, Partenaires, Contact), avec la cybersécurité intégrée comme service à part entière via le partenariat Zye Klere.",
-        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
-        liveUrl: undefined,
-        githubUrl: undefined,
-        featured: true,
-      },
-      {
         slug: "zye-klere",
         title: "Zye Klere",
-        tagline: "Plateforme de sensibilisation à la cybersécurité pour la communauté haïtienne.",
-        categories: ["security"],
+        tagline: "Plateforme web interactive et SaaS de sensibilisation à la cybersécurité.",
+        categories: ["full-stack", "security"],
         problem:
-          "Les menaces numériques (hameçonnage, arnaques financières mobiles, mots de passe faibles) augmentent, sans ressources de sensibilisation accessibles et localement pertinentes.",
+          "Les menaces numériques (hameçonnage, arnaques financières mobiles) ciblent fortement la communauté sans ressources de prévention interactives et localement adaptées.",
         solution:
-          "Co-création d'une plateforme bilingue avec une stratégie de contenu social-first, un générateur d'avatar communautaire déjà en ligne, et une feuille de route produit incluant articles, tutoriels vidéo et vérification d'exposition de mots de passe.",
-        stack: ["HTML5", "CSS3", "JavaScript"],
+          "Développement d'une application Full-Stack bilingue incluant : espace membre avec tableau de bord, tutoriels vidéo interactifs (ex: configuration MFA), testeur de solidité de mots de passe, vérificateur d'exposition de données et quiz d'évaluation.",
+        stack: ["TypeScript", "React/Next.js", "Node.js", "Auth/MFA", "Tailwind CSS"],
         liveUrl: "https://zyeklere.com",
         githubUrl: undefined,
         featured: true,
@@ -140,11 +125,25 @@ export const portfolioData = {
         tagline: "Scanner d'API pour auditer la posture de sécurité d'une application web.",
         categories: ["security", "full-stack"],
         problem:
-          "Beaucoup d'équipes déploient des applications web sans visibilité sur des failles de configuration basiques : en-têtes manquants, TLS faible, secrets exposés.",
+          "Beaucoup d'équipes déploient des applications web sans visibilité sur des failles de configuration basiques : en-têtes HTTP manquants, TLS faible, secrets exposés.",
         solution:
-          "Construction d'un scanner piloté par API qui audite une URL cible et retourne un rapport de risque structuré, pensé comme brique DevSecOps réutilisable dans une chaîne CI/CD.",
+          "Construction d'un scanner piloté par API qui audite une URL cible et retourne un rapport de risque structuré, pensé comme une brique DevSecOps réutilisable dans une chaîne CI/CD.",
         stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker"],
         liveUrl: undefined,
+        githubUrl: undefined,
+        featured: true,
+      },
+      {
+        slug: "solutions-technologies-hub",
+        title: "Solutions Technologies Hub",
+        tagline: "Agence d'ingénierie logicielle et conception de plateformes web sur-mesure.",
+        categories: ["full-stack"],
+        problem:
+          "Les entreprises et créateurs manquent d'un partenaire technique fiable pour concevoir des produits logiciels modernes, sécurisés et performants.",
+        solution:
+          "Fondation de l'agence et développement de la plateforme vitrine officielle. Conduite des projets clients du cahier des charges à la mise en production, incluant l'intégration des normes de sécurité.",
+        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
+        liveUrl: "https://solutionstechhub.com",
         githubUrl: undefined,
         featured: true,
       },
@@ -156,11 +155,11 @@ export const portfolioData = {
       },
       {
         stat: "3",
-        label: "produits construits de bout en bout, du cahier des charges au déploiement",
+        label: "produits logiciels complets conçus du cahier des charges au déploiement",
       },
       {
         stat: "2",
-        label: "structures fondées — une agence logicielle et une plateforme de cybersécurité",
+        label: "initiatives technologiques lancées — une agence logicielle et une plateforme de cybersécurité",
       },
     ],
     resumeProfiles: [
@@ -195,9 +194,8 @@ export const portfolioData = {
     personalInfo: {
       ...personalInfo,
       roles: [
-        "Software Engineer",
-        "Full-Stack Developer",
-        "Aspiring DevSecOps Engineer",
+        "FULL-STACK SOFTWARE ENGINEER",
+        "ASPIRING DEVSECOPS",
       ],
       founderLines: [
         { label: "Founder", org: "Solutions Technologies Hub" },
@@ -205,61 +203,47 @@ export const portfolioData = {
       ],
       location: "Based in Haiti",
       heroVision:
-        "Full-Stack Software Engineer & Aspiring DevSecOps. I design complete web systems - from robust backend architecture to seamless user interfaces - integrated into highly secure cloud environments.",
+        "I build modern, scalable web applications with a focus on code quality, automated CI/CD pipelines, and security-first development practices.",
       heroSubline:
-        "My tech stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, and secure CI/CD pipelines. I build scalable applications engineered from day one to withstand cyber threats.",
+        "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
     aboutIdentities: [
       {
         key: "engineer",
-        title: "The Engineer",
+        title: "Full-Stack Dev",
         description:
-          "Full-stack developer trained on the TypeScript ecosystem — React, Next.js, NestJS, PostgreSQL. I value clean, documented architecture designed to scale far beyond initial deployment.",
+          "Full-stack developer focused on the TypeScript ecosystem - React, Next.js, NestJS, PostgreSQL. I emphasize clean architecture engineered for long-term reliability.",
       },
       {
         key: "securiste",
-        title: "The Security Practitioner",
+        title: "DevSecOps Mindset",
         description:
-          "Co-founder of Zye Klere, a cybersecurity awareness platform. I operate on the belief that a product isn't complete until you've thought about how it could be compromised.",
+          "Co-founder of Zye Klere. I operate on the belief that software isn't ready for production until its vulnerability posture is audited and automated security checks are in place.",
       },
       {
-        key: "entrepreneur",
-        title: "The Entrepreneur",
+        key: "cloud",
+        title: "CI/CD & Automation",
         description:
-          "Founder of Solutions Technologies Hub, a software development agency. Leading my own projects from specs to production taught me to ship — not just to write code.",
+          "Passionate about automated integration and deployment workflows. Experienced with Docker containerization and automated CI/CD pipelines for smooth delivery.",
       },
     ],
     education: {
       degree: "Bachelor of Science in Computer Science",
-      school: "Haiti University of Technology (Unitech)",
-      status: "Expected Graduation - November 2026",
-      note: "Senior thesis project currently being finalized prior to defense.",
+      school: "Haiti University of Technology (UNITECH)",
+      status: "Expected Graduation - Late 2026",
+      note: "Senior thesis project currently being finalized.",
     },
     projects: [
       {
-        slug: "solutions-technologies-hub",
-        title: "Solutions Technologies Hub",
-        tagline: "Software development agency — from zero to a complete digital presence.",
-        categories: ["full-stack"],
-        problem:
-          "Small businesses and creators often lack a reliable technical partner to build a professional, secure digital presence.",
-        solution:
-          "Founded the agency and delivered a complete multi-page showcase platform (Home, About, Services, Portfolio, Partners, Contact) with built-in cybersecurity offerings.",
-        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
-        liveUrl: undefined,
-        githubUrl: undefined,
-        featured: true,
-      },
-      {
         slug: "zye-klere",
         title: "Zye Klere",
-        tagline: "Cybersecurity awareness platform tailored for the Haitian community.",
-        categories: ["security"],
+        tagline: "Interactive cybersecurity awareness and educational SaaS platform.",
+        categories: ["full-stack", "security"],
         problem:
-          "Digital threats (phishing, mobile financial scams, weak passwords) are rising without accessible, locally relevant awareness resources.",
+          "Digital threats (phishing, mobile financial fraud) heavily target users lacking accessible, interactive, and locally relevant security awareness tools.",
         solution:
-          "Co-created a bilingual platform featuring a social-first content strategy, a live community avatar generator, and a product roadmap covering tutorials and breach checks.",
-        stack: ["HTML5", "CSS3", "JavaScript"],
+          "Engineered a bilingual Full-Stack platform featuring: user authentication & dashboard, interactive video guides (e.g., MFA configuration), password strength analyzers, data breach lookups, and knowledge assessment quizzes.",
+        stack: ["TypeScript", "React/Next.js", "Node.js", "Auth/MFA", "Tailwind CSS"],
         liveUrl: "https://zyeklere.com",
         githubUrl: undefined,
         featured: true,
@@ -267,14 +251,28 @@ export const portfolioData = {
       {
         slug: "web-security-checker",
         title: "Web Security Checker",
-        tagline: "API scanner designed to audit the security posture of web applications.",
+        tagline: "API-driven security scanner designed to audit web application posture.",
         categories: ["security", "full-stack"],
         problem:
-          "Many teams deploy web applications lacking visibility into basic misconfigurations: missing headers, weak TLS, exposed secrets.",
+          "Engineering teams often deploy web applications lacking automated visibility into basic configuration flaws: missing security headers, weak TLS, or exposed secrets.",
         solution:
-          "Built an API-driven scanner that audits a target URL and returns a structured risk assessment report, engineered as a reusable DevSecOps component in CI/CD pipelines.",
+          "Built an API scanner that executes targeted audits on target URLs and outputs structured risk assessment reports, designed as a reusable DevSecOps component in CI/CD pipelines.",
         stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker"],
         liveUrl: undefined,
+        githubUrl: undefined,
+        featured: true,
+      },
+      {
+        slug: "solutions-technologies-hub",
+        title: "Solutions Technologies Hub",
+        tagline: "Software engineering agency delivering high-performance, custom web products.",
+        categories: ["full-stack"],
+        problem:
+          "Businesses and creators need a reliable technical partner to design modern, secure, and production-ready digital software.",
+        solution:
+          "Founded the agency and developed its primary agency showcase. Leading client engagements from technical scoping to deployment, ensuring security-first design patterns.",
+        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
+        liveUrl: "https://solutionstechhub.com",
         githubUrl: undefined,
         featured: true,
       },
@@ -286,11 +284,11 @@ export const portfolioData = {
       },
       {
         stat: "3",
-        label: "end-to-end products built, from specification to deployment",
+        label: "end-to-end software products engineered from specification to deployment",
       },
       {
         stat: "2",
-        label: "organizations founded — a software agency and a cybersecurity platform",
+        label: "tech initiatives launched — a software agency and a cybersecurity platform",
       },
     ],
     resumeProfiles: [
