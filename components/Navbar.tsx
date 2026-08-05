@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, FileText } from "lucide-react";
-import { navLinks, personalInfo } from "@/data/portfolioData";
+import { portfolioData, personalInfo } from "@/data/portfolioData";
+import { useLanguage } from "@/app/context/LanguageContext";
 import { useResumeModal } from "@/components/ResumeModal";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,13 @@ export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openModal } = useResumeModal();
+  const { language } = useLanguage();
+
+  // Rale lyen meni yo selon lang ki chwazi a (FR oswa EN)
+  const currentNavLinks =
+    portfolioData?.[language]?.navLinks || portfolioData?.fr?.navLinks || [];
+
+  const isEn = language === "en";
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/75 backdrop-blur-xl">
@@ -29,11 +37,13 @@ export default function Navbar() {
           <span className="ml-2 hidden sm:inline">{personalInfo.name}</span>
         </Link>
 
-        {/* Desktop links */}
+        {/* Desktop links (Dinamik pa lang) */}
         <div className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => {
+          {currentNavLinks.map((link: { href: string; label: string }) => {
             const isActive =
-              link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
@@ -41,7 +51,7 @@ export default function Navbar() {
                 className={cn(
                   "relative rounded-lg px-3 py-2 font-sans text-sm transition",
                   isActive
-                    ? "text-paper"
+                    ? "text-paper font-medium"
                     : "text-paper/60 hover:text-paper"
                 )}
               >
@@ -58,7 +68,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Bouton Chanje Lang (Desktop) */}
+          {/* Bouton Chanje Lang */}
           <LanguageSwitcher />
 
           <button
@@ -66,11 +76,11 @@ export default function Navbar() {
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex"
           >
             <FileText size={15} />
-            CV
+            {isEn ? "Resume / CV" : "CV"}
           </button>
-          
+
           <button
-            aria-label="Ouvrir le menu"
+            aria-label={isEn ? "Open menu" : "Ouvrir le menu"}
             onClick={() => setMobileOpen((v) => !v)}
             className="rounded-lg p-2 text-paper/70 hover:bg-white/5 md:hidden"
           >
@@ -79,7 +89,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu (Dinamik pa lang tou) */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -90,7 +100,7 @@ export default function Navbar() {
             className="overflow-hidden border-t border-white/5 md:hidden"
           >
             <div className="flex flex-col gap-1 px-6 py-4">
-              {navLinks.map((link) => (
+              {currentNavLinks.map((link: { href: string; label: string }) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -98,7 +108,7 @@ export default function Navbar() {
                   className={cn(
                     "rounded-lg px-3 py-2.5 font-sans text-sm",
                     pathname === link.href
-                      ? "bg-white/5 text-paper"
+                      ? "bg-white/5 text-paper font-medium"
                       : "text-paper/60"
                   )}
                 >
@@ -115,7 +125,7 @@ export default function Navbar() {
                   className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper"
                 >
                   <FileText size={15} />
-                  Télécharger le CV
+                  {isEn ? "Download CV" : "Télécharger le CV"}
                 </button>
               </div>
             </div>

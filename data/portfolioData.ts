@@ -34,7 +34,7 @@ export interface Project {
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
 // ----------------------------------------------------------------------------
-// Base Personal / Social Data (Default / Fallback per Server Components)
+// Base Personal / Social Data
 // ----------------------------------------------------------------------------
 
 export const personalInfo = {
@@ -76,24 +76,33 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
+    personalBio: {
+      title: "Mon Parcours & Vision de Développeur",
+      paragraph1:
+        "Diplômé en Sciences Informatiques de l'Université de Technologie d'Haïti (UNITECH), je conçois le développement logiciel comme un levier pour résoudre des problèmes concrets et bâtir des infrastructures numériques résilientes.",
+      paragraph2:
+        "Mon parcours technique s'articule autour de trois réalisations majeures : la création de Solutions Technologies Hub pour offrir aux entreprises un partenaire fiable en ingénierie logicielle ; le lancement de Zye Klere, une plateforme dédiée à la sensibilisation à la cybersécurité et la protection des données ; et le développement d'outils Micro-SaaS (comme mon scanner d'API de sécurité) pour auditer automatiquement la vulnérabilité des applications.",
+      paragraph3:
+        "Mon objectif est d'allier la flexibilité du développement Full-Stack à la rigueur des pratiques DevSecOps pour livrer des produits numériques performants, évolutifs et sécurisés dès la conception.",
+    },
     aboutIdentities: [
       {
         key: "engineer",
         title: "Full-Stack Dev",
         description:
-          "Développeur full-stack spécialisé sur l'écosystème TypeScript - React, Next.js, NestJS, PostgreSQL. J'aime les architectures propres, documentées, et pensées pour durer.",
+          "Développeur full-stack spécialisé sur l'écosystème TypeScript (React, Next.js, NestJS, PostgreSQL). Je privilégie les architectures propres, documentées et conçues pour évoluer sereinement.",
       },
       {
         key: "securiste",
         title: "Sensibilité DevSecOps",
         description:
-          "Co-fondateur de Zye Klere. Je pars du principe qu'un produit n'est pas terminé si l'on n'a pas audité ses vulnérabilités et automatisé ses garde-fous de sécurité.",
+          "Co-fondateur de Zye Klere. Je conçois chaque application en intégrant l'analyse des vulnérabilités, la validation des accès et le respect des normes OWASP dès la première ligne de code.",
       },
       {
         key: "cloud",
         title: "CI/CD & Automation",
         description:
-          "Passionné par l'intégration continue et le déploiement. Je conçois des pipelines automatisés et des environnements conteneurisés avec Docker pour des livraisons fiables.",
+          "Automatisation du cycle de vie logiciel. Je conçois des pipelines CI/CD fiables et des environnements conteneurisés avec Docker pour garantir des déploiements fluides et sécurisés.",
       },
     ],
     education: {
@@ -205,24 +214,33 @@ export const portfolioData = {
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
+    personalBio: {
+      title: "My Background & Engineering Journey",
+      paragraph1:
+        "Holding a Bachelor's degree in Computer Science from the Haiti University of Technology (UNITECH), I approach software engineering as a discipline to solve real-world problems and build resilient digital infrastructure.",
+      paragraph2:
+        "My technical journey is built on three core milestones: founding Solutions Technologies Hub to provide businesses with a reliable software engineering partner; launching Zye Klere, a platform dedicated to cybersecurity awareness and data privacy education; and engineering Micro-SaaS tools (such as my security API scanner) to automatically audit application vulnerability postures.",
+      paragraph3:
+        "My goal is to combine agile Full-Stack engineering with rigorous DevSecOps practices to ship high-performance, scalable, and secure software by design.",
+    },
     aboutIdentities: [
       {
         key: "engineer",
         title: "Full-Stack Dev",
         description:
-          "Full-stack developer focused on the TypeScript ecosystem - React, Next.js, NestJS, PostgreSQL. I emphasize clean architecture engineered for long-term reliability.",
+          "Full-stack developer specialized in the TypeScript ecosystem (React, Next.js, NestJS, PostgreSQL). I prioritize clean, well-documented architecture engineered for long-term scalability.",
       },
       {
         key: "securiste",
         title: "DevSecOps Mindset",
         description:
-          "Co-founder of Zye Klere. I operate on the belief that software isn't ready for production until its vulnerability posture is audited and automated security checks are in place.",
+          "Co-founder of Zye Klere. I design every application by integrating vulnerability assessments, secure authentication, and OWASP standards right from the initial code commit.",
       },
       {
         key: "cloud",
         title: "CI/CD & Automation",
         description:
-          "Passionate about automated integration and deployment workflows. Experienced with Docker containerization and automated CI/CD pipelines for smooth delivery.",
+          "Software lifecycle automation. I design robust CI/CD pipelines and containerized Docker environments to ensure smooth, repeatable, and secure production deployments.",
       },
     ],
     education: {

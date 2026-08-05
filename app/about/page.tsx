@@ -1,15 +1,14 @@
 "use client";
 
 import React from "react";
-import { GraduationCap, Code2, ShieldCheck, Rocket, Clock, Award, CheckCircle2 } from "lucide-react";
+import { GraduationCap, Code2, ShieldCheck, Cloud, Clock, Award, CheckCircle2, UserCheck } from "lucide-react";
 import { certifications, portfolioData } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 const identityIcons: Record<string, React.ElementType> = {
   engineer: Code2,
   securiste: ShieldCheck,
-  cloud: Rocket,
-  entrepreneur: Rocket,
+  cloud: Cloud,
 };
 
 export default function AboutPage() {
@@ -19,14 +18,11 @@ export default function AboutPage() {
   const completed = (certifications || []).filter((c) => c?.status === "completed");
   const inProgress = (certifications || []).filter((c) => c?.status === "in-progress");
 
-  // Diksyonè ti tèks estatik pou paj À propos / About
   const labels =
     {
       fr: {
         badge: "À propos",
-        title: "Trois identités, un seul objectif : livrer un logiciel fiable",
-        subtitle:
-          "Je n'aborde pas le développement logiciel comme une seule discipline. Chaque projet passe par trois filtres : celui de l'ingénieur, celui du sécuriste, et celui de l'entrepreneur qui doit livrer quelque chose de réellement utilisable.",
+        pillarsTitle: "Trois piliers techniques, un seul objectif : livrer des logiciels fiables",
         academic: "Parcours académique",
         certifications: "Certifications & Spécialisations",
         certSubtitle: "Formation continue, vérifiée et validée",
@@ -34,9 +30,7 @@ export default function AboutPage() {
       },
       en: {
         badge: "About",
-        title: "Three identities, one goal: deliver reliable software",
-        subtitle:
-          "I don't approach software development as a single discipline. Every project goes through three filters: the engineer, the security practitioner, and the entrepreneur who needs to ship something truly usable.",
+        pillarsTitle: "Three core engineering pillars, one goal: shipping reliable software",
         academic: "Academic background",
         certifications: "Certifications & Specializations",
         certSubtitle: "Continuous learning, verified & validated",
@@ -44,8 +38,7 @@ export default function AboutPage() {
       },
     }[language] || {
       badge: "À propos",
-      title: "Trois identités, un seul objectif : livrer un logiciel fiable",
-      subtitle: "",
+      pillarsTitle: "Trois piliers techniques, un seul objectif : livrer des logiciels fiables",
       academic: "Parcours académique",
       certifications: "Certifications & Spécialisations",
       certSubtitle: "Formation continue, vérifiée et validée",
@@ -53,51 +46,74 @@ export default function AboutPage() {
     };
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
+    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24 font-sans text-paper">
+      
       {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page (Aérée & Synthétique)                          */}
+      {/* 1. SEKSYON BIOGRAFIC ANLE NET (Personal Story / Bio Card)        */}
       {/* ---------------------------------------------------------------- */}
-      <div className="max-w-3xl">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-          {labels.badge}
-        </p>
-        <h1 className="mt-3 font-sans text-3xl font-extrabold leading-tight text-paper sm:text-4xl lg:text-5xl">
-          {labels.title}
-        </h1>
-        <p className="mt-6 font-sans text-base leading-relaxed text-paper/75 sm:text-lg">
-          {labels.subtitle}
-        </p>
-      </div>
+      <section className="rounded-3xl border border-white/10 bg-ink-surface/50 p-8 sm:p-12 backdrop-blur-xl shadow-glow">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
+              {labels.badge}
+            </p>
+            <h1 className="mt-2 font-sans text-2xl font-extrabold text-paper sm:text-3xl lg:text-4xl">
+              {data?.personalBio?.title}
+            </h1>
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-600/20 text-accent-300">
+            <UserCheck size={26} />
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4 text-sm leading-relaxed text-paper/80 sm:text-base">
+          <p className="font-medium text-paper">
+            {data?.personalBio?.paragraph1}
+          </p>
+          <p>
+            {data?.personalBio?.paragraph2}
+          </p>
+          <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-xs sm:text-sm text-paper/90 font-mono">
+            {data?.personalBio?.paragraph3}
+          </p>
+        </div>
+      </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Triple identité (Grille Moderne & Aérée)                         */}
+      {/* 2. LES TROIS PILIERS (3 Cards)                                   */}
       {/* ---------------------------------------------------------------- */}
-      <div className="mt-16 grid gap-8 sm:grid-cols-3">
-        {(data?.aboutIdentities || []).map((identity: any) => {
-          const Icon = identityIcons[identity?.key as keyof typeof identityIcons] || Code2;
-          return (
-            <div
-              key={identity?.key || identity?.title}
-              className="group relative rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/40 hover:shadow-glow"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
-                <Icon size={22} />
-              </span>
-              <h3 className="mt-6 font-sans text-lg font-bold text-paper">
-                {identity?.title}
-              </h3>
-              <p className="mt-3 font-sans text-sm leading-relaxed text-paper/65">
-                {identity?.description}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <section className="mt-20">
+        <h2 className="font-sans text-2xl font-bold text-paper sm:text-3xl">
+          {labels.pillarsTitle}
+        </h2>
+
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
+          {(data?.aboutIdentities || []).map((identity: any) => {
+            const Icon = identityIcons[identity?.key as keyof typeof identityIcons] || Code2;
+            return (
+              <div
+                key={identity?.key || identity?.title}
+                className="group relative rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/40 hover:shadow-glow"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
+                  <Icon size={22} />
+                </span>
+                <h3 className="mt-6 font-sans text-lg font-bold text-paper">
+                  {identity?.title}
+                </h3>
+                <p className="mt-3 font-sans text-sm leading-relaxed text-paper/65">
+                  {identity?.description}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Parcours académique (Large Banner Card)                          */}
+      {/* 3. PARCOURS ACADÉMIQUE                                           */}
       {/* ---------------------------------------------------------------- */}
-      <div className="mt-20">
+      <section className="mt-20">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
           {labels.academic}
         </p>
@@ -121,12 +137,12 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Certifications & Formations (Aérées)                              */}
+      {/* 4. CERTIFICATIONS & FORMATIONS                                   */}
       {/* ---------------------------------------------------------------- */}
-      <div className="mt-20">
+      <section className="mt-20">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
@@ -180,7 +196,8 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
     </div>
   );
 }
