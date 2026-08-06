@@ -67,7 +67,7 @@ export default function AboutPage() {
     };
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24 font-sans text-paper">
+    <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
       
       {/* ---------------------------------------------------------------- */}
       {/* 1. SEKSYON BIOGRAFIC ANLE NET                                    */}

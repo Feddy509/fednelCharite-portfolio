@@ -23,11 +23,11 @@ const jetbrainsMono = JetBrains_Mono({
 const siteUrl = personalInfo?.social?.website || "https://fednelcharite.com";
 
 export const metadata: Metadata = {
-  title: `${personalInfo.name} - Software Engineer & Full-Stack Developer`,
+  title: `${personalInfo.name} - Full-Stack Software Engineer & Aspiring DevSecOps`,
   description: personalInfo.heroVision,
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: `${personalInfo.name} - Software Engineer & Full-Stack Developer`,
+    title: `${personalInfo.name} - Full-Stack Software Engineer & Aspiring DevSecOps`,
     description: personalInfo.heroVision,
     url: siteUrl,
     siteName: personalInfo.name,
@@ -49,7 +49,8 @@ export default function RootLayout({
           <ResumeModalProvider>
             <div className="flex min-h-screen flex-col">
               <Navbar />
-              <main className="flex-1">{children}</main>
+              {/* main kounye a gen padding-top kout ak fleksib */}
+              <main className="flex-1 pt-2 sm:pt-4">{children}</main>
               <Footer />
             </div>
           </ResumeModalProvider>
