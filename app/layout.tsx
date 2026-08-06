@@ -23,11 +23,11 @@ const jetbrainsMono = JetBrains_Mono({
 const siteUrl = personalInfo?.social?.website || "https://fednelcharite.com";
 
 export const metadata: Metadata = {
-  title: `${personalInfo.name} — Software Engineer & Full-Stack Developer`,
+  title: `${personalInfo.name} - Software Engineer & Full-Stack Developer`,
   description: personalInfo.heroVision,
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: `${personalInfo.name} — Software Engineer & Full-Stack Developer`,
+    title: `${personalInfo.name} - Software Engineer & Full-Stack Developer`,
     description: personalInfo.heroVision,
     url: siteUrl,
     siteName: personalInfo.name,

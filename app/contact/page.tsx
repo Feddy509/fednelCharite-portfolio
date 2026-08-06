@@ -18,7 +18,7 @@ export default function ContactPage() {
       badge: "Contact",
       title: "Discutons de votre projet",
       subtitle:
-        "Que ce soit pour une opportunité, une collaboration, ou une question sur un projet — je réponds à tous les messages.",
+        "Que ce soit pour une opportunité, une collaboration, ou une question sur un projet - je réponds à tous les messages.",
       nameLabel: "Nom",
       namePlaceholder: "Votre nom",
       emailLabel: "Email",
@@ -37,7 +37,7 @@ export default function ContactPage() {
       badge: "Contact",
       title: "Let's discuss your project",
       subtitle:
-        "Whether it's for an opportunity, a collaboration, or a question about a project — I respond to all messages.",
+        "Whether it's for an opportunity, a collaboration, or a question about a project - I respond to all messages.",
       nameLabel: "Name",
       namePlaceholder: "Your name",
       emailLabel: "Email",
@@ -56,7 +56,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contact portfolio — ${form.name}`);
+    const subject = encodeURIComponent(`Contact portfolio - ${form.name}`);
     const body = encodeURIComponent(
       `${form.message}\n\n— ${form.name} (${form.email})`
     );

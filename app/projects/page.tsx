@@ -20,7 +20,7 @@ export default function ProjectsPage() {
       badge: "PROJETS & RÉALISATIONS",
       title: "Ingénierie logicielle & Architecture applicative",
       subtitle:
-        "Chaque projet est conçu comme une solution bout-en-bout — de la modélisation du problème au déploiement sécurisé.",
+        "Chaque projet est conçu comme une solution bout-en-bout - de la modélisation du problème au déploiement sécurisé.",
       empty: "Aucun projet dans cette catégorie pour le moment.",
       skillsBadge: "Compétences & Stack Technique",
       skillsTitle: "La boîte à outils",
@@ -34,7 +34,7 @@ export default function ProjectsPage() {
       badge: "PROJECTS & ENGINEERING WORK",
       title: "Software Engineering & Application Architecture",
       subtitle:
-        "Every project is engineered as an end-to-end solution — from problem scoping to production-ready deployment.",
+        "Every project is engineered as an end-to-end solution - from problem scoping to production-ready deployment.",
       empty: "No projects in this category at the moment.",
       skillsBadge: "Skills & Tech Stack",
       skillsTitle: "The Toolbox",
@@ -48,7 +48,7 @@ export default function ProjectsPage() {
     badge: "PROJETS & RÉALISATIONS",
     title: "Ingénierie logicielle & Architecture applicative",
     subtitle:
-      "Chaque projet est conçu comme une solution bout-en-bout — de la modélisation du problème au déploiement sécurisé.",
+      "Chaque projet est conçu comme une solution bout-en-bout - de la modélisation du problème au déploiement sécurisé.",
     empty: "Aucun projet dans cette catégorie pour le moment.",
     skillsBadge: "Compétences & Stack Technique",
     skillsTitle: "La boîte à outils",
