@@ -3,18 +3,45 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github, Clock } from "lucide-react";
 import type { Project } from "@/data/portfolioData";
-
-const categoryLabels: Record<string, string> = {
-  "full-stack": "Full-Stack",
-  security: "DevSecOps / Sécurité",
-  "mobile-cloud": "Mobile / Cloud",
-};
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function ProjectCard({ project }: { project: Project }) {
-  // Ranje aksè ak pwopriyete yo san okenn erè TypeScript
+  const { language } = useLanguage();
+
   const categories = project.categories || [];
   const stackList = project.stack || [];
   const description = project.tagline || "";
+
+  // Diksyonè tradiksyon pou label kategori yo
+  const categoryLabels: Record<string, { fr: string; en: string }> = {
+    "full-stack": { fr: "Full-Stack", en: "Full-Stack" },
+    security: { fr: "DevSecOps / Sécurité", en: "DevSecOps / Security" },
+    "mobile-cloud": { fr: "Mobile / Cloud", en: "Mobile / Cloud" },
+  };
+
+  // Diksyonè ti tèks estatik yo
+  const labels = {
+    fr: {
+      problem: "Problème",
+      solution: "Solution",
+      viewSite: "Voir le site",
+      code: "Code",
+      comingSoon: "Lien à venir",
+    },
+    en: {
+      problem: "Problem",
+      solution: "Solution",
+      viewSite: "Visit website",
+      code: "Code",
+      comingSoon: "Link coming soon",
+    },
+  }[language] || {
+    problem: "Problème",
+    solution: "Solution",
+    viewSite: "Voir le site",
+    code: "Code",
+    comingSoon: "Lien à venir",
+  };
 
   return (
     <motion.article
@@ -26,14 +53,14 @@ export default function ProjectCard({ project }: { project: Project }) {
       className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-card backdrop-blur-sm transition-all hover:border-accent-500/40 hover:shadow-glow"
     >
       <div>
-        {/* Badges de catégories */}
+        {/* Badges de catégories (Dinamik pa lang) */}
         <div className="flex flex-wrap items-center gap-1.5">
           {categories.map((cat) => (
             <span
               key={cat}
               className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-accent-300"
             >
-              {categoryLabels[cat] ?? cat}
+              {categoryLabels[cat]?.[language as "fr" | "en"] ?? cat}
             </span>
           ))}
         </div>
@@ -48,13 +75,13 @@ export default function ProjectCard({ project }: { project: Project }) {
           {description}
         </p>
 
-        {/* Problème & Solution */}
+        {/* Problème & Solution (Dinamik pa lang) */}
         {(project.problem || project.solution) && (
           <div className="mt-4 space-y-2 border-t border-white/5 pt-4">
             {project.problem && (
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-paper/40">
-                  Problème
+                  {labels.problem}
                 </p>
                 <p className="mt-0.5 font-sans text-xs leading-relaxed text-paper/60 line-clamp-2">
                   {project.problem}
@@ -64,7 +91,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             {project.solution && (
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-paper/40">
-                  Solution
+                  {labels.solution}
                 </p>
                 <p className="mt-0.5 font-sans text-xs leading-relaxed text-paper/60 line-clamp-2">
                   {project.solution}
@@ -88,7 +115,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {/* Liens externes */}
+        {/* Liens externes (Dinamik pa lang) */}
         <div className="mt-6 flex items-center gap-4 border-t border-white/5 pt-4">
           {project.liveUrl && (
             <a
@@ -97,7 +124,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               rel="noopener noreferrer"
               className="flex items-center gap-1 font-sans text-xs font-semibold text-accent-300 transition hover:text-accent-200"
             >
-              Voir le site
+              {labels.viewSite}
               <ArrowUpRight size={14} />
             </a>
           )}
@@ -109,13 +136,13 @@ export default function ProjectCard({ project }: { project: Project }) {
               className="flex items-center gap-1 font-sans text-xs font-semibold text-paper/60 transition hover:text-paper"
             >
               <Github size={14} />
-              Code
+              {labels.code}
             </a>
           )}
           {!project.liveUrl && !project.githubUrl && (
             <span className="flex items-center gap-1.5 font-sans text-xs text-paper/35">
               <Clock size={13} />
-              Lien à venir
+              {labels.comingSoon}
             </span>
           )}
         </div>

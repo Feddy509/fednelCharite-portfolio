@@ -1,9 +1,8 @@
 // ============================================================================
 // portfolioData.ts - Single source of truth for all portfolio content.
-// Multi-language support (fr / en) with TypeScript safety.
 // ============================================================================
 
-export type SkillCategory = "frontend" | "backend" | "security" | "certification";
+export type SkillCategory = "frontend" | "backend" | "security" | "other" | "certification";
 
 export interface Skill {
   name: string;
@@ -14,9 +13,12 @@ export interface Certification {
   name: string;
   issuer: string;
   status: "completed" | "in-progress";
+  imageUrl?: string;
+  pdfUrl?: string;
+  progress?: number;
 }
 
-export type ProjectCategory = "full-stack" | "security" | "mobile-cloud";
+export type ProjectCategory = "full-stack" | "security";
 
 export interface Project {
   slug: string;
@@ -33,19 +35,14 @@ export interface Project {
 
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
-// ----------------------------------------------------------------------------
-// Base Personal / Social Data
-// ----------------------------------------------------------------------------
-
 export const personalInfo = {
   name: "Fednel Charité",
   initials: "FC",
-  email: "contact@fednelcharite.com",
+  email: "fednelcharite@gmail.com",
   roles: [
     "INGÉNIEUR LOGICIEL FULL-STACK",
     "ASPIRING DEVSECOPS",
   ],
-  location: "Basé en Haïti",
   social: {
     github: "https://github.com/feddy509",
     linkedin: "https://linkedin.com/in/fednelcharite",
@@ -56,10 +53,6 @@ export const personalInfo = {
   heroSubline:
     "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
 };
-
-// ----------------------------------------------------------------------------
-// Multi-language Portfolio Data Store
-// ----------------------------------------------------------------------------
 
 export const portfolioData = {
   fr: {
@@ -76,10 +69,23 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
+    projectsPage: {
+      badge: "PROJETS & RÉALISATIONS",
+      title: "Ingénierie logicielle & Architecture applicative",
+      subtitle:
+        "Chaque projet est conçu comme une solution bout-en-bout - de la modélisation du problème au déploiement sécurisé.",
+      filterAll: "Tout",
+      filterFullStack: "Full-Stack",
+      filterSecurity: "DevSecOps / Sécurité",
+      viewSite: "Voir le site",
+      linkComingSoon: "Lien à venir",
+      problemLabel: "PROBLÈME",
+      solutionLabel: "SOLUTION",
+    },
     personalBio: {
       title: "Mon Parcours & Vision de Développeur",
       paragraph1:
-        "Diplômé en Sciences Informatiques de l'Université de Technologie d'Haïti (UNITECH), je conçois le développement logiciel comme un levier pour résoudre des problèmes concrets et bâtir des infrastructures numériques résilientes.",
+        "En tant qu'Ingénieur Logiciel, je conçois le développement informatique comme un levier stratégique pour résoudre des défis complexes et bâtir des infrastructures numériques résilientes. Fort d'une solide formation académique en Sciences Informatiques à l'Université de Technologie d'Haïti (UNITECH), j'ambitionne de mettre mes compétences au service de projets à fort impact et d'envergure internationale.", 
       paragraph2:
         "Mon parcours technique s'articule autour de trois réalisations majeures : la création de Solutions Technologies Hub pour offrir aux entreprises un partenaire fiable en ingénierie logicielle ; le lancement de Zye Klere, une plateforme dédiée à la sensibilisation à la cybersécurité et la protection des données ; et le développement d'outils Micro-SaaS (comme mon scanner d'API de sécurité) pour auditer automatiquement la vulnérabilité des applications.",
       paragraph3:
@@ -109,21 +115,21 @@ export const portfolioData = {
       degree: "Licence en Sciences Informatiques",
       school: "Université de technologie d'Haiti (UNITECH)",
       status: "Diplomation prévue - Fin 2026",
-      note: "Projet de mémoire en cours de finalisation.",
+      note: "Projet de licence en cours de finalisation.",
     },
     projects: [
       {
         slug: "zye-klere",
         title: "Zye Klere",
-        tagline: "Plateforme web interactive et SaaS de sensibilisation à la cybersécurité.",
+        tagline:"Plateforme SaaS interactive dédiée à l'éducation, la sensibilisation à la cybersécurité et la protection des données.",
         categories: ["full-stack", "security"],
         problem:
           "Les menaces numériques (hameçonnage, arnaques financières mobiles) ciblent fortement la communauté sans ressources de prévention interactives et localement adaptées.",
         solution:
           "Développement d'une application Full-Stack bilingue incluant : espace membre avec tableau de bord, tutoriels vidéo interactifs (ex: configuration MFA), testeur de solidité de mots de passe, vérificateur d'exposition de données et quiz d'évaluation.",
-        stack: ["TypeScript", "React/Next.js", "Node.js", "Auth/MFA", "Tailwind CSS"],
+        stack: ["TypeScript", "React/Next.js", "Node.js", "PostgreSQL", "Docker", "CI/CD (GitHub Actions)", "Auth/MFA", "Tailwind CSS"],
         liveUrl: "https://zyeklere.com",
-        githubUrl: undefined,
+        githubUrl: "https://github.com/Feddy509/zyeklere_app",
         featured: true,
       },
       {
@@ -135,7 +141,7 @@ export const portfolioData = {
           "Beaucoup d'équipes déploient des applications web sans visibilité sur des failles de configuration basiques : en-têtes HTTP manquants, TLS faible, secrets exposés.",
         solution:
           "Construction d'un scanner piloté par API qui audite une URL cible et retourne un rapport de risque structuré, pensé comme une brique DevSecOps réutilisable dans une chaîne CI/CD.",
-        stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker"],
+        stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker", "CI/CD (GitHub Actions)", "OWASP Top 10"],
         liveUrl: undefined,
         githubUrl: undefined,
         featured: true,
@@ -149,15 +155,15 @@ export const portfolioData = {
           "Les entreprises et créateurs manquent d'un partenaire technique fiable pour concevoir des produits logiciels modernes, sécurisés et performants.",
         solution:
           "Fondation de l'agence et développement de la plateforme vitrine officielle. Conduite des projets clients du cahier des charges à la mise en production, incluant l'intégration des normes de sécurité.",
-        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
+        stack: ["JavaScript (ES6+)", "Bootstrap 5", "Responsive Design", "SEO & Performance"],
         liveUrl: "https://solutionstechhub.com",
-        githubUrl: undefined,
+        githubUrl: "https://github.com/Feddy509/solutionstechhub-app",
         featured: true,
       },
     ] as Project[],
     socialProof: [
       {
-        stat: "6+",
+        stat: "4+",
         label: "Certifications professionnelles obtenues (IBM, Cisco)",
       },
       {
@@ -165,7 +171,7 @@ export const portfolioData = {
         label: "Applications web complètes conçues et déployées",
       },
       {
-        stat: "2",
+        stat: "3",
         label: "Plateformes & initiatives technologiques lancées",
       },
     ],
@@ -208,16 +214,28 @@ export const portfolioData = {
         { label: "Founder", org: "Solutions Technologies Hub" },
         { label: "Co-Founder", org: "Zye Klere" },
       ],
-      location: "Based in Haiti",
       heroVision:
         "I build modern, scalable web applications with a focus on code quality, automated CI/CD pipelines, and security-first development practices.",
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
+    projectsPage: {
+      badge: "PROJECTS & ENGINEERING WORK",
+      title: "Software Engineering & Application Architecture",
+      subtitle:
+        "Every project is engineered as an end-to-end solution - from problem scoping to production-ready deployment.",
+      filterAll: "All",
+      filterFullStack: "Full-Stack",
+      filterSecurity: "DevSecOps / Security",
+      viewSite: "Visit website",
+      linkComingSoon: "Link coming soon",
+      problemLabel: "PROBLEM",
+      solutionLabel: "SOLUTION",
+    },
     personalBio: {
       title: "My Background & Engineering Journey",
       paragraph1:
-        "Holding a Bachelor's degree in Computer Science from the Haiti University of Technology (UNITECH), I approach software engineering as a discipline to solve real-world problems and build resilient digital infrastructure.",
+        "As a Software Engineer, I view software development as a strategic lever to solve complex challenges and build resilient digital infrastructure. Backed by rigorous academic training in Computer Science at the Haiti University of Technology (UNITECH), I aim to leverage my engineering skill set to contribute meaningfully to high-impact global technology initiatives.",   
       paragraph2:
         "My technical journey is built on three core milestones: founding Solutions Technologies Hub to provide businesses with a reliable software engineering partner; launching Zye Klere, a platform dedicated to cybersecurity awareness and data privacy education; and engineering Micro-SaaS tools (such as my security API scanner) to automatically audit application vulnerability postures.",
       paragraph3:
@@ -253,15 +271,15 @@ export const portfolioData = {
       {
         slug: "zye-klere",
         title: "Zye Klere",
-        tagline: "Interactive cybersecurity awareness and educational SaaS platform.",
+        tagline: "Interactive SaaS platform engineered for cybersecurity education, threat awareness, and data privacy protection.",
         categories: ["full-stack", "security"],
         problem:
           "Digital threats (phishing, mobile financial fraud) heavily target users lacking accessible, interactive, and locally relevant security awareness tools.",
         solution:
           "Engineered a bilingual Full-Stack platform featuring: user authentication & dashboard, interactive video guides (e.g., MFA configuration), password strength analyzers, data breach lookups, and knowledge assessment quizzes.",
-        stack: ["TypeScript", "React/Next.js", "Node.js", "Auth/MFA", "Tailwind CSS"],
+        stack: ["TypeScript", "React/Next.js", "Node.js", "PostgreSQL", "Docker", "CI/CD (GitHub Actions)", "Auth/MFA", "Tailwind CSS"],
         liveUrl: "https://zyeklere.com",
-        githubUrl: undefined,
+        githubUrl: "https://github.com/Feddy509/zyeklere_app",
         featured: true,
       },
       {
@@ -273,7 +291,7 @@ export const portfolioData = {
           "Engineering teams often deploy web applications lacking automated visibility into basic configuration flaws: missing security headers, weak TLS, or exposed secrets.",
         solution:
           "Built an API scanner that executes targeted audits on target URLs and outputs structured risk assessment reports, designed as a reusable DevSecOps component in CI/CD pipelines.",
-        stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker"],
+        stack: ["TypeScript", "NestJS", "PostgreSQL", "Docker", "CI/CD (GitHub Actions)", "OWASP Top 10"],
         liveUrl: undefined,
         githubUrl: undefined,
         featured: true,
@@ -287,15 +305,15 @@ export const portfolioData = {
           "Businesses and creators need a reliable technical partner to design modern, secure, and production-ready digital software.",
         solution:
           "Founded the agency and developed its primary agency showcase. Leading client engagements from technical scoping to deployment, ensuring security-first design patterns.",
-        stack: ["HTML5", "CSS3", "JavaScript", "Bootstrap 5"],
+        stack: ["JavaScript (ES6+)", "Bootstrap 5", "Responsive Design", "SEO & Performance"],
         liveUrl: "https://solutionstechhub.com",
-        githubUrl: undefined,
+        githubUrl: "https://github.com/Feddy509/solutionstechhub-app",
         featured: true,
       },
     ] as Project[],
     socialProof: [
       {
-        stat: "6+",
+        stat: "4+",
         label: "Validated professional certifications earned (IBM, Cisco)",
       },
       {
@@ -303,7 +321,7 @@ export const portfolioData = {
         label: "End-to-end web applications engineered & deployed",
       },
       {
-        stat: "2",
+        stat: "3",
         label: "Tech initiatives & digital platforms launched",
       },
     ],
@@ -331,48 +349,126 @@ export const portfolioData = {
 };
 
 // ----------------------------------------------------------------------------
-// Shared Lists & Global References
+// Lis Konpetans ak Zouti Yo (Mete à jour pour DevSecOps & Académique)
 // ----------------------------------------------------------------------------
 
-export const certifications: Certification[] = [
-  { name: "Full Stack Software Developer", issuer: "IBM", status: "completed" },
-  { name: "Full Stack JavaScript Developer", issuer: "IBM", status: "completed" },
-  { name: "Front-End Developer", issuer: "IBM", status: "completed" },
-  { name: "Back-End Developer", issuer: "IBM", status: "completed" },
-  { name: "Software Engineering & DevOps", issuer: "IBM", status: "completed" },
-  { name: "IT Support", issuer: "IBM", status: "completed" },
-  { name: "Junior Cybersecurity Analyst", issuer: "Cisco", status: "completed" },
-  { name: "Android & iOS Development", issuer: "Meta / IBM", status: "completed" },
-  { name: "Security+", issuer: "CompTIA", status: "in-progress" },
-  { name: "Certified Solutions Architect", issuer: "AWS", status: "in-progress" },
-  { name: "Azure Fundamentals", issuer: "Microsoft", status: "in-progress" },
-];
-
 export const skills: Skill[] = [
-  { name: "React", category: "frontend" },
-  { name: "Next.js", category: "frontend" },
+  // 1. Frontend
+  { name: "React / Next.js", category: "frontend" },
   { name: "TypeScript", category: "frontend" },
-  { name: "Tailwind CSS", category: "frontend" },
-  { name: "Bootstrap", category: "frontend" },
-  { name: "Figma", category: "frontend" },
+  { name: "Tailwind CSS & Bootstrap 5", category: "frontend" },
+  { name: "SEO & Web Performance", category: "frontend" },
+  { name: "Figma (UI/UX)", category: "frontend" },
   { name: "Framer Motion", category: "frontend" },
-  { name: "NestJS", category: "backend" },
-  { name: "Node.js", category: "backend" },
-  { name: "Express.js", category: "backend" },
-  { name: "PostgreSQL", category: "backend" },
-  { name: "MongoDB", category: "backend" },
-  { name: "REST & API Design", category: "backend" },
-  { name: "Docker", category: "security" },
-  { name: "Sécurité applicative web", category: "security" },
-  { name: "Bonnes pratiques DevSecOps", category: "security" },
-  { name: "Fondamentaux réseau (DNS, IDS/IPS)", category: "security" },
-  { name: "IBM Full Stack Software Developer", category: "certification" },
-  { name: "IBM Software Engineering & DevOps", category: "certification" },
-  { name: "Cisco Junior Cybersecurity Analyst", category: "certification" },
+
+  // 2. Backend
+  { name: "Node.js / NestJS / Express.js", category: "backend" },
+  { name: "Python (Django, Flask)", category: "backend" },
+  { name: "PostgreSQL & MongoDB", category: "backend" },
+  { name: "REST API & Microservices", category: "backend" },
+  { name: "Pandas (Data Processing)", category: "backend" },
+
+  // 3. DevSecOps & Security
+  { name: "Docker & Kubernetes (Orchestration)", category: "security" },
+  { name: "CI/CD (GitHub Actions)", category: "security" },
+  { name: "Sécurité Code (SonarQube / Snyk)", category: "security" },
+  { name: "Terraform (IaC Fundamentals)", category: "security" },
+  { name: "Normes OWASP Top 10", category: "security" },
+  { name: "Linux, Bash & Réseau (DNS/TLS)", category: "security" },
+
+  // 4. Fondations & Autres Langages
+  { name: "C / C++", category: "other" },
+  { name: "C# / ASP.NET", category: "other" },
+  { name: "Java Fundamentals", category: "other" },
+  { name: "Git & GitHub Workflow", category: "other" },
+
+  // 5. Certifications Reference
+  { name: "IBM Full Stack Developer", category: "certification" },
+  { name: "IBM DevOps & Software Eng.", category: "certification" },
+  { name: "Cisco Cybersecurity Analyst", category: "certification" },
   { name: "CompTIA Security+ (en cours)", category: "certification" },
 ];
+export const certifications: Certification[] = [
+  {
+    name: "Full Stack Software Developer",
+    issuer: "IBM",
+    status: "completed",
+    imageUrl: "/certificates/ibm-fullstack.png",
+    pdfUrl: "/certificates/ibm-fullstack.pdf",
+  },
+  {
+    name: "Full Stack JavaScript Developer",
+    issuer: "IBM",
+    status: "completed",
+    imageUrl: "/certificates/ibm-javascript.png",
+    pdfUrl: "/certificates/ibm-javascript.pdf",
+  },
+  {
+    name: "Front-End Developer",
+    issuer: "IBM",
+    status: "completed",
+    imageUrl: "/certificates/ibm-frontend.png",
+    pdfUrl: "/certificates/ibm-frontend.pdf",
+  },
+  {
+    name: "Back-End Developer",
+    issuer: "IBM",
+    status: "in-progress",
+    progress: 95,
+    imageUrl: "/certificates/ibm-backend-badge.png",
+  },
+  {
+    name: "Software Engineering & DevOps",
+    issuer: "IBM",
+    status: "in-progress",
+    progress: 90,
+    imageUrl: "/certificates/ibm-devops-badge.png",
+  },
+  {
+    name: "Junior Cybersecurity Analyst",
+    issuer: "Cisco",
+    status: "in-progress",
+    progress: 90,
+    imageUrl: "/certificates/cisco-cybersecurity-badge.png",
+  },
+  {
+    name: "Android & iOS Development",
+    issuer: "Meta / IBM",
+    status: "in-progress",
+    progress: 70,
+    imageUrl: "/certificates/meta-mobile-badge.png",
+  },
+  {
+    name: "IBM Cybersecurity Analyst",
+    issuer: "IBM",
+    status: "in-progress",
+    progress: 60,
+    imageUrl: "/certificates/ibm-cybersecurity-badge.png",
+  },
+  {
+    name: "IBM Java Developer",
+    issuer: "IBM",
+    status: "in-progress",
+    progress: 50,
+    imageUrl: "/certificates/ibm-java-badge.png",
+  },
+  {
+    name: "Security+",
+    issuer: "CompTIA",
+    status: "in-progress",
+  },
+  {
+    name: "AWS Certified Developer - Associate",
+    issuer: "AWS",
+    status: "in-progress",
+  },
+  {
+    name: "Microsoft Certified: Azure Developer Associate",
+    issuer: "Microsoft",
+    status: "in-progress",
+  },
+];
 
-// Fallback exports for backward compatibility
 export const navLinks = portfolioData.fr.navLinks;
 export const aboutIdentities = portfolioData.fr.aboutIdentities;
 export const education = portfolioData.fr.education;

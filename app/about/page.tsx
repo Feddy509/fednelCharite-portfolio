@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { GraduationCap, Code2, ShieldCheck, Cloud, Clock, Award, CheckCircle2, UserCheck } from "lucide-react";
-import { certifications, portfolioData } from "@/data/portfolioData";
+import React, { useState } from "react";
+import Image from "next/image";
+import { GraduationCap, Code2, ShieldCheck, Cloud, Clock, Award, CheckCircle2, UserCheck, X, Eye, FileText, Loader2 } from "lucide-react";
+import { certifications, portfolioData, Certification } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 const identityIcons: Record<string, React.ElementType> = {
@@ -15,8 +16,19 @@ export default function AboutPage() {
   const { language } = useLanguage();
   const data = portfolioData?.[language] || portfolioData?.fr || {};
 
-  const completed = (certifications || []).filter((c) => c?.status === "completed");
-  const inProgress = (certifications || []).filter((c) => c?.status === "in-progress");
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+
+  // Sètifika konplè ak sa k gen pousantaj ( progress ) yo
+  const completedOrActive = (certifications || []).filter(
+    (c) => c?.status === "completed" || (c?.status === "in-progress" && c?.progress)
+  );
+
+  // Sètifika ki anba nèt yo (CompTIA, AWS, Azure - san pousantaj)
+  const upcoming = (certifications || []).filter(
+    (c) => c?.status === "in-progress" && !c?.progress
+  );
+
+  const isEn = language === "en";
 
   const labels =
     {
@@ -27,6 +39,9 @@ export default function AboutPage() {
         certifications: "Certifications & Spécialisations",
         certSubtitle: "Formation continue, vérifiée et validée",
         inProgress: "En préparation & Certifications à venir",
+        viewCert: "Voir le certificat / statut",
+        openPdf: "Ouvrir le document PDF",
+        close: "Fermer",
       },
       en: {
         badge: "About",
@@ -35,6 +50,9 @@ export default function AboutPage() {
         certifications: "Certifications & Specializations",
         certSubtitle: "Continuous learning, verified & validated",
         inProgress: "In progress & Upcoming certifications",
+        viewCert: "View certificate / status",
+        openPdf: "Open PDF Document",
+        close: "Close",
       },
     }[language] || {
       badge: "À propos",
@@ -43,13 +61,16 @@ export default function AboutPage() {
       certifications: "Certifications & Spécialisations",
       certSubtitle: "Formation continue, vérifiée et validée",
       inProgress: "En préparation & Certifications à venir",
+      viewCert: "Voir le certificat / statut",
+      openPdf: "Ouvrir le document PDF",
+      close: "Fermer",
     };
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24 font-sans text-paper">
       
       {/* ---------------------------------------------------------------- */}
-      {/* 1. SEKSYON BIOGRAFIC ANLE NET (Personal Story / Bio Card)        */}
+      {/* 1. SEKSYON BIOGRAFIC ANLE NET                                    */}
       {/* ---------------------------------------------------------------- */}
       <section className="rounded-3xl border border-white/10 bg-ink-surface/50 p-8 sm:p-12 backdrop-blur-xl shadow-glow">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
@@ -80,7 +101,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* 2. LES TROIS PILIERS (3 Cards)                                   */}
+      {/* 2. LES TROIS PILIERS                                             */}
       {/* ---------------------------------------------------------------- */}
       <section className="mt-20">
         <h2 className="font-sans text-2xl font-bold text-paper sm:text-3xl">
@@ -140,7 +161,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* 4. CERTIFICATIONS & FORMATIONS                                   */}
+      {/* 4. CERTIFICATIONS & FORMATIONS (Cliquables pour Popup)           */}
       {/* ---------------------------------------------------------------- */}
       <section className="mt-20">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
@@ -155,25 +176,46 @@ export default function AboutPage() {
           <Award className="text-accent-300/40" size={32} />
         </div>
 
-        {/* Certifications Complétées */}
+        {/* Lis Sètifika prensipal yo (Cliquable pou louvri imaj/pousantaj) */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {completed.map((cert) => (
-            <div
-              key={cert.name}
-              className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-all duration-300 hover:border-accent-500/30 hover:bg-white/[0.06]"
-            >
-              <div className="space-y-1">
-                <p className="font-sans text-sm font-semibold text-paper group-hover:text-accent-300 transition-colors">
-                  {cert.name}
-                </p>
-                <p className="font-mono text-xs text-paper/50">{cert.issuer}</p>
+          {completedOrActive.map((cert) => {
+            const isDone = cert.status === "completed";
+            return (
+              <div
+                key={cert.name}
+                onClick={() => setSelectedCert(cert)}
+                className="group cursor-pointer flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-all duration-300 hover:border-accent-500/50 hover:bg-white/[0.08] hover:scale-[1.02]"
+              >
+                <div className="space-y-1 pr-2">
+                  <p className="font-sans text-sm font-semibold text-paper group-hover:text-accent-300 transition-colors">
+                    {cert.name}
+                  </p>
+                  <p className="font-mono text-xs text-paper/50">{cert.issuer}</p>
+                  
+                  {isDone ? (
+                    <span className="inline-flex items-center gap-1 text-[11px] text-accent-400/80 pt-1">
+                      <Eye size={12} /> {labels.viewCert}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-[11px] text-amber-400/90 pt-1 font-mono">
+                      <Loader2 size={12} className="animate-spin" /> En cours ({cert.progress}%)
+                    </span>
+                  )}
+                </div>
+
+                {isDone ? (
+                  <CheckCircle2 size={20} className="shrink-0 text-accent-400" />
+                ) : (
+                  <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[10px] font-mono font-bold text-amber-400">
+                    {cert.progress}%
+                  </span>
+                )}
               </div>
-              <CheckCircle2 size={18} className="shrink-0 text-accent-400" />
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Certifications En Cours */}
+        {/* Certifications En Préparation à Venir (CompTIA, AWS, Azure - Rete jan yo ye a) */}
         <div className="mt-12">
           <div className="flex items-center gap-2 text-paper/50">
             <Clock size={16} className="text-accent-300" />
@@ -183,7 +225,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {inProgress.map((cert) => (
+            {upcoming.map((cert) => (
               <div
                 key={cert.name}
                 className="rounded-xl border border-dashed border-white/20 bg-white/[0.01] p-5 transition hover:border-accent-400/40"
@@ -197,6 +239,114 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* MODAL POP-UP (Affiche l'image du certificat OU la barre %)       */}
+      {/* ---------------------------------------------------------------- */}
+      {selectedCert && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-fadeIn">
+          <div className="relative max-w-3xl w-full rounded-2xl border border-white/10 bg-ink-surface p-6 shadow-2xl space-y-4">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div>
+                <h3 className="font-sans text-lg font-bold text-paper">
+                  {selectedCert.name}
+                </h3>
+                <p className="font-mono text-xs text-accent-300">{selectedCert.issuer}</p>
+              </div>
+              <button
+                onClick={() => setSelectedCert(null)}
+                className="rounded-lg bg-white/10 p-2 text-paper hover:bg-white/20 transition"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Content: Si Complété -> Imaj / Si In-Progress -> Barre % */}
+            <div className="relative min-h-[250px] w-full overflow-hidden rounded-xl bg-black/40 border border-white/5 flex flex-col items-center justify-center p-6">
+              {selectedCert.status === "completed" ? (
+                selectedCert.imageUrl ? (
+                  <div className="relative aspect-[4/3] w-full">
+                    <Image
+                      src={selectedCert.imageUrl}
+                      alt={selectedCert.name}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className="text-center p-8 space-y-2">
+                    <Award size={48} className="mx-auto text-accent-300" />
+                    <p className="text-sm text-paper/70 font-sans">
+                      {isEn
+                        ? `Verified Certification issued by ${selectedCert.issuer}`
+                        : `Certification officielle vérifiée délivrée par ${selectedCert.issuer}`}
+                    </p>
+                  </div>
+                )
+              ) : (
+                /* Si c'est en progression */
+                <div className="w-full max-w-md text-center space-y-5 p-4">
+                  <div className="flex justify-center">
+                    <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+                      <Loader2 size={32} className="animate-spin" />
+                    </span>
+                  </div>
+
+                  <div>
+                    <h4 className="font-sans text-base font-bold text-paper">
+                      {isEn ? "Certification in Progress" : "Formation en cours d'obtention"}
+                    </h4>
+                    <p className="text-xs text-paper/60 mt-1">
+                      {isEn
+                        ? "Currently completing final practical modules and projects."
+                        : "Modules pratiques et projets d'évaluation finale en cours d'achèvement."}
+                    </p>
+                  </div>
+
+                  {/* Ba de Pwogresyon % */}
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between font-mono text-xs">
+                      <span className="text-paper/60">{isEn ? "Progression" : "Avancement"}</span>
+                      <span className="text-amber-400 font-bold">{selectedCert.progress}%</span>
+                    </div>
+                    <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden p-0.5 border border-white/10">
+                      <div
+                        className="bg-gradient-to-r from-amber-500 to-emerald-400 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${selectedCert.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer ak Bouton PDF si l ekziste */}
+            <div className="flex items-center justify-between pt-2">
+              {selectedCert.pdfUrl && selectedCert.status === "completed" ? (
+                <a
+                  href={selectedCert.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-accent-500/40 bg-accent-500/10 px-3.5 py-2 font-sans text-xs font-semibold text-accent-300 transition hover:bg-accent-500/20"
+                >
+                  <FileText size={14} />
+                  {labels.openPdf}
+                </a>
+              ) : <div />}
+
+              <button
+                onClick={() => setSelectedCert(null)}
+                className="rounded-lg bg-white/10 px-4 py-2 font-sans text-xs font-semibold text-paper hover:bg-white/20 transition"
+              >
+                {labels.close}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

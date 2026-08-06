@@ -2,75 +2,87 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Code2, Server, ShieldCheck, Award, Sparkles } from "lucide-react";
+import { Code2, Server, ShieldCheck, Award, Sparkles, Terminal, Cpu } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import { skills, portfolioData, type ProjectCategory, type Skill } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
-type FilterKey = "all" | ProjectCategory;
+type FilterKey = "all" | Exclude<ProjectCategory, "mobile-cloud">;
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
-  const data = portfolioData[language];
+  const data = portfolioData[language] || portfolioData.fr;
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
 
   const labels = {
     fr: {
-      badge: "Projets & Compétences",
-      title: "Études de cas, pas juste une liste de liens",
+      badge: "PROJETS & RÉALISATIONS",
+      title: "Ingénierie logicielle & Architecture applicative",
       subtitle:
-        "Chaque projet est présenté sous forme de problème résolu — parce qu'un lien GitHub seul ne raconte jamais toute l'histoire.",
+        "Chaque projet est conçu comme une solution bout-en-bout — de la modélisation du problème au déploiement sécurisé.",
       empty: "Aucun projet dans cette catégorie pour le moment.",
       skillsBadge: "Compétences & Stack Technique",
       skillsTitle: "La boîte à outils",
       filters: {
         all: "Tout",
         "full-stack": "Full-Stack",
-        security: "DevSecOps / Security",
-        "mobile-cloud": "Mobile / Cloud",
+        security: "DevSecOps / Sécurité",
       },
     },
     en: {
-      badge: "Projects & Skills",
-      title: "Case studies, not just a list of links",
+      badge: "PROJECTS & ENGINEERING WORK",
+      title: "Software Engineering & Application Architecture",
       subtitle:
-        "Every project is presented as a solved problem — because a GitHub link alone never tells the whole story.",
+        "Every project is engineered as an end-to-end solution — from problem scoping to production-ready deployment.",
       empty: "No projects in this category at the moment.",
       skillsBadge: "Skills & Tech Stack",
       skillsTitle: "The Toolbox",
       filters: {
         all: "All",
-        "full-stack": "Full-Stack",
+        "full-stack": "All",
         security: "DevSecOps / Security",
-        "mobile-cloud": "Mobile / Cloud",
       },
     },
-  }[language];
+  }[language] || {
+    badge: "PROJETS & RÉALISATIONS",
+    title: "Ingénierie logicielle & Architecture applicative",
+    subtitle:
+      "Chaque projet est conçu comme une solution bout-en-bout — de la modélisation du problème au déploiement sécurisé.",
+    empty: "Aucun projet dans cette catégorie pour le moment.",
+    skillsBadge: "Compétences & Stack Technique",
+    skillsTitle: "La boîte à outils",
+    filters: {
+      all: "Tout",
+      "full-stack": "Full-Stack",
+      security: "DevSecOps / Sécurité",
+    },
+  };
 
   const filters: { key: FilterKey; label: string }[] = [
     { key: "all", label: labels.filters.all },
     { key: "full-stack", label: labels.filters["full-stack"] },
     { key: "security", label: labels.filters.security },
-    { key: "mobile-cloud", label: labels.filters["mobile-cloud"] },
   ];
 
+  // 5 Kad Konpetans ak Icône Lucide kòrèk
   const skillGroups: { key: Skill["category"]; label: string; icon: typeof Code2 }[] = [
     { key: "frontend", label: "Frontend", icon: Code2 },
     { key: "backend", label: "Backend", icon: Server },
-    { key: "security", label: "Security / DevOps", icon: ShieldCheck },
+    { key: "security", label: "DevSecOps & Security", icon: ShieldCheck },
+    { key: "other", label: "Fondations & Autres", icon: Cpu },
     { key: "certification", label: "Certifications", icon: Award },
   ];
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") return data.projects;
-    return data.projects.filter((p) => p.categories.includes(activeFilter));
+    return data.projects.filter((p) => p.categories.includes(activeFilter as any));
   }, [activeFilter, data.projects]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
+    <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 font-sans text-paper">
       {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page (Large & Dynamic)                             */}
+      {/* En-tête de la page                                               */}
       {/* ---------------------------------------------------------------- */}
       <div className="max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
@@ -85,7 +97,7 @@ export default function ProjectsPage() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Barre de filtres réactifs (CTA Style)                             */}
+      {/* Barre de filtres (Tout, Full-Stack, DevSecOps / Sécurité)         */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-10 flex flex-wrap gap-3">
         {filters.map((f) => (
@@ -105,7 +117,7 @@ export default function ProjectsPage() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Grille des projets (Aérée)                                       */}
+      {/* Grille des projets                                               */}
       {/* ---------------------------------------------------------------- */}
       <motion.div
         layout
@@ -125,7 +137,7 @@ export default function ProjectsPage() {
       )}
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section : Compétences / La Boîte à Outils                        */}
+      {/* Section : Compétences / La Boîte à Outils (5 Kad Aéré)           */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-24 border-t border-white/10 pt-16">
         <div className="flex items-center gap-2">
@@ -138,7 +150,7 @@ export default function ProjectsPage() {
           {labels.skillsTitle}
         </h2>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {skillGroups.map((group) => (
             <div
               key={group.key}
@@ -148,7 +160,7 @@ export default function ProjectsPage() {
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform group-hover:scale-110">
                   <group.icon size={18} />
                 </span>
-                <p className="font-sans text-base font-bold text-paper">
+                <p className="font-sans text-sm font-bold text-paper">
                   {group.label}
                 </p>
               </div>
