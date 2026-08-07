@@ -37,7 +37,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-jakarta)", "system-ui", "sans-serif"],
+        // 👈 Chanjman fèt la: Sora ranplase jakarta a isit la
+        sans: ["var(--font-sora)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
       },
       backgroundImage: {

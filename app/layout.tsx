@@ -8,14 +8,14 @@ import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
 import { LanguageProvider } from "@/app/context/LanguageContext";
 
-// 1. Sora pou Tit ak Kò Tèks / Paragraf (Geometric & UI Modern)
+// 1. Config polis Sora (Mete `--font-sora` pou Tailwind ak CSS ka detekte l)
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sora",
   display: "swap",
 });
 
-// 2. JetBrains Mono pou Kòd, Badges ak Monospace
+// 2. Config polis JetBrains Mono (Mete `--font-jetbrains`)
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
