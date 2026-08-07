@@ -45,7 +45,7 @@ export const personalInfo = {
   ],
   social: {
     github: "https://github.com/feddy509",
-    linkedin: "https://linkedin.com/in/fednelcharite",
+    linkedin: "https://www.linkedin.com/in/fednel-charit%C3%A9-05271823b/",
     website: "https://fednelcharite.com",
   },
   heroVision:

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Mail, Send, FileText, CheckCircle2, ArrowRight } from "lucide-react";
+import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github } from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -15,35 +15,39 @@ export default function ContactPage() {
 
   const labels = {
     fr: {
-      badge: "Contact",
-      title: "Discutons de votre projet",
+      badge: "CONTACT & COLLABORATION",
+      status: "Disponible pour de nouvelles opportunités",
+      title: "Parlons de votre projet ou opportunité",
       subtitle:
-        "Que ce soit pour une opportunité, une collaboration, ou une question sur un projet - je réponds à tous les messages.",
-      nameLabel: "Nom",
-      namePlaceholder: "Votre nom",
-      emailLabel: "Email",
+        "Que ce soit pour un recrutement (Full-Stack / DevSecOps), une collaboration ou une question technique - je vous réponds généralement sous 24 heures.",
+      nameLabel: "Nom complet",
+      namePlaceholder: "Ex: Jean Lucien",
+      emailLabel: "Adresse email",
       emailPlaceholder: "vous@exemple.com",
       messageLabel: "Message",
-      messagePlaceholder: "Parlez-moi de votre projet ou de votre opportunité...",
+      messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
       btnSend: "Envoyer le message",
       btnSent: "Client mail ouvert",
       directEmailTitle: "Écrire directement",
       hiringTitle: "Vous recrutez ?",
       hiringDesc:
-        "Téléchargez la version du CV adaptée au poste que vous cherchez à pourvoir.",
+        "Téléchargez la version du CV adaptée au profil que vous cherchez à pourvoir.",
       btnResume: "Télécharger le CV",
+      socialTitle: "Réseaux professionnels",
+      socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
     },
     en: {
-      badge: "Contact",
-      title: "Let's discuss your project",
+      badge: "CONTACT & COLLABORATION",
+      status: "Available for new opportunities",
+      title: "Let's discuss your project or opportunity",
       subtitle:
-        "Whether it's for an opportunity, a collaboration, or a question about a project - I respond to all messages.",
-      nameLabel: "Name",
-      namePlaceholder: "Your name",
-      emailLabel: "Email",
+        "Whether it's for a hiring opportunity (Full-Stack / DevSecOps), a collaboration, or a technical inquiry - I typically respond within 24 hours.",
+      nameLabel: "Full Name",
+      namePlaceholder: "e.g., Jean Lucien",
+      emailLabel: "Email Address",
       emailPlaceholder: "you@example.com",
       messageLabel: "Message",
-      messagePlaceholder: "Tell me about your project or opportunity...",
+      messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
       btnSend: "Send Message",
       btnSent: "Mail client opened",
       directEmailTitle: "Write directly",
@@ -51,8 +55,31 @@ export default function ContactPage() {
       hiringDesc:
         "Download the version of the resume tailored to the position you are looking to fill.",
       btnResume: "Download Resume",
+      socialTitle: "Professional Networks",
+      socialDesc: "Connect with me on LinkedIn or check my GitHub repositories.",
     },
-  }[language];
+  }[language] || {
+    badge: "CONTACT & COLLABORATION",
+    status: "Disponible pour de nouvelles opportunités",
+    title: "Parlons de votre projet ou opportunité",
+    subtitle:
+      "Que ce soit pour un recrutement (Full-Stack / DevSecOps), une collaboration ou une question technique - je vous réponds généralement sous 24 heures.",
+    nameLabel: "Nom complet",
+    namePlaceholder: "Ex: Jean Lucien",
+    emailLabel: "Adresse email",
+    emailPlaceholder: "vous@exemple.com",
+    messageLabel: "Message",
+    messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
+    btnSend: "Envoyer le message",
+    btnSent: "Client mail ouvert",
+    directEmailTitle: "Écrire directement",
+    hiringTitle: "Vous recrutez ?",
+    hiringDesc:
+      "Téléchargez la version du CV adaptée au profil que vous cherchez à pourvoir.",
+    btnResume: "Télécharger le CV",
+    socialTitle: "Réseaux professionnels",
+    socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -67,24 +94,29 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
       {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page (Aérée)                                       */}
+      {/* En-tête de la page                                               */}
       {/* ---------------------------------------------------------------- */}
       <div className="max-w-3xl">
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400 mb-4">
+          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          {labels.status}
+        </div>
+
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
           {labels.badge}
         </p>
-        <h1 className="mt-3 font-sans text-3xl font-extrabold leading-tight text-paper sm:text-4xl lg:text-5xl">
+        <h1 className="mt-2 font-sans text-3xl font-extrabold leading-tight text-paper sm:text-4xl lg:text-5xl">
           {labels.title}
         </h1>
-        <p className="mt-6 font-sans text-base leading-relaxed text-paper/75 sm:text-lg">
+        <p className="mt-4 font-sans text-base leading-relaxed text-paper/75 sm:text-lg">
           {labels.subtitle}
         </p>
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section Formulaire & Sidebar (Grille Large)                     */}
+      {/* Section Formulaire & Sidebar                                     */}
       {/* ---------------------------------------------------------------- */}
-      <div className="mt-14 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+      <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         {/* Formulaire de contact */}
         <form
           onSubmit={handleSubmit}
@@ -163,7 +195,7 @@ export default function ContactPage() {
           </button>
         </form>
 
-        {/* Sidebar Info + Resume CTA */}
+        {/* Sidebar Info + Resume CTA + Socials */}
         <div className="space-y-6">
           {/* Email Direct */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
@@ -200,6 +232,37 @@ export default function ContactPage() {
               {labels.btnResume}
               <ArrowRight size={14} className="opacity-60" />
             </button>
+          </div>
+
+          {/* Social Networks Card */}
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
+              <MessageSquare size={20} />
+            </span>
+            <p className="mt-5 font-sans text-base font-bold text-paper">
+              {labels.socialTitle}
+            </p>
+            <p className="mt-2 font-sans text-sm leading-relaxed text-paper/65">
+              {labels.socialDesc}
+            </p>
+            <div className="mt-4 flex gap-3">
+              <a
+                href={personalInfo.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 font-mono text-xs text-paper/80 hover:text-paper hover:border-accent-400/50 transition"
+              >
+                <Linkedin size={14} className="text-accent-300" /> LinkedIn
+              </a>
+              <a
+                href={personalInfo.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 font-mono text-xs text-paper/80 hover:text-paper hover:border-accent-400/50 transition"
+              >
+                <Github size={14} className="text-accent-300" /> GitHub
+              </a>
+            </div>
           </div>
         </div>
       </div>

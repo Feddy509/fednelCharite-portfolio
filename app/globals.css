@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ===========================================================
-   TIPOGRAFI & STYLES DE BASE
+   TIPOGRAFI & STYLES DE BASE (MODERNE & CONTRASTÉ)
 =========================================================== */
 
 @layer base {
@@ -11,22 +11,26 @@
     scroll-behavior: smooth;
   }
 
-  /* Paragraf ak kò tèks ap pran Inter */
+  /* Background ki kase ble inifòm lan ak pwofondè & grid pattern */
   body {
-    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-image: radial-gradient(
-        circle at 20% 0%,
-        rgba(8, 66, 140, 0.18),
-        transparent 45%
-      ),
-      radial-gradient(circle at 85% 10%, rgba(8, 66, 140, 0.12), transparent 40%);
+    font-family: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #080d1a; /* Base navy pwofon */
+    background-image: 
+      /* Grid pattern sibtil ki bay yon sans "Engineering Canvas" */
+      linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      /* Touch Cyan / Sky Blue anwo adwat */
+      radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.12), transparent 45%),
+      /* Touch Indigo / Violet anba agoch */
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.09), transparent 50%);
+    background-size: 36px 36px, 36px 36px, auto, auto;
     background-attachment: fixed;
   }
 
-  /* H1, H2, H3, H4, H5, H6 ap pran Space Grotesk automatiquement */
+  /* H1, H2, H3, H4, H5, H6 ap pran Sora ak plis kontras */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), sans-serif;
-    letter-spacing: -0.025em;
+    font-family: var(--font-sora), sans-serif;
+    letter-spacing: -0.03em;
   }
 
   /* Monospace ap pran JetBrains Mono */
@@ -35,11 +39,12 @@
   }
 
   ::selection {
-    background-color: rgba(8, 66, 140, 0.35);
+    background-color: rgba(56, 189, 248, 0.3);
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid #3d82d9;
+    outline: 2px solid #38bdf8;
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -59,6 +64,13 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Klas pou degrade sou gwo tit yo si w vle kase blan brut la */
+  .text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 

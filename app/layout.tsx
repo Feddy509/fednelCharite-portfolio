@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Sora, JetBrains_Mono } from "next/font/google";
+// @ts-ignore
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,21 +8,14 @@ import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
 import { LanguageProvider } from "@/app/context/LanguageContext";
 
-// 1. Polis pou Paragraf ak kò tèks (Ultra lizib)
-const inter = Inter({
+// 1. Sora pou Tit ak Kò Tèks / Paragraf (Geometric & UI Modern)
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sora",
   display: "swap",
 });
 
-// 2. Polis pou Tit yo (H1, H2, H3 - Tech & Engineering Style)
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-// 3. Polis pou Kòd, Badges ak Monospace
+// 2. JetBrains Mono pou Kòd, Badges ak Monospace
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
@@ -40,7 +34,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: personalInfo.name,
     locale: "fr_FR",
-    alternateLocales: ["en_US"],
+    alternateLocale: ["en_US"],
     type: "website",
   },
 };
@@ -53,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${sora.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-ink font-sans text-paper antialiased selection:bg-accent-600/30 selection:text-paper">
         <LanguageProvider>
