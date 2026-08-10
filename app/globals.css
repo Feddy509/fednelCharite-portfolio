@@ -3,7 +3,16 @@
 @tailwind utilities;
 
 /* ===========================================================
-   TIPOGRAFI & STYLES DE BASE (BLEU UNI ORIJINAL)
+   CUSTOM ACCENT COLORS & VARIABLES (UI/UX UPGRADE)
+=========================================================== */
+:root {
+  --color-electric-blue: #2563eb;
+  --color-cyan-accent: #06b6d4;
+  --color-navy-base: #08428c;
+}
+
+/* ===========================================================
+   TIPOGRAFI & STYLES DE BASE (OPTIMIZED)
 =========================================================== */
 
 @layer base {
@@ -11,22 +20,31 @@
     scroll-behavior: smooth;
   }
 
-  /* Fond bleu uni orijinal la ak Sora */
+  /* Fond bleu uni orijinal la ak Sora + Amelyorasyon Line-Height */
   body {
     font-family: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    line-height: 1.7 !important;
+    color: #e2e8f0;
     background-image: radial-gradient(
         circle at 20% 0%,
         rgba(8, 66, 140, 0.18),
         transparent 45%
       ),
-      radial-gradient(circle at 85% 10%, rgba(8, 66, 140, 0.12), transparent 40%);
+      radial-gradient(circle at 85% 10%, rgba(6, 182, 212, 0.08), transparent 40%);
     background-attachment: fixed;
   }
 
-  /* Tit yo ap pran Sora */
+  /* Asire paragraf yo respire tou */
+  p {
+    line-height: 1.75 !important;
+    color: #cbd5e1;
+  }
+
+  /* Tit yo ap pran Sora ak pi bon espasaj */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-sora), sans-serif !important;
     letter-spacing: -0.03em;
+    color: #f8fafc;
   }
 
   /* Monospace ap pran JetBrains Mono */
@@ -34,12 +52,14 @@
     font-family: var(--font-jetbrains), monospace !important;
   }
 
+  /* Koulè seleksyon an teks ki pran Cyan Accent la pou evite monokwòm */
   ::selection {
-    background-color: rgba(8, 66, 140, 0.35);
+    background-color: rgba(6, 182, 212, 0.3);
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid #3d82d9;
+    outline: 2px solid var(--color-cyan-accent);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -59,6 +79,14 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Nouvo klas rapid pou koulè aksan yo */
+  .text-accent-cyan {
+    color: var(--color-cyan-accent);
+  }
+  .bg-accent-blue {
+    background-color: var(--color-electric-blue);
   }
 }
 
@@ -85,7 +113,7 @@
   width: 700px;
   height: 700px;
   border-radius: 50%;
-  border: 1px solid rgba(61, 130, 217, 0.18);
+  border: 1px solid rgba(6, 182, 212, 0.22);
   z-index: 1;
 }
 
@@ -107,7 +135,7 @@
   z-index: 2;
 }
 
-/* Arc bleu principal */
+/* Arc bleu principal - Ajou yon bèl lonbraj Cyan pou rann li vivan */
 .hero-arc-2 {
   right: -15px;
   top: 50%;
@@ -117,8 +145,8 @@
   border: 82px solid #0a6bff;
   clip-path: inset(0 0 0 36%);
   box-shadow:
-    0 0 50px rgba(10, 107, 255, 0.25),
-    inset 0 0 25px rgba(255, 255, 255, 0.05);
+    0 0 60px rgba(6, 182, 212, 0.25),
+    inset 0 0 25px rgba(255, 255, 255, 0.08);
   z-index: 3;
 }
 
@@ -129,7 +157,7 @@
   transform: translateY(-50%);
   width: 350px;
   height: 350px;
-  border: 42px solid rgba(255, 255, 255, 0.06);
+  border: 42px solid rgba(6, 182, 212, 0.12);
   clip-path: inset(0 0 0 34%);
   z-index: 4;
 }
@@ -181,13 +209,13 @@
   height: 60px;
   border-radius: 16px;
   background: rgba(18, 25, 38, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.25);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #60a5fa;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+  color: #06b6d4;
+  box-shadow: 0 15px 35px rgba(6, 182, 212, 0.15);
   z-index: 30;
 }
 

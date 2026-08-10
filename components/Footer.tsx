@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Mail, ExternalLink, ChevronRight, Zap } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, ChevronRight, MessageSquareCode } from "lucide-react";
 import { portfolioData, personalInfo } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-// Ikòn X (Twitter)
-const XIcon = ({ size = 15 }: { size?: number }) => (
+const XIcon = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
     height={size}
@@ -18,8 +17,7 @@ const XIcon = ({ size = 15 }: { size?: number }) => (
   </svg>
 );
 
-// Ikòn WhatsApp SVG
-const WhatsappIcon = ({ size = 20 }: { size?: number }) => (
+const WhatsappIcon = ({ size = 18 }: { size?: number }) => (
   <svg
     width={size}
     height={size}
@@ -39,76 +37,80 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-white/10 bg-ink-surface/60 backdrop-blur-md font-sans text-paper">
-      <div className="mx-auto max-w-7xl px-6 py-14">
+    <footer className="mt-auto bg-gradient-to-b from-[#081226] via-[#060b18] to-[#04070e] font-sans text-paper">
+      
+      {/* Tras Blan Anlè a (Opasite Diminye pou yon efè pi dous) */}
+      <div className="w-full h-[4px] bg-white/65 shadow-[0_0_10px_rgba(255,255,255,0.15)]" />
+
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-14">
         
-        {/* Grid 4 Columns san liy vèrtikal, byen santre */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 items-start">
+        {/* Griy 4 Kolòn ak espasaj regle */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 items-start xl:gap-12">
           
           {/* Kolòn 1: Identity & Description */}
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <Link
               href="/"
-              className="text-xl font-extrabold tracking-tight text-paper transition hover:text-accent-300"
+              className="text-xl font-extrabold tracking-tight text-paper transition hover:text-cyan-400"
             >
               {personalInfo.name}
             </Link>
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent-300">
+            <p className="font-mono text-xs font-semibold uppercase tracking-wider text-cyan-400">
               {data?.personalInfo?.roles?.join(" · ") || ""}
             </p>
-            <p className="text-xs text-paper/70 leading-relaxed max-w-xs pt-1">
+            <p className="text-sm text-paper/75 leading-relaxed">
               {isEn
                 ? "Building scalable, secure web systems with a focus on code quality and DevSecOps practices."
                 : "Conception d'applications web sécurisées et évolutives, axées sur la qualité du code et la sécurité."}
             </p>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-2 pt-2">
+            <div className="flex items-center gap-3 pt-1">
               <a
                 href={personalInfo.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-paper/80 transition hover:border-accent-300 hover:bg-white/10 hover:text-accent-300"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-paper/85 transition hover:border-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
               >
-                <Github size={15} />
+                <Github size={16} />
               </a>
               <a
                 href={personalInfo.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-paper/80 transition hover:border-accent-300 hover:bg-white/10 hover:text-accent-300"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-paper/85 transition hover:border-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
               >
-                <Linkedin size={15} />
+                <Linkedin size={16} />
               </a>
               <a
                 href="https://x.com/fednelcharite"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (Twitter)"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-paper/80 transition hover:border-accent-300 hover:bg-white/10 hover:text-accent-300"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-paper/85 transition hover:border-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
               >
-                <XIcon size={13} />
+                <XIcon size={14} />
               </a>
               <a
                 href={`mailto:${personalInfo.email}`}
                 aria-label="Email"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-paper/80 transition hover:border-accent-300 hover:bg-white/10 hover:text-accent-300"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-paper/85 transition hover:border-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
               >
-                <Mail size={15} />
+                <Mail size={16} />
               </a>
             </div>
           </div>
 
-          {/* Kolòn 2: Navigation (Ti flèch devan) */}
-          <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-accent-300">
+          {/* Kolòn 2: Navigation (Eksantre pi lwen a dwat ak lg:ml-12) */}
+          <div className="space-y-4 lg:ml-12">
+            <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               NAVIGATION
             </h4>
-            <ul className="space-y-2.5 text-xs text-paper/75">
+            <ul className="space-y-3 text-sm text-paper/80">
               {[
-                { href: "/", label: isEn ? "Accueil" : "Accueil" },
+                { href: "/", label: isEn ? "Home" : "Accueil" },
                 { href: "/about", label: isEn ? "About" : "À propos" },
                 { href: "/projects", label: isEn ? "Projects" : "Projets" },
                 { href: "/contact", label: isEn ? "Contact" : "Contact" },
@@ -116,9 +118,9 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="group inline-flex items-center gap-1.5 transition hover:text-accent-300 hover:translate-x-1 duration-200"
+                    className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                   >
-                    <ChevronRight size={12} className="text-accent-300/60 transition-transform group-hover:translate-x-0.5 group-hover:text-accent-300" />
+                    <ChevronRight size={13} className="text-cyan-400/60 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
                     {item.label}
                   </Link>
                 </li>
@@ -126,22 +128,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Kolòn 3: Projets Phares */}
-          <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-accent-300">
+          {/* Kolòn 3: Featured Systems */}
+          <div className="space-y-4">
+            <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               {isEn ? "FEATURED SYSTEMS" : "PROJETS PHARES"}
             </h4>
-            <ul className="space-y-2.5 text-xs text-paper/75">
+            <ul className="space-y-3 text-sm text-paper/80">
               <li>
                 <a
                   href="https://zyeklere.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 transition hover:text-accent-300 hover:translate-x-1 duration-200"
+                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
-                  <ChevronRight size={12} className="text-accent-300/60 group-hover:text-accent-300" />
+                  <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Zye Klere</span>
-                  <ExternalLink size={10} className="text-paper/40 group-hover:text-accent-300" />
+                  <ExternalLink size={11} className="text-paper/40 group-hover:text-cyan-400" />
                 </a>
               </li>
               <li>
@@ -149,64 +151,62 @@ export default function Footer() {
                   href="https://solutionstechhub.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 transition hover:text-accent-300 hover:translate-x-1 duration-200"
+                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
-                  <ChevronRight size={12} className="text-accent-300/60 group-hover:text-accent-300" />
+                  <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Solutions Tech Hub</span>
-                  <ExternalLink size={10} className="text-paper/40 group-hover:text-accent-300" />
+                  <ExternalLink size={11} className="text-paper/40 group-hover:text-cyan-400" />
                 </a>
               </li>
               <li>
                 <Link
                   href="/projects"
-                  className="group inline-flex items-center gap-1.5 transition hover:text-accent-300 hover:translate-x-1 duration-200"
+                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
-                  <ChevronRight size={12} className="text-accent-300/60 group-hover:text-accent-300" />
+                  <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Web Security Checker</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Kolòn 4: Gwo Kat Bwat WhatsApp Vèt (Jan l ye nan foto 1) */}
-          <div className="rounded-2xl bg-[#00a884] p-5 text-white shadow-lg space-y-3">
-            <div className="flex items-center justify-between">
-              <WhatsappIcon size={26} />
-            </div>
-
-            <div>
-              <h5 className="font-bold text-sm leading-snug">
-                {isEn ? "Prefer WhatsApp?" : "Préférez-vous WhatsApp ?"}
-              </h5>
-              <p className="text-[11px] text-white/90 leading-relaxed mt-1">
+          {/* Kolòn 4: Contact & Direct WhatsApp Sync */}
+          <div className="space-y-4">
+            <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
+              {isEn ? "DIRECT CONTACT" : "CONTACT DIRECT"}
+            </h4>
+            <div className="space-y-3 text-sm text-paper/80">
+              <p className="text-xs text-paper/75 leading-relaxed">
                 {isEn
-                  ? "Write directly for a fast response."
-                  : "Écrivez-moi directement pour une réponse rapide."}
+                  ? "Available for technical collaboration and engineering opportunities."
+                  : "Disponible pour des collaborations techniques et opportunités."}
               </p>
-            </div>
+              
+              <div className="inline-flex items-center gap-1.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 text-[11px] font-mono text-emerald-300">
+                <MessageSquareCode size={12} className="text-emerald-400" />
+                <span>{isEn ? "Quick Technical Sync" : "Échange Technique"}</span>
+              </div>
 
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-black/15 px-2.5 py-1 text-[10px] font-semibold text-white">
-              <Zap size={11} className="text-yellow-300 fill-yellow-300" />
-              <span>{isEn ? "Fast response (< 1h)" : "Réponse en moins d'1h"}</span>
+              <div>
+                <a
+                  href="https://wa.me/50931554716" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-sans text-xs font-bold text-white shadow-md transition duration-200 active:scale-95"
+                >
+                  <WhatsappIcon size={16} />
+                  <span>{isEn ? "Connect via WhatsApp" : "Contacter via WhatsApp"}</span>
+                </a>
+              </div>
             </div>
-
-            <a
-              href="https://wa.me/50931554716" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full rounded-full border border-white/30 bg-white/10 px-4 py-2 font-sans text-xs font-bold text-white transition duration-200 hover:bg-white/20 active:scale-95"
-            >
-              <WhatsappIcon size={14} />
-              <span>{isEn ? "Write on WhatsApp" : "Écrire sur WhatsApp"}</span>
-            </a>
           </div>
 
         </div>
 
-        {/* Bottom Copyright Bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-center text-xs text-paper/50 sm:flex-row sm:text-left">
+        {/* Bottom Copyright Bar ak Liy Separasyon */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 text-center text-xs text-paper/60 sm:flex-row sm:text-left">
           <p>© {currentYear} {personalInfo.name}. All rights reserved.</p>
-          <p className="font-mono text-[11px]">
+          <p className="font-mono text-xs">
             {isEn ? "Built with Next.js & React · Engineered with Security" : "Conçu avec Next.js & React · Sécurité intégrée"}
           </p>
         </div>

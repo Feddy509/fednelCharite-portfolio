@@ -379,6 +379,7 @@ export const skills: Skill[] = [
   // 4. Fondations & Autres Langages
   { name: "C / C++", category: "other" },
   { name: "C# / ASP.NET", category: "other" },
+  { name: "PHP", category: "other" },
   { name: "Java Fundamentals", category: "other" },
   { name: "Git & GitHub Workflow", category: "other" },
 
@@ -387,6 +388,7 @@ export const skills: Skill[] = [
   { name: "IBM DevOps & Software Eng.", category: "certification" },
   { name: "Cisco Cybersecurity Analyst", category: "certification" },
   { name: "CompTIA Security+ (en cours)", category: "certification" },
+  { name: "AWS Certified Developer - Associate (en cours)", category: "certification" },
 ];
 export const certifications: Certification[] = [
   {
