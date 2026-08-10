@@ -8,29 +8,29 @@ export default function HeroIllustration() {
   return (
     <div className={styles.container}>
       {/* ---------------------------------------------------------------- */}
-      {/* SVG Shapes (Grand secteur blanc + Arc bleu)                     */}
+      {/* SVG Shapes (Grand secteur blanc + Arc bleu élargis)             */}
       {/* ---------------------------------------------------------------- */}
       <svg
         className={styles.heroSvg}
-        viewBox="0 0 700 700"
+        viewBox="0 0 750 750"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* 1. Grand fond blanc solide */}
         <path
-          d="M 350 350 L 120 700 A 380 380 0 0 1 680 150 Z"
+          d="M 375 375 L 100 740 A 420 420 0 0 1 720 130 Z"
           className={styles.courseraWhiteFill}
         />
 
         {/* 2. Secteur bleu massif */}
         <path
-          d="M 350 350 L 220 650 A 300 300 0 0 1 620 220 Z"
+          d="M 375 375 L 200 680 A 330 330 0 0 1 660 200 Z"
           className={styles.courseraBlueFill}
         />
 
         {/* 3. Ligne d'accentuation fine */}
         <path
-          d="M 230 640 A 290 290 0 0 1 610 230"
+          d="M 210 670 A 320 320 0 0 1 650 210"
           className={styles.innerLine}
         />
       </svg>
@@ -41,14 +41,14 @@ export default function HeroIllustration() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Photo de profil superposée à droite                             */}
+      {/* Photo de profil élargie et étirée vers les lignes vertes       */}
       {/* ---------------------------------------------------------------- */}
       <div className={styles.photoWrapper}>
         <Image
           src="/images/fednel-transparent.png"
           alt="Fednel Charité"
-          width={700}
-          height={850}
+          width={750}
+          height={900}
           priority
           className={styles.photo}
         />

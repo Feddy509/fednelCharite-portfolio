@@ -1,12 +1,12 @@
 /* ==========================================================
-   HERO ILLUSTRATION (COMPACT COURSERA FIT)
+   HERO ILLUSTRATION (SYNCHRONISÉ & RESPONSIVE)
 ========================================================== */
 
 .container {
   position: relative;
   width: 100%;
-  max-width: 520px; /* Redwi de 680px pou vini 520px */
-  height: 480px;    /* Redwi de 600px pou vini 480px */
+  max-width: 640px;
+  height: 600px;
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -29,18 +29,18 @@
 
 .courseraWhiteFill {
   fill: rgba(245, 247, 250, 0.95);
-  filter: drop-shadow(-5px 5px 15px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(-5px 5px 20px rgba(0, 0, 0, 0.2));
 }
 
 .courseraBlueFill {
   fill: #0a6bff;
-  filter: drop-shadow(0 8px 25px rgba(10, 107, 255, 0.35));
+  filter: drop-shadow(0 10px 30px rgba(10, 107, 255, 0.4));
 }
 
 .innerLine {
   fill: none;
   stroke: rgba(255, 255, 255, 0.85);
-  stroke-width: 2;
+  stroke-width: 2.5;
 }
 
 /* ==========================================================
@@ -49,45 +49,45 @@
 
 .terminalBadge {
   position: absolute;
-  top: 30%;
-  left: 36%;
+  top: 35%;
+  left: 32%;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 12px;
   background: #ffffff;
   color: #0a6bff;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* ==========================================================
-   PHOTO DE PROFIL
+   PHOTO DE PROFIL (DÉFAUT / DESKTOP)
 ========================================================== */
 
 .photoWrapper {
   position: absolute;
-  right: -10px;
-  bottom: 0;
-  width: 82%;
-  height: 100%;
+  right: -20px;
+  bottom: -15px;
+  width: 88%;
+  height: 108%;
   z-index: 10;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
 
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
 
 .photo {
   width: auto !important;
-  height: 92% !important;
-  max-height: 440px !important; /* Redwi de 520px pou vini 440px */
+  height: 98% !important;
+  max-height: 580px !important;
   object-fit: contain;
   object-position: bottom right;
-  filter: drop-shadow(-10px 10px 20px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(-12px 12px 25px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================
@@ -96,44 +96,79 @@
 
 .glowEffect {
   position: absolute;
-  width: 280px;
-  height: 280px;
+  width: 340px;
+  height: 340px;
   right: 20px;
-  top: 60px;
+  top: 50px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(10, 107, 255, 0.18),
+    rgba(10, 107, 255, 0.22),
     transparent 70%
   );
-  filter: blur(40px);
+  filter: blur(50px);
   z-index: 0;
   pointer-events: none;
 }
 
 /* ==========================================================
-   RESPONSIVE
+   RESPONSIVE DESIGN (TABLETTE & MOBILE)
 ========================================================== */
 
-@media (max-width: 1024px) {
+/* Tablette (~633x644) */
+@media (max-width: 768px) {
   .container {
-    max-width: 440px;
-    height: 400px;
+    max-width: 540px;
+    height: 520px;
     margin: 0 auto;
   }
 
+  .photoWrapper {
+    right: 20px;
+    bottom: 35px;
+    width: 88%;
+    height: 88%;
+  }
+
   .photo {
-    max-height: 360px !important;
+    height: 98% !important;
+    max-height: 660px !important;
   }
 }
 
-@media (max-width: 640px) {
+/* Mobile (~299x452) */
+@media (max-width: 480px) {
   .container {
-    max-width: 320px;
-    height: 320px;
+    max-width: 340px;
+    height: 380px;
+    margin: 0 auto;
+  }
+
+  .photoWrapper {
+    right: -15px;
+    bottom: 25px;
+    max-height: 580px;
+    width: 85%;
+    height: 100%;
   }
 
   .photo {
-    max-height: 280px !important;
+    height: 98% !important;
+  }
+
+  .terminalBadge {
+    top: 28%;
+    left: 24%;
+    transform: scale(0.85);
+  }
+
+  .courseraWhiteFill,
+  .courseraBlueFill,
+  .photo {
+    filter: none !important;
+  }
+
+  .glowEffect {
+    display: none;
   }
 }

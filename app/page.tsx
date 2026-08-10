@@ -60,61 +60,60 @@ export default function HomePage() {
     };
 
   return (
-    
     <>
       {/* ---------------------------------------------------------------- */}
-      {/* Hero Section                                                     */}
+      {/* Hero Section (Padding anlè a redwi ak eleman ki pi gwo)        */}
       {/* ---------------------------------------------------------------- */}
-      <section className="mx-auto max-w-7xl px-6 pb-12 pt-4 sm:pt-6">
+      <section className="mx-auto max-w-7xl px-6 pb-12 pt-2 sm:pt-4">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           
-          <div className="z-10">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
+          <div className="z-10 space-y-4">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
               {data?.personalInfo?.roles?.join(" · ") || ""}
             </p>
             
-            <h1 className="mt-2 text-balance font-sans text-3xl font-extrabold leading-[1.15] text-paper sm:text-4xl lg:text-5xl">
+            <h1 className="text-balance font-sans text-4xl font-extrabold leading-[1.1] text-paper sm:text-5xl lg:text-6xl">
               {data?.personalInfo?.name || "Fednel Charité"}
             </h1>
             
-            <p className="mt-4 max-w-xl text-balance font-sans text-base leading-relaxed text-paper/80">
+            <p className="max-w-xl text-balance font-sans text-base sm:text-lg leading-relaxed text-paper/90">
               {data?.personalInfo?.heroVision || ""}
             </p>
             
-            <p className="mt-2 max-w-xl font-sans text-xs leading-relaxed text-paper/50">
+            <p className="max-w-xl font-sans text-xs sm:text-sm leading-relaxed text-paper/60">
               {data?.personalInfo?.heroSubline || ""}
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <Link
                 href="/projects"
-                className="group flex items-center gap-2 rounded-lg bg-cta-gradient px-5 py-2.5 font-sans text-xs font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-105 active:scale-95"
+                className="group flex items-center gap-2 rounded-xl bg-cta-gradient px-6 py-3 font-sans text-xs sm:text-sm font-bold text-paper shadow-glow transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 {labels.btnProjects}
-                <ArrowRight size={14} />
+                <ArrowRight size={15} />
               </Link>
 
               <Link
                 href="/contact"
-                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-5 py-2.5 font-sans text-xs font-semibold text-paper transition-all duration-300 hover:scale-105 active:scale-95"
+                className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-3 font-sans text-xs sm:text-sm font-bold text-paper transition-all duration-300 hover:border-cyan-400 hover:bg-white/10 hover:scale-105 active:scale-95"
               >
-                <Mail size={14} />
+                <Mail size={15} />
                 {labels.btnContact}
               </Link>
             </div>
             
-            <div className="mt-6 flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-2.5 pt-2">
               {(data?.aboutIdentities || []).map((identity: any) => {
                 const Icon = identityIcons[identity.key as keyof typeof identityIcons] || Code2;
                 return (
                   <div
                     key={identity.key}
-                    className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-2 pr-3.5 backdrop-blur-md"
+                    className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] py-1.5 pl-2.5 pr-4 backdrop-blur-md"
                   >
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-600/20 text-accent-300">
-                      <Icon size={12} />
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400">
+                      <Icon size={13} />
                     </span>
-                    <span className="font-sans text-[11px] font-medium text-paper/80">
+                    <span className="font-sans text-xs font-semibold text-paper/90">
                       {identity.title}
                     </span>
                   </div>
@@ -136,7 +135,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-400">
               {labels.featuredBadge}
             </p>
             <h2 className="mt-1 font-sans text-2xl font-bold text-paper sm:text-3xl">
@@ -145,7 +144,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/projects"
-            className="group flex items-center gap-1.5 font-sans text-xs font-medium text-accent-300 transition hover:text-accent-200"
+            className="group flex items-center gap-1.5 font-sans text-xs font-medium text-cyan-400 transition hover:text-cyan-300"
           >
             {labels.allProjects}
             <ArrowRight size={14} />
@@ -168,7 +167,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-6 py-16">
           <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:items-center">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-300">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-400">
                 {labels.perspectiveBadge}
               </p>
               <h2 className="mt-2 font-sans text-2xl font-extrabold leading-tight text-paper sm:text-3xl">
@@ -195,9 +194,9 @@ export default function HomePage() {
           {(data.socialProof || []).map((item: any) => (
             <div
               key={item.label}
-              className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-6 text-center transition-all duration-300 hover:border-accent-500/30"
+              className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-6 text-center transition-all duration-300 hover:border-cyan-500/30"
             >
-              <p className="font-mono text-4xl font-black text-accent-300">
+              <p className="font-mono text-4xl font-black text-cyan-400">
                 {item.stat}
               </p>
               <p className="mt-2 font-sans text-xs font-medium leading-relaxed text-paper/70">
