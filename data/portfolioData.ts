@@ -395,64 +395,65 @@ export const certifications: Certification[] = [
     name: "Full Stack Software Developer",
     issuer: "IBM",
     status: "completed",
-    imageUrl: "/certificates/ibm-fullstack.png",
-    pdfUrl: "/certificates/ibm-fullstack.pdf",
+    imageUrl: "/images/certificates/ibm-fullstack.png", // Korije chemen an
+    pdfUrl: "/certificate/ibm-fullstack.pdf",          // Korije chemen an (singilye)
   },
   {
     name: "Full Stack JavaScript Developer",
     issuer: "IBM",
     status: "completed",
-    imageUrl: "/certificates/ibm-javascript.png",
-    pdfUrl: "/certificates/ibm-javascript.pdf",
+    imageUrl: "/images/certificates/ibm-javascript.png", // Asire w imaj sa a egziste nan dosye images/certificates
+    pdfUrl: "/certificate/ibm-javascript.pdf",          // Asire w PDF sa a egziste nan dosye certificate/
   },
   {
     name: "Front-End Developer",
     issuer: "IBM",
     status: "completed",
-    imageUrl: "/certificates/ibm-frontend.png",
-    pdfUrl: "/certificates/ibm-frontend.pdf",
+    imageUrl: "/images/certificates/ibm-frontend.png",
+    pdfUrl: "/certificate/ibm-frontend.pdf",
   },
+  // Rès sètifika yo...
   {
     name: "Back-End Developer",
     issuer: "IBM",
     status: "in-progress",
     progress: 95,
-    imageUrl: "/certificates/ibm-backend-badge.png",
+    imageUrl: "/images/certificates/ibm-backend-badge.png",
   },
   {
     name: "Software Engineering & DevOps",
     issuer: "IBM",
     status: "in-progress",
     progress: 90,
-    imageUrl: "/certificates/ibm-devops-badge.png",
+    imageUrl: "/images/certificates/ibm-devops-badge.png",
   },
   {
     name: "Junior Cybersecurity Analyst",
     issuer: "Cisco",
     status: "in-progress",
     progress: 90,
-    imageUrl: "/certificates/cisco-cybersecurity-badge.png",
+    imageUrl: "/images/certificates/cisco-cybersecurity-badge.png",
   },
   {
     name: "Android & iOS Development",
     issuer: "Meta / IBM",
     status: "in-progress",
     progress: 70,
-    imageUrl: "/certificates/meta-mobile-badge.png",
+    imageUrl: "/images/certificates/meta-mobile-badge.png",
   },
   {
     name: "IBM Cybersecurity Analyst",
     issuer: "IBM",
     status: "in-progress",
     progress: 60,
-    imageUrl: "/certificates/ibm-cybersecurity-badge.png",
+    imageUrl: "/images/certificates/ibm-cybersecurity-badge.png",
   },
   {
     name: "IBM Java Developer",
     issuer: "IBM",
     status: "in-progress",
     progress: 50,
-    imageUrl: "/certificates/ibm-java-badge.png",
+    imageUrl: "/images/certificates/ibm-java-badge.png",
   },
   {
     name: "Security+",
