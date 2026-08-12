@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github } from "lucide-react";
+import Image from "next/image";
+import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote } from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -35,6 +36,9 @@ export default function ContactPage() {
       btnResume: "Télécharger le CV",
       socialTitle: "Réseaux professionnels",
       socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
+      quoteText:
+        "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
+      quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
     },
     en: {
       badge: "CONTACT & COLLABORATION",
@@ -57,6 +61,9 @@ export default function ContactPage() {
       btnResume: "Download Resume",
       socialTitle: "Professional Networks",
       socialDesc: "Connect with me on LinkedIn or check my GitHub repositories.",
+      quoteText:
+        "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
+      quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
     },
   }[language] || {
     badge: "CONTACT & COLLABORATION",
@@ -79,6 +86,9 @@ export default function ContactPage() {
     btnResume: "Télécharger le CV",
     socialTitle: "Réseaux professionnels",
     socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
+    quoteText:
+      "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
+    quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -94,7 +104,7 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
       {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page                                               */}
+      {/* En-tête de la page                                                */}
       {/* ---------------------------------------------------------------- */}
       <div className="max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400 mb-4">
@@ -114,88 +124,120 @@ export default function ContactPage() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section Formulaire & Sidebar                                     */}
+      {/* Section Formulaire & Sidebar                                      */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Formulaire de contact */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all"
-        >
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="name"
-                className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-              >
-                {labels.nameLabel}
-              </label>
-              <input
-                id="name"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
-                placeholder={labels.namePlaceholder}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-              >
-                {labels.emailLabel}
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
-                placeholder={labels.emailPlaceholder}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="message"
-              className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-            >
-              {labels.messageLabel}
-            </label>
-            <textarea
-              id="message"
-              required
-              rows={6}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
-              placeholder={labels.messagePlaceholder}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
+        {/* Kolòn Gòch : Formulaire + Kat Pòtrè elaji (Zòn vèt la pran plis espas) */}
+        <div className="space-y-8">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all"
           >
-            {sent ? (
-              <>
-                <CheckCircle2 size={18} className="text-accent-300" />
-                {labels.btnSent}
-              </>
-            ) : (
-              <>
-                <Send size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
-                {labels.btnSend}
-              </>
-            )}
-          </button>
-        </form>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
+                >
+                  {labels.nameLabel}
+                </label>
+                <input
+                  id="name"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  placeholder={labels.namePlaceholder}
+                />
+              </div>
 
-        {/* Sidebar Info + Resume CTA + Socials */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
+                >
+                  {labels.emailLabel}
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  placeholder={labels.emailPlaceholder}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="message"
+                className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
+              >
+                {labels.messageLabel}
+              </label>
+              <textarea
+                id="message"
+                required
+                rows={6}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                placeholder={labels.messagePlaceholder}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
+            >
+              {sent ? (
+                <>
+                  <CheckCircle2 size={18} className="text-accent-300" />
+                  {labels.btnSent}
+                </>
+              ) : (
+                <>
+                  <Send size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  {labels.btnSend}
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* ---------------------------------------------------------------- */}
+          {/* Nouvo Kat Pòtrè Elaji (Imaj la pran plis espas sou bò dwat)      */}
+          {/* ---------------------------------------------------------------- */}
+          <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
+            <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
+            
+            <div className="grid gap-6 sm:grid-cols-[1fr_200px] sm:items-center">
+              {/* Tèks ak Sitasyon sou bò gòch */}
+              <div className="space-y-3">
+                <Quote size={24} className="text-cyan-400 opacity-80" />
+                <p className="font-sans text-xs sm:text-sm italic leading-relaxed text-paper/90">
+                  &ldquo;{labels.quoteText}&rdquo;
+                </p>
+                <p className="font-mono text-[11px] font-medium text-cyan-400">
+                  {labels.quoteAuthor}
+                </p>
+              </div>
+
+              {/* Imaj la vin pi gwo sou bò dwat (Pran tout zòn vèt la) */}
+              <div className="relative mx-auto h-44 w-full sm:h-48 overflow-hidden rounded-xl border border-white/15 shadow-2xl">
+                <Image
+                  src="/images/fednel-coding.jpg" 
+                  alt="Fednel Charité coding"
+                  fill
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Kolòn Dwat : Sidebar Info + Resume CTA + Socials */}
         <div className="space-y-6">
           {/* Email Direct */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">

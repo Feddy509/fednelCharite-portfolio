@@ -69,6 +69,11 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
+    // Ajou tèks pou nouvo kat sitasyon kontak la
+    contactQuote: {
+      text: "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
+      author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
+    },
     projectsPage: {
       badge: "PROJETS & RÉALISATIONS",
       title: "Ingénierie logicielle & Architecture applicative",
@@ -85,7 +90,7 @@ export const portfolioData = {
     personalBio: {
       title: "Mon Parcours & Vision de Développeur",
       paragraph1:
-        "En tant qu'Ingénieur Logiciel, je conçois le développement informatique comme un levier stratégique pour résoudre des défis complexes et bâtir des infrastructures numériques résilientes. Fort d'une solide formation académique en Sciences Informatiques à l'Université de Technologie d'Haïti (UNITECH), j'ambitionne de mettre mes compétences au service de projets à fort impact et d'envergure internationale.", 
+        "En tant qu'Ingénieur Logiciel, je conçois le développement informatique comme un levier stratégique pour résoudre des défis complexes et bâtir des infrastructures numériques résilientes. Fort d'une solide formation académique en Sciences Informatiques à l'Université de Technologie d'Haiti (UNITECH), j'ambitionne de mettre mes compétences au service de projets à fort impact et d'envergure internationale.", 
       paragraph2:
         "Mon parcours technique s'articule autour de trois réalisations majeures : la création de Solutions Technologies Hub pour offrir aux entreprises un partenaire fiable en ingénierie logicielle ; le lancement de Zye Klere, une plateforme dédiée à la sensibilisation à la cybersécurité et la protection des données ; et le développement d'outils Micro-SaaS (comme mon scanner d'API de sécurité) pour auditer automatiquement la vulnérabilité des applications.",
       paragraph3:
@@ -219,6 +224,11 @@ export const portfolioData = {
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
+    // Ajou tèks pou nouvo kat sitasyon kontak la nan lang anglè
+    contactQuote: {
+      text: "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
+      author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
+    },
     projectsPage: {
       badge: "PROJECTS & ENGINEERING WORK",
       title: "Software Engineering & Application Architecture",
@@ -349,11 +359,10 @@ export const portfolioData = {
 };
 
 // ----------------------------------------------------------------------------
-// Lis Konpetans ak Zouti Yo (Mete à jour pour DevSecOps & Académique)
+// Lis Konpetans ak Zouti Yo
 // ----------------------------------------------------------------------------
 
 export const skills: Skill[] = [
-  // 1. Frontend
   { name: "React / Next.js", category: "frontend" },
   { name: "TypeScript", category: "frontend" },
   { name: "Tailwind CSS & Bootstrap 5", category: "frontend" },
@@ -361,14 +370,12 @@ export const skills: Skill[] = [
   { name: "Figma (UI/UX)", category: "frontend" },
   { name: "Framer Motion", category: "frontend" },
 
-  // 2. Backend
   { name: "Node.js / NestJS / Express.js", category: "backend" },
   { name: "Python (Django, Flask)", category: "backend" },
   { name: "PostgreSQL & MongoDB", category: "backend" },
   { name: "REST API & Microservices", category: "backend" },
   { name: "Pandas (Data Processing)", category: "backend" },
 
-  // 3. DevSecOps & Security
   { name: "Docker & Kubernetes (Orchestration)", category: "security" },
   { name: "CI/CD (GitHub Actions)", category: "security" },
   { name: "Sécurité Code (SonarQube / Snyk)", category: "security" },
@@ -376,34 +383,33 @@ export const skills: Skill[] = [
   { name: "Normes OWASP Top 10", category: "security" },
   { name: "Linux, Bash & Réseau (DNS/TLS)", category: "security" },
 
-  // 4. Fondations & Autres Langages
   { name: "C / C++", category: "other" },
   { name: "C# / ASP.NET", category: "other" },
   { name: "PHP", category: "other" },
   { name: "Java Fundamentals", category: "other" },
   { name: "Git & GitHub Workflow", category: "other" },
 
-  // 5. Certifications Reference
   { name: "IBM Full Stack Developer", category: "certification" },
   { name: "IBM DevOps & Software Eng.", category: "certification" },
   { name: "Cisco Cybersecurity Analyst", category: "certification" },
   { name: "CompTIA Security+ (en cours)", category: "certification" },
   { name: "AWS Certified Developer - Associate (en cours)", category: "certification" },
 ];
+
 export const certifications: Certification[] = [
   {
     name: "Full Stack Software Developer",
     issuer: "IBM",
     status: "completed",
-    imageUrl: "/images/certificates/ibm-fullstack.png", // Korije chemen an
-    pdfUrl: "/certificate/ibm-fullstack.pdf",          // Korije chemen an (singilye)
+    imageUrl: "/images/certificates/ibm-fullstack.png",
+    pdfUrl: "/certificate/ibm-fullstack.pdf",
   },
   {
     name: "Full Stack JavaScript Developer",
     issuer: "IBM",
     status: "completed",
-    imageUrl: "/images/certificates/ibm-javascript.png", // Asire w imaj sa a egziste nan dosye images/certificates
-    pdfUrl: "/certificate/ibm-javascript.pdf",          // Asire w PDF sa a egziste nan dosye certificate/
+    imageUrl: "/images/certificates/ibm-javascript.png",
+    pdfUrl: "/certificate/ibm-javascript.pdf",
   },
   {
     name: "Front-End Developer",
@@ -412,7 +418,6 @@ export const certifications: Certification[] = [
     imageUrl: "/images/certificates/ibm-frontend.png",
     pdfUrl: "/certificate/ibm-frontend.pdf",
   },
-  // Rès sètifika yo...
   {
     name: "Back-End Developer",
     issuer: "IBM",
