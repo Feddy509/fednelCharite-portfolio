@@ -10,7 +10,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cobalt accent — primary action color, ramp built around #08428C
         accent: {
           50: "#EAF1FB",
           100: "#D0E1F7",
@@ -18,12 +17,11 @@ const config: Config = {
           300: "#6FA3E5",
           400: "#3D82D9",
           500: "#1D63BE",
-          600: "#08428C", // brand accent
+          600: "#08428C",
           700: "#06336B",
           800: "#052A59",
           900: "#041F42",
         },
-        // Cyan & Electric Blue — ajoute pou kraze monokwòm nan epi bay touche DevSecOps / Security
         cyan: {
           DEFAULT: "#06b6d4",
           50: "#ECFEFF",
@@ -40,31 +38,30 @@ const config: Config = {
           light: "#3D82D9",
           dark: "#1D63BE",
         },
-        // Dark foundation — cybersecurity / cloud register
         ink: {
-          DEFAULT: "#0F172A", // page background
-          surface: "#111827", // elevated card / nav surface
+          DEFAULT: "#0F172A",
+          surface: "#111827",
           border: "#1E293B",
           muted: "#334155",
         },
-        // Light foundation — accessibility contrast layer
         paper: {
           DEFAULT: "#F8FAFC",
           dim: "#E2E8F0",
         },
       },
       fontFamily: {
-        sans: ["var(--font-sora)", "system-ui", "sans-serif"],
-        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
+        // Separe polis yo pou chak zòn gen pwòp idantite l pwofesyonèl:
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],       // Pou kò tèks ak paragraf (Clean & Readable)
+        heading: ["var(--font-space)", "sans-serif"],               // Pou gwo tit yo (Tech & Engineering look)
+        card: ["var(--font-outfit)", "sans-serif"],                 // Pou kat yo ak sous-titres
+        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"], // Pou kòd, badj ak element DevSecOps
       },
       backgroundImage: {
-        // Entegre Cyan nan grid-glow la pou yon efè vizyèl ki pi rich
         "grid-glow":
           "radial-gradient(circle at 20% 0%, rgba(8,66,140,0.25), transparent 45%), radial-gradient(circle at 85% 15%, rgba(6,182,212,0.15), transparent 40%)",
         "cta-gradient": "linear-gradient(135deg, #08428C 0%, #1D63BE 100%)",
       },
       boxShadow: {
-        // Amelyore lonbraj ak yon ti kras cyan glow pou eleman kle yo
         glow: "0 0 0 1px rgba(6,182,212,0.35), 0 8px 30px -8px rgba(6,182,212,0.3)",
         card: "0 1px 0 rgba(248,250,252,0.04) inset, 0 20px 40px -24px rgba(0,0,0,0.6)",
       },

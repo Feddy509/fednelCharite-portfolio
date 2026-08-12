@@ -12,7 +12,7 @@
 }
 
 /* ===========================================================
-   TIPOGRAFI & STYLES DE BASE (OPTIMIZED)
+   TIPOGRAFI & STYLES DE BASE (OPTIMIZED & SPACED)
 =========================================================== */
 
 @layer base {
@@ -20,11 +20,12 @@
     scroll-behavior: smooth;
   }
 
-  /* Fond bleu uni orijinal la ak Sora + Amelyorasyon Line-Height */
+  /* Kò tèks la ap pran Inter ak pi bon espas liy (*line-height*) ak espas lèt */
   body {
-    font-family: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    line-height: 1.7 !important;
-    color: #e2e8f0;
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    line-height: 1.75 !important;
+    letter-spacing: 0.01em;
+    color: #cbd5e1;
     background-image: radial-gradient(
         circle at 20% 0%,
         rgba(8, 66, 140, 0.18),
@@ -34,25 +35,33 @@
     background-attachment: fixed;
   }
 
-  /* Asire paragraf yo respire tou */
+  /* Asire paragraf yo respire epi yo gen bon espasaj */
   p {
-    line-height: 1.75 !important;
+    line-height: 1.8 !important;
+    letter-spacing: 0.012em;
     color: #cbd5e1;
   }
 
-  /* Tit yo ap pran Sora ak pi bon espasaj */
+  /* Gwo tit yo ap pran Space Grotesk ak yon espasaj ki pa fè lèt yo kole */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sora), sans-serif !important;
-    letter-spacing: -0.03em;
+    font-family: var(--font-space), sans-serif !important;
+    letter-spacing: -0.015em; /* Diminye efè kole a pou tit yo parèt klè */
+    line-height: 1.25;
     color: #f8fafc;
   }
 
-  /* Monospace ap pran JetBrains Mono */
-  code, pre, .font-mono {
-    font-family: var(--font-jetbrains), monospace !important;
+  /* Kat yo ap pran Outfit pou yon bèl idantite vizyèl */
+  .card-title, h3 {
+    font-family: var(--font-outfit), sans-serif !important;
   }
 
-  /* Koulè seleksyon an teks ki pran Cyan Accent la pou evite monokwòm */
+  /* Monospace ap pran JetBrains Mono pou badj ak kòd DevSecOps */
+  code, pre, .font-mono {
+    font-family: var(--font-jetbrains), monospace !important;
+    letter-spacing: 0em;
+  }
+
+  /* Koulè seleksyon an teks ki pran Cyan Accent la */
   ::selection {
     background-color: rgba(6, 182, 212, 0.3);
     color: #ffffff;
@@ -81,7 +90,7 @@
     text-wrap: balance;
   }
   
-  /* Nouvo klas rapid pou koulè aksan yo */
+  /* Klas rapid pou koulè aksan yo */
   .text-accent-cyan {
     color: var(--color-cyan-accent);
   }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, Outfit, JetBrains_Mono } from "next/font/google";
 // @ts-ignore
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -8,14 +8,28 @@ import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
 import { LanguageProvider } from "@/app/context/LanguageContext";
 
-// 1. Config polis Sora (Mete `--font-sora` pou Tailwind ak CSS ka detekte l)
-const sora = Sora({
+// 1. Config polis Inter (Kò tèks ak paragraf)
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sora",
+  variable: "--font-inter",
   display: "swap",
 });
 
-// 2. Config polis JetBrains Mono (Mete `--font-jetbrains`)
+// 2. Config polis Space Grotesk (Gwo tit yo / headings)
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  display: "swap",
+});
+
+// 3. Config polis Outfit (Kat yo / cards)
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+// 4. Config polis JetBrains Mono (DevSecOps, kòd ak badj)
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
@@ -47,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${sora.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-ink font-sans text-paper antialiased selection:bg-accent-600/30 selection:text-paper">
         <LanguageProvider>
