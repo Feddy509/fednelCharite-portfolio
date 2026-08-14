@@ -35,6 +35,13 @@ export interface Project {
 
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
+export interface ResumeItem {
+  id: ResumeProfile;
+  label: string;
+  description: string;
+  file: string;
+}
+
 export const personalInfo = {
   name: "Fednel Charité",
   initials: "FC",
@@ -69,7 +76,6 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
-    // Ajou tèks pou nouvo kat sitasyon kontak la
     contactQuote: {
       text: "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
@@ -167,39 +173,30 @@ export const portfolioData = {
       },
     ] as Project[],
     socialProof: [
-      {
-        stat: "4+",
-        label: "Certifications professionnelles obtenues (IBM, Cisco)",
-      },
-      {
-        stat: "3",
-        label: "Applications web complètes conçues et déployées",
-      },
-      {
-        stat: "3",
-        label: "Plateformes & initiatives technologiques lancées",
-      },
+      { stat: "4+", label: "Certifications professionnelles obtenues (IBM, Cisco)" },
+      { stat: "3", label: "Applications web complètes conçues et déployées" },
+      { stat: "3", label: "Plateformes & initiatives technologiques lancées" },
     ],
     resumeProfiles: [
       {
         id: "full-stack",
-        label: "Full-Stack Developer",
+        label: "Développeur Full-Stack",
         description: "Accent mis sur React, Next.js, NestJS et la livraison de produits complets.",
-        file: "/resumes/fednel-charite-full-stack.pdf",
+        file: "/resumes/fednel-charite-full-stack-fr.pdf",
       },
       {
         id: "backend",
-        label: "Backend Developer",
+        label: "Développeur Backend",
         description: "Accent mis sur l'architecture API, les bases de données et l'infrastructure.",
-        file: "/resumes/fednel-charite-backend.pdf",
+        file: "/resumes/fednel-charite-backend-fr.pdf",
       },
       {
         id: "devsecops",
-        label: "DevSecOps Engineer",
-        description: "Accent mis sur la sécurité applicative, Docker et les pratiques DevSecOps.",
-        file: "/resumes/fednel-charite-devsecops.pdf",
+        label: "Ingénieur DevSecOps",
+        description: "Accent mis sur la sécurité applicative, Docker et les pipelines CI/CD.",
+        file: "/resumes/fednel-charite-devsecops-fr.pdf",
       },
-    ] as { id: ResumeProfile; label: string; description: string; file: string }[],
+    ] as ResumeItem[],
   },
 
   en: {
@@ -224,7 +221,6 @@ export const portfolioData = {
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
-    // Ajou tèks pou nouvo kat sitasyon kontak la nan lang anglè
     contactQuote: {
       text: "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
@@ -245,7 +241,7 @@ export const portfolioData = {
     personalBio: {
       title: "My Background & Engineering Journey",
       paragraph1:
-        "As a Software Engineer, I view software development as a strategic lever to solve complex challenges and build resilient digital infrastructure. Backed by rigorous academic training in Computer Science at the Haiti University of Technology (UNITECH), I aim to leverage my engineering skill set to contribute meaningfully to high-impact global technology initiatives.",   
+        "As a Software Engineer, I view software development as a strategic lever to solve complex challenges and build resilient digital infrastructure. Backed by rigorous academic training in Computer Science at the Haiti University of Technology (UNITECH), I aim to leverage my engineering skill set to contribute meaningfully to high-impact global technology initiatives.",  
       paragraph2:
         "My technical journey is built on three core milestones: founding Solutions Technologies Hub to provide businesses with a reliable software engineering partner; launching Zye Klere, a platform dedicated to cybersecurity awareness and data privacy education; and engineering Micro-SaaS tools (such as my security API scanner) to automatically audit application vulnerability postures.",
       paragraph3:
@@ -322,39 +318,30 @@ export const portfolioData = {
       },
     ] as Project[],
     socialProof: [
-      {
-        stat: "4+",
-        label: "Validated professional certifications earned (IBM, Cisco)",
-      },
-      {
-        stat: "3",
-        label: "End-to-end web applications engineered & deployed",
-      },
-      {
-        stat: "3",
-        label: "Tech initiatives & digital platforms launched",
-      },
+      { stat: "4+", label: "Validated professional certifications earned (IBM, Cisco)" },
+      { stat: "3", label: "End-to-end web applications engineered & deployed" },
+      { stat: "3", label: "Tech initiatives & digital platforms launched" },
     ],
     resumeProfiles: [
       {
         id: "full-stack",
         label: "Full-Stack Developer",
         description: "Focus on React, Next.js, NestJS, and shipping complete digital products.",
-        file: "/resumes/fednel-charite-full-stack.pdf",
+        file: "/resumes/fednel-charite-full-stack-en.pdf",
       },
       {
         id: "backend",
         label: "Backend Developer",
         description: "Focus on API architecture, database optimization, and infrastructure.",
-        file: "/resumes/fednel-charite-backend.pdf",
+        file: "/resumes/fednel-charite-backend-en.pdf",
       },
       {
         id: "devsecops",
         label: "DevSecOps Engineer",
         description: "Focus on application security, Docker containerization, and CI/CD pipelines.",
-        file: "/resumes/fednel-charite-devsecops.pdf",
+        file: "/resumes/fednel-charite-devsecops-en.pdf",
       },
-    ] as { id: ResumeProfile; label: string; description: string; file: string }[],
+    ] as ResumeItem[],
   },
 };
 

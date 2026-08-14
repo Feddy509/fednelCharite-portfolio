@@ -49,6 +49,7 @@ export default function ContactPage() {
       nameLabel: "Full Name",
       namePlaceholder: "e.g., Jean Lucien",
       emailLabel: "Email Address",
+      emailLabel: "Email Address",
       emailPlaceholder: "you@example.com",
       messageLabel: "Message",
       messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
@@ -102,7 +103,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper overflow-x-hidden">
       {/* ---------------------------------------------------------------- */}
       {/* En-tête de la page                                                */}
       {/* ---------------------------------------------------------------- */}
@@ -115,10 +116,10 @@ export default function ContactPage() {
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
           {labels.badge}
         </p>
-        <h1 className="mt-2 font-sans text-3xl font-extrabold leading-tight text-paper sm:text-4xl lg:text-5xl">
+        <h1 className="mt-2 font-sans text-2xl sm:text-3xl lg:text-5xl font-extrabold leading-tight text-paper">
           {labels.title}
         </h1>
-        <p className="mt-4 font-sans text-base leading-relaxed text-paper/75 sm:text-lg">
+        <p className="mt-4 font-sans text-sm sm:text-base leading-relaxed text-paper/75">
           {labels.subtitle}
         </p>
       </div>
@@ -126,12 +127,12 @@ export default function ContactPage() {
       {/* ---------------------------------------------------------------- */}
       {/* Section Formulaire & Sidebar                                      */}
       {/* ---------------------------------------------------------------- */}
-      <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Kolòn Gòch : Formulaire + Kat Pòtrè elaji (Zòn vèt la pran plis espas) */}
-        <div className="space-y-8">
+      <div className="mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        {/* Kolòn Gòch : Formulaire + Kat Pòtrè (Adapte pou mobil ak PC) */}
+        <div className="space-y-6">
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all"
+            className="space-y-6 rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition-all"
           >
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
@@ -207,14 +208,14 @@ export default function ContactPage() {
           </form>
 
           {/* ---------------------------------------------------------------- */}
-          {/* Nouvo Kat Pòtrè Elaji (Imaj la pran plis espas sou bò dwat)      */}
+          {/* Kat Pòtrè / Sitasyon (Anpile sou mobil, de kolòn sou gran ekran)  */}
           {/* ---------------------------------------------------------------- */}
-          <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
+          <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
             <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
             
-            <div className="grid gap-6 sm:grid-cols-[1fr_200px] sm:items-center">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
               {/* Tèks ak Sitasyon sou bò gòch */}
-              <div className="space-y-3">
+              <div className="space-y-3 order-2 sm:order-1">
                 <Quote size={24} className="text-cyan-400 opacity-80" />
                 <p className="font-sans text-xs sm:text-sm italic leading-relaxed text-paper/90">
                   &ldquo;{labels.quoteText}&rdquo;
@@ -224,13 +225,14 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Imaj la vin pi gwo sou bò dwat (Pran tout zòn vèt la) */}
-              <div className="relative mx-auto h-44 w-full sm:h-48 overflow-hidden rounded-xl border border-white/15 shadow-2xl">
-                <Image
-                  src="/images/fednel-coding.jpg" 
-                  alt="Fednel Charité coding"
-                  fill
-                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              {/* Imaj la sou bò dwat (anlè sou mobil, bò dwat sou PC) */}
+              <div className="relative mx-auto w-full h-40 sm:h-48 order-1 sm:order-2 overflow-hidden rounded-xl border border-white/15 shadow-xl">
+               <Image
+                 src="/images/fednel-coding.jpg" 
+                 alt="Fednel Charité coding"
+                 fill
+                 priority 
+                 className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
@@ -240,7 +242,7 @@ export default function ContactPage() {
         {/* Kolòn Dwat : Sidebar Info + Resume CTA + Socials */}
         <div className="space-y-6">
           {/* Email Direct */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <Mail size={20} />
             </span>
@@ -256,7 +258,7 @@ export default function ContactPage() {
           </div>
 
           {/* Hiring / Resume Modal Card */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <FileText size={20} />
             </span>
@@ -277,7 +279,7 @@ export default function ContactPage() {
           </div>
 
           {/* Social Networks Card */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <MessageSquare size={20} />
             </span>
@@ -287,7 +289,7 @@ export default function ContactPage() {
             <p className="mt-2 font-sans text-sm leading-relaxed text-paper/65">
               {labels.socialDesc}
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               <a
                 href={personalInfo.social.linkedin}
                 target="_blank"
