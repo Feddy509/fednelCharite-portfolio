@@ -39,7 +39,6 @@ export interface ResumeItem {
   id: ResumeProfile;
   label: string;
   description: string;
-  file: string;
 }
 
 export const personalInfo = {
@@ -182,19 +181,16 @@ export const portfolioData = {
         id: "full-stack",
         label: "Développeur Full-Stack",
         description: "Accent mis sur React, Next.js, NestJS et la livraison de produits complets.",
-        file: "/resumes/fednel-charite-full-stack-fr.pdf",
       },
       {
         id: "backend",
         label: "Développeur Backend",
         description: "Accent mis sur l'architecture API, les bases de données et l'infrastructure.",
-        file: "/resumes/fednel-charite-backend-fr.pdf",
       },
       {
         id: "devsecops",
         label: "Ingénieur DevSecOps",
         description: "Accent mis sur la sécurité applicative, Docker et les pipelines CI/CD.",
-        file: "/resumes/fednel-charite-devsecops-fr.pdf",
       },
     ] as ResumeItem[],
   },
@@ -327,19 +323,16 @@ export const portfolioData = {
         id: "full-stack",
         label: "Full-Stack Developer",
         description: "Focus on React, Next.js, NestJS, and shipping complete digital products.",
-        file: "/resumes/fednel-charite-full-stack-en.pdf",
       },
       {
         id: "backend",
         label: "Backend Developer",
         description: "Focus on API architecture, database optimization, and infrastructure.",
-        file: "/resumes/fednel-charite-backend-en.pdf",
       },
       {
         id: "devsecops",
         label: "DevSecOps Engineer",
         description: "Focus on application security, Docker containerization, and CI/CD pipelines.",
-        file: "/resumes/fednel-charite-devsecops-en.pdf",
       },
     ] as ResumeItem[],
   },

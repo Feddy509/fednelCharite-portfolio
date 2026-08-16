@@ -28,13 +28,13 @@ export default function Navbar() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-sans text-sm font-semibold tracking-wide text-paper"
+          className="font-heading text-sm sm:text-base font-semibold tracking-wide text-paper flex items-center"
           onClick={() => setMobileOpen(false)}
         >
           <span className="rounded-md bg-accent-600 px-2 py-1 font-mono text-xs text-paper">
             {personalInfo.initials}
           </span>
-          <span className="ml-2 hidden sm:inline">{personalInfo.name}</span>
+          <span className="ml-2.5 hidden sm:inline">{personalInfo.name}</span>
         </Link>
 
         {/* Desktop links (Dinamik pa lang) */}

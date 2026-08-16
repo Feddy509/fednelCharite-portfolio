@@ -49,7 +49,6 @@ export default function ContactPage() {
       nameLabel: "Full Name",
       namePlaceholder: "e.g., Jean Lucien",
       emailLabel: "Email Address",
-      emailLabel: "Email Address",
       emailPlaceholder: "you@example.com",
       messageLabel: "Message",
       messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
@@ -314,7 +313,7 @@ export default function ContactPage() {
                 className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 font-mono text-xs text-paper/80 hover:text-paper hover:border-accent-400/50 transition"
               >
                 {/* Icône SVG pou X */}
-                <svg size={14} className="h-3.5 w-3.5 fill-current text-accent-300" viewBox="0 0 24 24">
+                <svg width="24" height="24" className="h-3.5 w-3.5 fill-current text-accent-300" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg> 
                 X (Twitter)

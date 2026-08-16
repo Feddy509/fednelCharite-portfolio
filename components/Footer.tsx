@@ -39,26 +39,26 @@ export default function Footer() {
   return (
     <footer className="mt-auto bg-gradient-to-b from-[#081226] via-[#060b18] to-[#04070e] font-sans text-paper">
       
-      {/* Tras Blan Anlè a (Opasite Diminye pou yon efè pi dous) */}
+      {/* Tras Blan Anlè a */}
       <div className="w-full h-[4px] bg-white/65 shadow-[0_0_10px_rgba(255,255,255,0.15)]" />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-14">
         
-        {/* Griy 4 Kolòn ak espasaj regle */}
+        {/* Griy 4 Kolòn */}
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 items-start xl:gap-12">
           
           {/* Kolòn 1: Identity & Description */}
           <div className="space-y-3.5">
             <Link
               href="/"
-              className="text-xl font-extrabold tracking-tight text-paper transition hover:text-cyan-400"
+              className="font-heading text-xl font-extrabold text-paper transition hover:text-cyan-400"
             >
               {personalInfo.name}
             </Link>
             <p className="font-mono text-xs font-semibold uppercase tracking-wider text-cyan-400">
               {data?.personalInfo?.roles?.join(" · ") || ""}
             </p>
-            <p className="text-sm text-paper/75 leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-paper/75 leading-relaxed">
               {isEn
                 ? "Building scalable, secure web systems with a focus on code quality and DevSecOps practices."
                 : "Conception d'applications web sécurisées et évolutives, axées sur la qualité du code et la sécurité."}
@@ -103,7 +103,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Kolòn 2: Navigation (Eksantre pi lwen a dwat ak lg:ml-12) */}
+          {/* Kolòn 2: Navigation */}
           <div className="space-y-4 lg:ml-12">
             <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               NAVIGATION
@@ -118,7 +118,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
+                    className="group font-sans inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                   >
                     <ChevronRight size={13} className="text-cyan-400/60 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
                     {item.label}
@@ -139,7 +139,7 @@ export default function Footer() {
                   href="https://zyeklere.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
+                  className="group font-sans inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
                   <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Zye Klere</span>
@@ -151,7 +151,7 @@ export default function Footer() {
                   href="https://solutionstechhub.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
+                  className="group font-sans inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
                   <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Solutions Tech Hub</span>
@@ -161,7 +161,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/projects"
-                  className="group inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
+                  className="group font-sans inline-flex items-center gap-2 transition hover:text-cyan-400 hover:translate-x-1 duration-200"
                 >
                   <ChevronRight size={13} className="text-cyan-400/60 group-hover:text-cyan-400" />
                   <span>Web Security Checker</span>
@@ -176,7 +176,7 @@ export default function Footer() {
               {isEn ? "DIRECT CONTACT" : "CONTACT DIRECT"}
             </h4>
             <div className="space-y-3 text-sm text-paper/80">
-              <p className="text-xs text-paper/75 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm text-paper/75 leading-relaxed">
                 {isEn
                   ? "Available for technical collaboration and engineering opportunities."
                   : "Disponible pour des collaborations techniques et opportunités."}
@@ -192,7 +192,7 @@ export default function Footer() {
                   href="https://wa.me/50931554716" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-sans text-xs font-bold text-white shadow-md transition duration-200 active:scale-95"
+                  className="flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-sans text-xs sm:text-sm font-bold text-white shadow-md transition duration-200 active:scale-95"
                 >
                   <WhatsappIcon size={16} />
                   <span>{isEn ? "Connect via WhatsApp" : "Contacter via WhatsApp"}</span>
@@ -203,9 +203,9 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Copyright Bar ak Liy Separasyon */}
+        {/* Bottom Copyright Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 text-center text-xs text-paper/60 sm:flex-row sm:text-left">
-          <p>© {currentYear} {personalInfo.name}. All rights reserved.</p>
+          <p className="font-sans">© {currentYear} {personalInfo.name}. All rights reserved.</p>
           <p className="font-mono text-xs">
             {isEn ? "Built with Next.js & React · Engineered with Security" : "Conçu avec Next.js & React · Sécurité intégrée"}
           </p>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ===========================================================
-   CUSTOM ACCENT COLORS & VARIABLES (UI/UX UPGRADE)
+   CUSTOM ACCENT COLORS & VARIABLES
 =========================================================== */
 :root {
   --color-electric-blue: #2563eb;
@@ -20,7 +20,6 @@
     scroll-behavior: smooth;
   }
 
-  /* Kò tèks la ap pran Inter ak pi bon espas liy (*line-height*) ak espas lèt */
   body {
     font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     line-height: 1.75 !important;
@@ -35,33 +34,31 @@
     background-attachment: fixed;
   }
 
-  /* Asire paragraf yo respire epi yo gen bon espasaj */
   p {
     line-height: 1.8 !important;
     letter-spacing: 0.012em;
     color: #cbd5e1;
   }
 
-  /* Gwo tit yo ap pran Space Grotesk ak yon espasaj ki pa fè lèt yo kole */
+  /* Gwo tit yo pran Space Grotesk */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-space), sans-serif !important;
-    letter-spacing: -0.015em; /* Diminye efè kole a pou tit yo parèt klè */
+    letter-spacing: -0.01em; 
     line-height: 1.25;
     color: #f8fafc;
   }
 
-  /* Kat yo ap pran Outfit pou yon bèl idantite vizyèl */
-  .card-title, h3 {
-    font-family: var(--font-outfit), sans-serif !important;
+  /* Kat yo ak tit kat yo pran Plus Jakarta Sans */
+  .card-title, .card-heading {
+    font-family: var(--font-jakarta), sans-serif !important;
   }
 
-  /* Monospace ap pran JetBrains Mono pou badj ak kòd DevSecOps */
+  /* Monospace pou JetBrains Mono */
   code, pre, .font-mono {
     font-family: var(--font-jetbrains), monospace !important;
     letter-spacing: 0em;
   }
 
-  /* Koulè seleksyon an teks ki pran Cyan Accent la */
   ::selection {
     background-color: rgba(6, 182, 212, 0.3);
     color: #ffffff;
@@ -90,7 +87,6 @@
     text-wrap: balance;
   }
   
-  /* Klas rapid pou koulè aksan yo */
   .text-accent-cyan {
     color: var(--color-cyan-accent);
   }
@@ -100,7 +96,7 @@
 }
 
 /* ===========================================================
-   HERO ILLUSTRATION
+   HERO ILLUSTRATION & STYLES
 =========================================================== */
 
 .hero-right {
@@ -113,7 +109,6 @@
   overflow: hidden;
 }
 
-/* Contour extérieur */
 .hero-outline {
   position: absolute;
   right: -130px;
@@ -126,13 +121,11 @@
   z-index: 1;
 }
 
-/* Arc commun */
 .hero-arc {
   position: absolute;
   border-radius: 50%;
 }
 
-/* Arc extérieur clair */
 .hero-arc-1 {
   right: -70px;
   top: 50%;
@@ -144,7 +137,6 @@
   z-index: 2;
 }
 
-/* Arc bleu principal - Ajou yon bèl lonbraj Cyan pou rann li vivan */
 .hero-arc-2 {
   right: -15px;
   top: 50%;
@@ -159,7 +151,6 @@
   z-index: 3;
 }
 
-/* Arc intérieur */
 .hero-arc-3 {
   right: 55px;
   top: 50%;
@@ -170,10 +161,6 @@
   clip-path: inset(0 0 0 34%);
   z-index: 4;
 }
-
-/* ===========================================================
-   PHOTO
-=========================================================== */
 
 .hero-photo-wrapper {
   position: absolute;
@@ -205,10 +192,6 @@
   transform: translateX(-55px) scale(1.02);
 }
 
-/* ===========================================================
-   TERMINAL
-=========================================================== */
-
 .hero-terminal {
   position: absolute;
   left: 95px;
@@ -228,99 +211,28 @@
   z-index: 30;
 }
 
-/* ===========================================================
-   RESPONSIVE
-=========================================================== */
-
 @media (max-width: 1280px) {
-  .hero-right {
-    height: 580px;
-  }
-
-  .hero-outline {
-    width: 620px;
-    height: 620px;
-    right: -120px;
-  }
-
-  .hero-arc-1 {
-    width: 500px;
-    height: 500px;
-    border-width: 65px;
-  }
-
-  .hero-arc-2 {
-    width: 420px;
-    height: 420px;
-    border-width: 72px;
-  }
-
-  .hero-arc-3 {
-    width: 310px;
-    height: 310px;
-    border-width: 36px;
-  }
-
-  .hero-photo-wrapper {
-    width: 500px;
-    height: 560px;
-  }
+  .hero-right { height: 580px; }
+  .hero-outline { width: 620px; height: 620px; right: -120px; }
+  .hero-arc-1 { width: 500px; height: 500px; border-width: 65px; }
+  .hero-arc-2 { width: 420px; height: 420px; border-width: 72px; }
+  .hero-arc-3 { width: 310px; height: 310px; border-width: 36px; }
+  .hero-photo-wrapper { width: 500px; height: 560px; }
 }
 
 @media (max-width: 1024px) {
-  .hero-right {
-    height: 520px;
-    justify-content: center;
-  }
-
-  .hero-photo {
-    transform: none;
-  }
-
-  .hero-photo:hover {
-    transform: scale(1.02);
-  }
-
-  .hero-terminal {
-    left: 40px;
-  }
+  .hero-right { height: 520px; justify-content: center; }
+  .hero-photo { transform: none; }
+  .hero-photo:hover { transform: scale(1.02); }
+  .hero-terminal { left: 40px; }
 }
 
 @media (max-width: 768px) {
-  .hero-right {
-    height: 430px;
-    margin-top: 40px;
-  }
-
-  .hero-outline {
-    display: none;
-  }
-
-  .hero-terminal {
-    display: none;
-  }
-
-  .hero-arc-1 {
-    width: 390px;
-    height: 390px;
-    border-width: 48px;
-  }
-
-  .hero-arc-2 {
-    width: 320px;
-    height: 320px;
-    border-width: 55px;
-  }
-
-  .hero-arc-3 {
-    width: 235px;
-    height: 235px;
-    border-width: 28px;
-  }
-
-  .hero-photo-wrapper {
-    width: 340px;
-    height: 410px;
-    right: 0;
-  }
+  .hero-right { height: 430px; margin-top: 40px; }
+  .hero-outline { display: none; }
+  .hero-terminal { display: none; }
+  .hero-arc-1 { width: 390px; height: 390px; border-width: 48px; }
+  .hero-arc-2 { width: 320px; height: 320px; border-width: 55px; }
+  .hero-arc-3 { width: 235px; height: 235px; border-width: 28px; }
+  .hero-photo-wrapper { width: 340px; height: 410px; right: 0; }
 }

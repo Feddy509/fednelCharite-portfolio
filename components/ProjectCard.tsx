@@ -12,14 +12,12 @@ export default function ProjectCard({ project }: { project: Project }) {
   const stackList = project.stack || [];
   const description = project.tagline || "";
 
-  // Diksyonè tradiksyon pou label kategori yo
   const categoryLabels: Record<string, { fr: string; en: string }> = {
     "full-stack": { fr: "Full-Stack", en: "Full-Stack" },
     security: { fr: "DevSecOps / Sécurité", en: "DevSecOps / Security" },
     "mobile-cloud": { fr: "Mobile / Cloud", en: "Mobile / Cloud" },
   };
 
-  // Diksyonè ti tèks estatik yo
   const labels = {
     fr: {
       problem: "Problème",
@@ -53,7 +51,6 @@ export default function ProjectCard({ project }: { project: Project }) {
       className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-card backdrop-blur-sm transition-all hover:border-accent-500/40 hover:shadow-glow"
     >
       <div>
-        {/* Badges de catégories (Dinamik pa lang) */}
         <div className="flex flex-wrap items-center gap-1.5">
           {categories.map((cat) => (
             <span
@@ -65,17 +62,17 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {/* Titre */}
-        <h3 className="mt-4 font-sans text-lg font-bold text-paper group-hover:text-accent-300 transition-colors">
+        {/* Titre Kat la: Plus Jakarta Sans + text-lg sm:text-xl font-bold */}
+        <h3 className="mt-4 font-card text-lg sm:text-xl font-bold text-paper group-hover:text-accent-300 transition-colors">
           {project.title}
         </h3>
 
-        {/* Tagline / Description */}
-        <p className="mt-2 font-sans text-sm leading-relaxed text-paper/70">
+        {/* Deskripsyon / Tagline: text-sm sm:text-base */}
+        <p className="mt-2 font-sans text-sm sm:text-base leading-relaxed text-paper/75">
           {description}
         </p>
 
-        {/* Problème & Solution (Dinamik pa lang) */}
+        {/* Seksyon Problem & Solution: text-xs sm:text-sm */}
         {(project.problem || project.solution) && (
           <div className="mt-4 space-y-2 border-t border-white/5 pt-4">
             {project.problem && (
@@ -83,7 +80,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <p className="font-mono text-[10px] uppercase tracking-wider text-paper/40">
                   {labels.problem}
                 </p>
-                <p className="mt-0.5 font-sans text-xs leading-relaxed text-paper/60 line-clamp-2">
+                <p className="mt-0.5 font-sans text-xs sm:text-sm leading-relaxed text-paper/65 line-clamp-2">
                   {project.problem}
                 </p>
               </div>
@@ -93,7 +90,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <p className="font-mono text-[10px] uppercase tracking-wider text-paper/40">
                   {labels.solution}
                 </p>
-                <p className="mt-0.5 font-sans text-xs leading-relaxed text-paper/60 line-clamp-2">
+                <p className="mt-0.5 font-sans text-xs sm:text-sm leading-relaxed text-paper/65 line-clamp-2">
                   {project.solution}
                 </p>
               </div>
@@ -103,7 +100,6 @@ export default function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div>
-        {/* Stack Technique Badges */}
         <div className="mt-5 flex flex-wrap gap-1.5">
           {stackList.map((tech) => (
             <span
@@ -115,14 +111,13 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {/* Liens externes (Dinamik pa lang) */}
         <div className="mt-6 flex items-center gap-4 border-t border-white/5 pt-4">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 font-sans text-xs font-semibold text-accent-300 transition hover:text-accent-200"
+              className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-accent-300 transition hover:text-accent-200"
             >
               {labels.viewSite}
               <ArrowUpRight size={14} />
@@ -133,14 +128,14 @@ export default function ProjectCard({ project }: { project: Project }) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 font-sans text-xs font-semibold text-paper/60 transition hover:text-paper"
+              className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-paper/60 transition hover:text-paper"
             >
               <Github size={14} />
               {labels.code}
             </a>
           )}
           {!project.liveUrl && !project.githubUrl && (
-            <span className="flex items-center gap-1.5 font-sans text-xs text-paper/35">
+            <span className="flex items-center gap-1.5 font-sans text-xs sm:text-sm text-paper/35">
               <Clock size={13} />
               {labels.comingSoon}
             </span>

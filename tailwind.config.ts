@@ -50,11 +50,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Separe polis yo pou chak zòn gen pwòp idantite l pwofesyonèl:
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],       // Pou kò tèks ak paragraf (Clean & Readable)
-        heading: ["var(--font-space)", "sans-serif"],               // Pou gwo tit yo (Tech & Engineering look)
-        card: ["var(--font-outfit)", "sans-serif"],                 // Pou kat yo ak sous-titres
-        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"], // Pou kòd, badj ak element DevSecOps
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        heading: ["var(--font-space)", "sans-serif"], // Space Grotesk pou gwo tit yo
+        card: ["var(--font-jakarta)", "sans-serif"],    // Plus Jakarta Sans pou kat yo
+        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
       },
       backgroundImage: {
         "grid-glow":

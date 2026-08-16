@@ -17,8 +17,9 @@ import { cn } from "@/lib/utils";
 
 interface ResumeModalContextValue {
   isOpen: boolean;
-  openModal: () => void;
+  openModal: (lang?: 'en' | 'fr') => void;
   closeModal: () => void;
+  currentLang: 'en' | 'fr';
 }
 
 const ResumeModalContext = createContext<ResumeModalContextValue | null>(null);
@@ -37,21 +38,34 @@ const profileIcons: Record<ResumeProfile, typeof Layers> = {
   devsecops: ShieldCheck,
 };
 
-export function ResumeModalProvider({ children }: { children: ReactNode }) {
+export function ResumeModalProvider({ 
+  children, 
+  defaultLang = 'fr' 
+}: { 
+  children: ReactNode;
+  defaultLang?: 'en' | 'fr';
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<ResumeProfile | null>("full-stack");
+  const [currentLang, setCurrentLang] = useState<'en' | 'fr'>(defaultLang);
+
+  const openModal = (lang: 'en' | 'fr' = defaultLang) => {
+    setCurrentLang(lang);
+    setIsOpen(true);
+  };
 
   const closeModal = () => {
     setIsOpen(false);
     setTimeout(() => setSelected(null), 250);
   };
 
-  // Nou itilize done franse yo pou lis profil yo nan modal la (oswa ou ka chwazi nenpòt lang)
-  const resumeProfiles = portfolioData.fr.resumeProfiles;
+  // Sekirite pou asire currentLang toujou valid (en oswa fr)
+  const safeLang = (currentLang === 'en' || currentLang === 'fr') ? currentLang : 'fr';
+  const resumeProfiles = portfolioData[safeLang]?.resumeProfiles || portfolioData.fr.resumeProfiles;
 
   return (
     <ResumeModalContext.Provider
-      value={{ isOpen, openModal: () => setIsOpen(true), closeModal }}
+      value={{ isOpen, openModal, closeModal, currentLang }}
     >
       {children}
 
@@ -89,10 +103,12 @@ export function ResumeModalProvider({ children }: { children: ReactNode }) {
                     id="resume-modal-title"
                     className="font-sans text-lg font-semibold text-white"
                   >
-                    Télécharger mon CV / Download Resume
+                    {safeLang === 'en' ? 'Download Resume' : 'Télécharger mon CV'}
                   </h2>
                   <p className="mt-1 text-sm text-gray-400">
-                    Choisissez un profil technique et téléchargez la version de votre choix.
+                    {safeLang === 'en'
+                      ? 'Choose a technical profile and download the version of your choice.'
+                      : 'Choisissez un profil technique et téléchargez la version de votre choix.'}
                   </p>
                 </div>
                 <button
@@ -158,7 +174,7 @@ export function ResumeModalProvider({ children }: { children: ReactNode }) {
                       className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
                     >
                       <Download size={16} />
-                      Download English CV (PDF)
+                      {safeLang === 'en' ? 'Download English CV (PDF)' : 'Download English CV (PDF)'}
                     </a>
 
                     {/* 2. French Download Button (Anba) */}
@@ -168,13 +184,15 @@ export function ResumeModalProvider({ children }: { children: ReactNode }) {
                       onClick={closeModal}
                       className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
                     >
-                      <Download size5={16} />
-                      Télécharger le CV en Français (PDF)
+                      <Download size={16} />
+                      {safeLang === 'en' ? 'Download French CV (PDF)' : 'Télécharger le CV en Français (PDF)'}
                     </a>
                   </>
                 ) : (
                   <div className="text-center text-sm text-gray-500 py-2">
-                    Veuillez sélectionner un profil ci-dessus pour afficher les options.
+                    {safeLang === 'en'
+                      ? 'Please select a profile above to display options.'
+                      : 'Veuillez sélectionner un profil ci-dessus pour afficher les options.'}
                   </div>
                 )}
               </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Outfit, JetBrains_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 // @ts-ignore
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -15,17 +15,17 @@ const inter = Inter({
   display: "swap",
 });
 
-// 2. Config polis Space Grotesk (Gwo tit yo / headings)
-const spaceGrotesk = Space_Grotesk({
+// 2. Config polis Plus Jakarta Sans (Kat ak eleman espesyal)
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-space",
+  variable: "--font-jakarta",
   display: "swap",
 });
 
-// 3. Config polis Outfit (Kat yo / cards)
-const outfit = Outfit({
+// 3. Config polis Space Grotesk (Gwo tit yo - DevSecOps & Tech style)
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-space",
   display: "swap",
 });
 
@@ -61,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-ink font-sans text-paper antialiased selection:bg-accent-600/30 selection:text-paper">
         <LanguageProvider>
