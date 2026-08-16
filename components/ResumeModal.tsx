@@ -19,8 +19,6 @@ interface ResumeModalContextValue {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
-  currentLang: 'en' | 'fr';
-  setLang: (lang: 'en' | 'fr') => void;
 }
 
 const ResumeModalContext = createContext<ResumeModalContextValue | null>(null);
@@ -39,31 +37,21 @@ const profileIcons: Record<ResumeProfile, typeof Layers> = {
   devsecops: ShieldCheck,
 };
 
-export function ResumeModalProvider({ 
-  children, 
-  defaultLang = 'fr' 
-}: { 
-  children: ReactNode;
-  defaultLang?: 'en' | 'fr';
-}) {
+export function ResumeModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<ResumeProfile | null>("full-stack");
-  const [currentLang, setLang] = useState<'en' | 'fr'>(defaultLang);
 
   const closeModal = () => {
     setIsOpen(false);
     setTimeout(() => setSelected(null), 250);
   };
 
-  const secondaryLang = currentLang === 'en' ? 'fr' : 'en';
-
-  // Jwenn lis profils yo baze sou lang aktyèl la nan portfolioData
-  const currentResumeProfiles = portfolioData[currentLang].resumeProfiles;
-  const selectedProfileData = currentResumeProfiles.find((p) => p.id === selected);
+  // Nou itilize done franse yo pou lis profil yo nan modal la (oswa ou ka chwazi nenpòt lang)
+  const resumeProfiles = portfolioData.fr.resumeProfiles;
 
   return (
     <ResumeModalContext.Provider
-      value={{ isOpen, openModal: () => setIsOpen(true), closeModal, currentLang, setLang }}
+      value={{ isOpen, openModal: () => setIsOpen(true), closeModal }}
     >
       {children}
 
@@ -101,12 +89,10 @@ export function ResumeModalProvider({
                     id="resume-modal-title"
                     className="font-sans text-lg font-semibold text-white"
                   >
-                    {currentLang === 'en' ? 'Download My Resume' : 'Télécharger mon CV'}
+                    Télécharger mon CV / Download Resume
                   </h2>
                   <p className="mt-1 text-sm text-gray-400">
-                    {currentLang === 'en'
-                      ? 'Choose the profile that matches the role you are hiring for.'
-                      : 'Choisissez le profil qui correspond au poste que vous recrutez.'}
+                    Choisissez un profil technique et téléchargez la version de votre choix.
                   </p>
                 </div>
                 <button
@@ -119,8 +105,8 @@ export function ResumeModalProvider({
               </div>
 
               {/* Profiles Selection List */}
-              <div className="space-y-2 p-6 max-h-[50vh] overflow-y-auto">
-                {currentResumeProfiles.map((profile) => {
+              <div className="space-y-2 p-6 max-h-[40vh] overflow-y-auto">
+                {resumeProfiles.map((profile) => {
                   const Icon = profileIcons[profile.id];
                   const isSelected = selected === profile.id;
                   return (
@@ -128,7 +114,7 @@ export function ResumeModalProvider({
                       key={profile.id}
                       onClick={() => setSelected(profile.id)}
                       className={cn(
-                        "flex w-full items-start gap-3 rounded-xl border p-4 text-left transition",
+                        "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition",
                         isSelected
                           ? "border-blue-500 bg-blue-600/10"
                           : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
@@ -136,13 +122,13 @@ export function ResumeModalProvider({
                     >
                       <span
                         className={cn(
-                          "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+                          "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
                           isSelected
                             ? "bg-blue-600 text-white"
                             : "bg-white/5 text-gray-400"
                         )}
                       >
-                        <Icon size={18} />
+                        <Icon size={16} />
                       </span>
                       <span className="flex-1">
                         <span className="block font-sans text-sm font-medium text-white">
@@ -160,45 +146,37 @@ export function ResumeModalProvider({
                 })}
               </div>
 
-              {/* Footer / Actions & Language Switch Option */}
-              <div className="border-t border-white/10 p-6 space-y-4 bg-slate-950/50">
-                {/* Primary Download Button */}
-                <a
-                  href={selectedProfileData ? selectedProfileData.file : undefined}
-                  download={`Fednel_Charite_CV_${selected}_${currentLang.toUpperCase()}.pdf`}
-                  aria-disabled={!selected}
-                  onClick={(e) => {
-                    if (!selected) e.preventDefault();
-                    else closeModal();
-                  }}
-                  className={cn(
-                    "flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold transition shadow-lg",
-                    selected
-                      ? "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20"
-                      : "cursor-not-allowed bg-white/5 text-gray-500"
-                  )}
-                >
-                  <Download size={16} />
-                  {selected 
-                    ? (currentLang === 'en' ? `Download ${selected.toUpperCase()} CV (PDF)` : `Télécharger le CV ${selected.toUpperCase()} (PDF)`) 
-                    : (currentLang === 'en' ? 'Select a profile' : 'Sélectionnez un profil')}
-                </a>
+              {/* Footer / Download Buttons (English Top, French Bottom) */}
+              <div className="border-t border-white/10 p-6 space-y-3 bg-slate-950/50">
+                {selected ? (
+                  <>
+                    {/* 1. English Download Button (Anlè) */}
+                    <a
+                      href={`/resumes/fednel-charite-${selected}-en.pdf`}
+                      download={`Fednel_Charite_CV_${selected}_EN.pdf`}
+                      onClick={closeModal}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
+                    >
+                      <Download size={16} />
+                      Download English CV (PDF)
+                    </a>
 
-                {/* Secondary Option: Switch Language for the CV */}
-                <div className="flex items-center justify-between text-xs text-gray-400 pt-1">
-                  <span>
-                    {currentLang === 'en' ? 'Current language:' : 'Langue actuelle :'} <strong className="text-white uppercase">{currentLang}</strong>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setLang(secondaryLang)}
-                    className="text-blue-400 hover:underline font-medium transition"
-                  >
-                    {currentLang === 'en' 
-                      ? 'Switch to French (Français)' 
-                      : 'Basculer en Anglais (English)'}
-                  </button>
-                </div>
+                    {/* 2. French Download Button (Anba) */}
+                    <a
+                      href={`/resumes/fednel-charite-${selected}-fr.pdf`}
+                      download={`Fednel_Charite_CV_${selected}_FR.pdf`}
+                      onClick={closeModal}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
+                    >
+                      <Download size5={16} />
+                      Télécharger le CV en Français (PDF)
+                    </a>
+                  </>
+                ) : (
+                  <div className="text-center text-sm text-gray-500 py-2">
+                    Veuillez sélectionner un profil ci-dessus pour afficher les options.
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
