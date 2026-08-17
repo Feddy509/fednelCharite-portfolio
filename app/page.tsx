@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Mail, ShieldCheck, Code2, Rocket } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import HeroIllustration from "@/components/HeroIllustration";
-import { portfolioData } from "@/data/portfolioData";
+import ProjectDetailsModal from "@/components/ProjectDetailsModal";
+import { portfolioData, type Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 const identityIcons: Record<string, any> = {
@@ -16,6 +18,9 @@ const identityIcons: Record<string, any> = {
 export default function HomePage() {
   const { language } = useLanguage();
   const data = portfolioData?.[language] || portfolioData?.fr || {};
+
+  // State pou xere ouvèti ak kontni modal Case Study an
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const featuredProjects = (data?.projects || []).filter((p: any) => p?.featured);
 
@@ -62,7 +67,7 @@ export default function HomePage() {
   return (
     <>
       {/* ---------------------------------------------------------------- */}
-      {/* Hero Section (Padding anlè a redwi ak eleman ki pi gwo)        */}
+      {/* Hero Section                                                     */}
       {/* ---------------------------------------------------------------- */}
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-2 sm:pt-4">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -154,7 +159,11 @@ export default function HomePage() {
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.map((project: any) =>
             typeof ProjectCard === "function" ? (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                onOpenDetails={(p) => setSelectedProject(p)}
+              />
             ) : null
           )}
         </div>
@@ -206,6 +215,14 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Fenêtre Modal (Case Study / Details)                             */}
+      {/* ---------------------------------------------------------------- */}
+      <ProjectDetailsModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </>
   );
 }

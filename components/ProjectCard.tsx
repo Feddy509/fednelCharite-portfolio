@@ -1,11 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, Clock } from "lucide-react";
+import { ArrowUpRight, Github, Clock, BookOpen } from "lucide-react";
 import type { Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-export default function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  onOpenDetails?: (project: Project) => void;
+}
+
+export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps) {
   const { language } = useLanguage();
 
   const categories = project.categories || [];
@@ -24,6 +29,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       solution: "Solution",
       viewSite: "Voir le site",
       code: "Code",
+      details: "Détails & Architecture",
       comingSoon: "Lien à venir",
     },
     en: {
@@ -31,6 +37,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       solution: "Solution",
       viewSite: "Visit website",
       code: "Code",
+      details: "Case Study & Architecture",
       comingSoon: "Link coming soon",
     },
   }[language] || {
@@ -38,6 +45,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     solution: "Solution",
     viewSite: "Voir le site",
     code: "Code",
+    details: "Détails & Architecture",
     comingSoon: "Lien à venir",
   };
 
@@ -51,28 +59,45 @@ export default function ProjectCard({ project }: { project: Project }) {
       className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-card backdrop-blur-sm transition-all hover:border-accent-500/40 hover:shadow-glow"
     >
       <div>
-        <div className="flex flex-wrap items-center gap-1.5">
-          {categories.map((cat) => (
-            <span
-              key={cat}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-accent-300"
+        {/* Badges de catégories */}
+        <div className="flex flex-wrap items-center justify-between gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
+            {categories.map((cat) => (
+              <span
+                key={cat}
+                className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-accent-300"
+              >
+                {categoryLabels[cat]?.[language as "fr" | "en"] ?? cat}
+              </span>
+            ))}
+          </div>
+
+          {/* Bouton rapide Case study nan tèt kat la */}
+          {onOpenDetails && (
+            <button
+              onClick={() => onOpenDetails(project)}
+              className="flex items-center gap-1 rounded-lg border border-accent-500/20 bg-accent-500/10 px-2.5 py-1 font-sans text-xs font-medium text-accent-300 transition hover:bg-accent-500/20"
             >
-              {categoryLabels[cat]?.[language as "fr" | "en"] ?? cat}
-            </span>
-          ))}
+              <BookOpen size={13} />
+              <span>Case Study</span>
+            </button>
+          )}
         </div>
 
-        {/* Titre Kat la: Plus Jakarta Sans + text-lg sm:text-xl font-bold */}
-        <h3 className="mt-4 font-card text-lg sm:text-xl font-bold text-paper group-hover:text-accent-300 transition-colors">
+        {/* Titre */}
+        <h3
+          onClick={() => onOpenDetails && onOpenDetails(project)}
+          className="mt-4 cursor-pointer font-card text-lg sm:text-xl font-bold text-paper transition-colors group-hover:text-accent-300"
+        >
           {project.title}
         </h3>
 
-        {/* Deskripsyon / Tagline: text-sm sm:text-base */}
+        {/* Description / Tagline */}
         <p className="mt-2 font-sans text-sm sm:text-base leading-relaxed text-paper/75">
           {description}
         </p>
 
-        {/* Seksyon Problem & Solution: text-xs sm:text-sm */}
+        {/* Section Problem & Solution */}
         {(project.problem || project.solution) && (
           <div className="mt-4 space-y-2 border-t border-white/5 pt-4">
             {project.problem && (
@@ -100,6 +125,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div>
+        {/* Stack Technique Badges */}
         <div className="mt-5 flex flex-wrap gap-1.5">
           {stackList.map((tech) => (
             <span
@@ -111,34 +137,48 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        <div className="mt-6 flex items-center gap-4 border-t border-white/5 pt-4">
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-accent-300 transition hover:text-accent-200"
+        {/* Liens externes et Déclencheur Modal */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-4">
+          <div className="flex items-center gap-3">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-accent-300 transition hover:text-accent-200"
+              >
+                {labels.viewSite}
+                <ArrowUpRight size={14} />
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-paper/60 transition hover:text-paper"
+              >
+                <Github size={14} />
+                {labels.code}
+              </a>
+            )}
+            {!project.liveUrl && !project.githubUrl && (
+              <span className="flex items-center gap-1.5 font-sans text-xs sm:text-sm text-paper/35">
+                <Clock size={13} />
+                {labels.comingSoon}
+              </span>
+            )}
+          </div>
+
+          {/* Bouton d'ouverture principale pour la Modal */}
+          {onOpenDetails && (
+            <button
+              onClick={() => onOpenDetails(project)}
+              className="flex items-center gap-1.5 font-sans text-xs font-semibold text-accent-300 transition hover:underline"
             >
-              {labels.viewSite}
-              <ArrowUpRight size={14} />
-            </a>
-          )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 font-sans text-xs sm:text-sm font-semibold text-paper/60 transition hover:text-paper"
-            >
-              <Github size={14} />
-              {labels.code}
-            </a>
-          )}
-          {!project.liveUrl && !project.githubUrl && (
-            <span className="flex items-center gap-1.5 font-sans text-xs sm:text-sm text-paper/35">
-              <Clock size={13} />
-              {labels.comingSoon}
-            </span>
+              <BookOpen size={14} />
+              <span>{labels.details}</span>
+            </button>
           )}
         </div>
       </div>

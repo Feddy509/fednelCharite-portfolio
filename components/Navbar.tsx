@@ -71,8 +71,9 @@ export default function Navbar() {
           {/* Bouton Chanje Lang */}
           <LanguageSwitcher />
 
+          {/* Bouton Desktop CV - Korije pou pase language la */}
           <button
-            onClick={openModal}
+            onClick={() => openModal(language)}
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex"
           >
             <FileText size={15} />
@@ -117,10 +118,11 @@ export default function Navbar() {
               ))}
 
               <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-3">
+                {/* Bouton Mobile CV - Korije pou pase language la */}
                 <button
                   onClick={() => {
                     setMobileOpen(false);
-                    openModal();
+                    openModal(language);
                   }}
                   className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper"
                 >

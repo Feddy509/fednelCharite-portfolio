@@ -31,6 +31,11 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
+  // Nouvo champ pou modal Case Study an:
+  architecture?: string;
+  challenges?: string[];
+  keyFeatures?: string[];
+  securityFocus?: string;
 }
 
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
@@ -52,7 +57,7 @@ export const personalInfo = {
   social: {
     github: "https://github.com/feddy509",
     linkedin: "https://www.linkedin.com/in/fednel-charit%C3%A9-05271823b/",
-    website: "https://fednelcharite.com",
+    website: "https://fednelcharite.site",
   },
   heroVision:
     "Je développe des applications web modernes et évolutives, en adoptant une approche axée sur la sécurité et l'automatisation CI/CD dès les premières étapes du code.",
@@ -131,7 +136,7 @@ export const portfolioData = {
       {
         slug: "zye-klere",
         title: "Zye Klere",
-        tagline:"Plateforme SaaS interactive dédiée à l'éducation, la sensibilisation à la cybersécurité et la protection des données.",
+        tagline: "Plateforme SaaS interactive dédiée à l'éducation, la sensibilisation à la cybersécurité et la protection des données.",
         categories: ["full-stack", "security"],
         problem:
           "Les menaces numériques (hameçonnage, arnaques financières mobiles) ciblent fortement la communauté sans ressources de prévention interactives et localement adaptées.",
@@ -141,6 +146,18 @@ export const portfolioData = {
         liveUrl: "https://zyeklere.com",
         githubUrl: "https://github.com/Feddy509/zyeklere_app",
         featured: true,
+        architecture: "Architecture Serverless & Micro-SaaS modulaire basée sur Next.js App Router, connectée à une base PostgreSQL sécurisée et un pipeline d'intégration continue GitHub Actions.",
+        keyFeatures: [
+          "Authentification sécurisée avec support MFA / Passkeys",
+          "Analyseur de mots de passe dynamique et vérification d'exposition de secrets",
+          "Tableau de bord utilisateur réactif avec progression des cours et quiz",
+          "Générateur d'avatar et modules d'apprentissage communautaires"
+        ],
+        challenges: [
+          "Optimisation de la vitesse de rendu SSR et des assets médias sur des connexions réseau à faible débit.",
+          "Sécurisation des endpoints API contre les attaques CSRF et limitation de débit (Rate Limiting) avec Redis."
+        ],
+        securityFocus: "Conforme aux recommandations OWASP Top 10 : chiffrement des données au repos et en transit (TLS 1.3), gestion stricte des secrets via variables d'environnement sécurisées."
       },
       {
         slug: "web-security-checker",
@@ -155,6 +172,18 @@ export const portfolioData = {
         liveUrl: undefined,
         githubUrl: undefined,
         featured: true,
+        architecture: "API RESTful distribuée en NestJS et Docker avec une file d'attente asynchrone pour traiter les audits de sécurité sans bloquer le thread principal.",
+        keyFeatures: [
+          "Audit automatique des en-têtes de sécurité HTTP (HSTS, CSP, X-Frame-Options)",
+          "Analyse de la configuration du certificat SSL/TLS",
+          "Génération de rapports de vulnérabilités au format JSON/PDF exportables",
+          "Intégration comme Hook CI/CD pour bloquer les déploiements non conformes"
+        ],
+        challenges: [
+          "Gestion des timeouts lors de l'analyse des domaines distants à forte latence.",
+          "Parsing et normalisation des réponses d'analyse pour générer un score de risque précis."
+        ],
+        securityFocus: "Isolation complète de l'exécuteur de scan via des conteneurs Docker éphémères et assainissement strict des entrées utilisateur (Input Sanitization)."
       },
       {
         slug: "solutions-technologies-hub",
@@ -169,6 +198,18 @@ export const portfolioData = {
         liveUrl: "https://solutionstechhub.com",
         githubUrl: "https://github.com/Feddy509/solutionstechhub-app",
         featured: true,
+        architecture: "Architecture web moderne axée sur la vitesse de chargement, l'accessibilité (WCAG) et un référencement naturel (SEO) optimisé.",
+        keyFeatures: [
+          "Catalogue complet de services informatiques et audits de sécurité",
+          "Formulaire de devis dynamique avec validation temps réel",
+          "Design multi-écran réactif adapté aux mobiles et grands écrans",
+          "Intégration d'outils d'analyse de trafic respectueux de la vie privée"
+        ],
+        challenges: [
+          "Maximisation des scores Lighthouse (Performance > 95, Accessibilité > 98).",
+          "Gestion du déploiement continu et des enregistrements DNS sécurisés via Cloudflare."
+        ],
+        securityFocus: "Protection des formulaires contre le SPAM avec Captcha invisible, politique de sécurité du contenu (CSP) stricte."
       },
     ] as Project[],
     socialProof: [
@@ -283,6 +324,18 @@ export const portfolioData = {
         liveUrl: "https://zyeklere.com",
         githubUrl: "https://github.com/Feddy509/zyeklere_app",
         featured: true,
+        architecture: "Modular Serverless & Micro-SaaS architecture built on Next.js App Router, powered by PostgreSQL and automated GitHub Actions CI/CD pipelines.",
+        keyFeatures: [
+          "Secure authentication with MFA & Passkey support",
+          "Dynamic password strength analyzer & breach lookup tool",
+          "Interactive student dashboard with learning progress tracking",
+          "Avatar generator and community educational modules"
+        ],
+        challenges: [
+          "Optimizing SSR rendering speeds and multimedia asset delivery over low-bandwidth connections.",
+          "Securing API endpoints against CSRF attacks and implementing Redis rate-limiting."
+        ],
+        securityFocus: "Compliant with OWASP Top 10 guidelines: data-at-rest and in-transit encryption (TLS 1.3), environment secret isolation."
       },
       {
         slug: "web-security-checker",
@@ -297,6 +350,18 @@ export const portfolioData = {
         liveUrl: undefined,
         githubUrl: undefined,
         featured: true,
+        architecture: "Distributed RESTful API built with NestJS and Docker, utilizing an asynchronous queue worker to process URL security scans without blocking thread loops.",
+        keyFeatures: [
+          "Automated auditing of HTTP security headers (HSTS, CSP, X-Frame-Options)",
+          "SSL/TLS certificate configuration and cipher suite analysis",
+          "Exportable structured JSON and PDF vulnerability reports",
+          "CI/CD Hook integration to prevent non-compliant deployments"
+        ],
+        challenges: [
+          "Handling scan request timeouts when auditing high-latency remote servers.",
+          "Parsing and normalizing heterogeneous security responses into a unified risk score."
+        ],
+        securityFocus: "Complete scan executor isolation via ephemeral Docker containers and strict input sanitization to prevent injection vulnerabilities."
       },
       {
         slug: "solutions-technologies-hub",
@@ -311,6 +376,18 @@ export const portfolioData = {
         liveUrl: "https://solutionstechhub.com",
         githubUrl: "https://github.com/Feddy509/solutionstechhub-app",
         featured: true,
+        architecture: "Modern web architecture focused on high-speed page loads, accessibility standards (WCAG), and search engine optimization (SEO).",
+        keyFeatures: [
+          "Complete IT services showcase and cybersecurity audit catalog",
+          "Interactive quote request form with real-time field validation",
+          "Responsive multi-device layout for mobile, tablet, and desktop",
+          "Privacy-first web analytics integration"
+        ],
+        challenges: [
+          "Maximizing Lighthouse performance ratings (Performance > 95, Accessibility > 98).",
+          "Managing continuous deployment pipelines and secure Cloudflare DNS configurations."
+        ],
+        securityFocus: "Form anti-spam mitigation via invisible Captcha protection, strict Content Security Policy (CSP)."
       },
     ] as Project[],
     socialProof: [

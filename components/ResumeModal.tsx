@@ -49,8 +49,10 @@ export function ResumeModalProvider({
   const [selected, setSelected] = useState<ResumeProfile | null>("full-stack");
   const [currentLang, setCurrentLang] = useState<'en' | 'fr'>(defaultLang);
 
-  const openModal = (lang: 'en' | 'fr' = defaultLang) => {
-    setCurrentLang(lang);
+  const openModal = (lang?: 'en' | 'fr') => {
+    if (lang) {
+      setCurrentLang(lang);
+    }
     setIsOpen(true);
   };
 
@@ -59,7 +61,6 @@ export function ResumeModalProvider({
     setTimeout(() => setSelected(null), 250);
   };
 
-  // Sekirite pou asire currentLang toujou valid (en oswa fr)
   const safeLang = (currentLang === 'en' || currentLang === 'fr') ? currentLang : 'fr';
   const resumeProfiles = portfolioData[safeLang]?.resumeProfiles || portfolioData.fr.resumeProfiles;
 
@@ -162,32 +163,56 @@ export function ResumeModalProvider({
                 })}
               </div>
 
-              {/* Footer / Download Buttons (English Top, French Bottom) */}
+              {/* Footer / Download Buttons (Order changes dynamically based on safeLang) */}
               <div className="border-t border-white/10 p-6 space-y-3 bg-slate-950/50">
                 {selected ? (
-                  <>
-                    {/* 1. English Download Button (Anlè) */}
-                    <a
-                      href={`/resumes/fednel-charite-${selected}-en.pdf`}
-                      download={`Fednel_Charite_CV_${selected}_EN.pdf`}
-                      onClick={closeModal}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
-                    >
-                      <Download size={16} />
-                      {safeLang === 'en' ? 'Download English CV (PDF)' : 'Download English CV (PDF)'}
-                    </a>
+                  safeLang === 'en' ? (
+                    // Lè sit la an ANGLÈ: Bouton Anglè anlè (ble), Franse anba (gri)
+                    <>
+                      <a
+                        href={`/resumes/fednel-charite-${selected}-en.pdf`}
+                        download={`Fednel_Charite_CV_${selected}_EN.pdf`}
+                        onClick={closeModal}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
+                      >
+                        <Download size={16} />
+                        Download English CV (PDF)
+                      </a>
 
-                    {/* 2. French Download Button (Anba) */}
-                    <a
-                      href={`/resumes/fednel-charite-${selected}-fr.pdf`}
-                      download={`Fednel_Charite_CV_${selected}_FR.pdf`}
-                      onClick={closeModal}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
-                    >
-                      <Download size={16} />
-                      {safeLang === 'en' ? 'Download French CV (PDF)' : 'Télécharger le CV en Français (PDF)'}
-                    </a>
-                  </>
+                      <a
+                        href={`/resumes/fednel-charite-${selected}-fr.pdf`}
+                        download={`Fednel_Charite_CV_${selected}_FR.pdf`}
+                        onClick={closeModal}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
+                      >
+                        <Download size={16} />
+                        Download French CV (PDF)
+                      </a>
+                    </>
+                  ) : (
+                    // Lè sit la an FRANSE: Bouton Franse anlè (ble), Anglè anba (gri)
+                    <>
+                      <a
+                        href={`/resumes/fednel-charite-${selected}-fr.pdf`}
+                        download={`Fednel_Charite_CV_${selected}_FR.pdf`}
+                        onClick={closeModal}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
+                      >
+                        <Download size={16} />
+                        Télécharger le CV en Français (PDF)
+                      </a>
+
+                      <a
+                        href={`/resumes/fednel-charite-${selected}-en.pdf`}
+                        download={`Fednel_Charite_CV_${selected}_EN.pdf`}
+                        onClick={closeModal}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
+                      >
+                        <Download size={16} />
+                        Télécharger le CV en Anglais (PDF)
+                      </a>
+                    </>
+                  )
                 ) : (
                   <div className="text-center text-sm text-gray-500 py-2">
                     {safeLang === 'en'

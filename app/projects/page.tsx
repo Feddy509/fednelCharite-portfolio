@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Code2, Server, ShieldCheck, Award, Sparkles, Terminal, Cpu } from "lucide-react";
+import { Code2, Server, ShieldCheck, Award, Sparkles, Cpu } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
-import { skills, portfolioData, type ProjectCategory, type Skill } from "@/data/portfolioData";
+import ProjectDetailsModal from "@/components/ProjectDetailsModal";
+import { skills, portfolioData, type ProjectCategory, type Skill, type Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,9 @@ export default function ProjectsPage() {
   const { language } = useLanguage();
   const data = portfolioData[language] || portfolioData.fr;
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
+  
+  // State pou kontwole ouvèti modal la ak pwojè ki seleksyone a
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const labels = {
     fr: {
@@ -40,7 +44,7 @@ export default function ProjectsPage() {
       skillsTitle: "The Toolbox",
       filters: {
         all: "All",
-        "full-stack": "All",
+        "full-stack": "Full-Stack",
         security: "DevSecOps / Security",
       },
     },
@@ -65,7 +69,6 @@ export default function ProjectsPage() {
     { key: "security", label: labels.filters.security },
   ];
 
-  // 5 Kad Konpetans ak Icône Lucide kòrèk
   const skillGroups: { key: Skill["category"]; label: string; icon: typeof Code2 }[] = [
     { key: "frontend", label: "Frontend", icon: Code2 },
     { key: "backend", label: "Backend", icon: Server },
@@ -97,7 +100,7 @@ export default function ProjectsPage() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Barre de filtres (Tout, Full-Stack, DevSecOps / Sécurité)         */}
+      {/* Barre de filtres                                                 */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-10 flex flex-wrap gap-3">
         {filters.map((f) => (
@@ -124,7 +127,11 @@ export default function ProjectsPage() {
         className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
       >
         {filteredProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            onOpenDetails={(p) => setSelectedProject(p)}
+          />
         ))}
       </motion.div>
 
@@ -137,7 +144,7 @@ export default function ProjectsPage() {
       )}
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section : Compétences / La Boîte à Outils (5 Kad Aéré)           */}
+      {/* Section : Compétences / La Boîte à Outils                        */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-24 border-t border-white/10 pt-16">
         <div className="flex items-center gap-2">
@@ -182,6 +189,14 @@ export default function ProjectsPage() {
           ))}
         </div>
       </div>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Fenêtre Modal (Case Study / Details)                             */}
+      {/* ---------------------------------------------------------------- */}
+      <ProjectDetailsModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </div>
   );
 }
