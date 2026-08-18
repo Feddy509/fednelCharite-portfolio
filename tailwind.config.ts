@@ -50,10 +50,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        heading: ["var(--font-space)", "sans-serif"], // Space Grotesk pou gwo tit yo
-        card: ["var(--font-jakarta)", "sans-serif"],    // Plus Jakarta Sans pou kat yo
-        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        heading: ["Space Grotesk", "sans-serif"], // Gwo tit yo
+        card: ["Plus Jakarta Sans", "sans-serif"],  // Kat yo
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       backgroundImage: {
         "grid-glow":
