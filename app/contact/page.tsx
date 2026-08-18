@@ -104,7 +104,7 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper overflow-x-hidden">
       {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page                                                */}
+      {/* En-tête de la page                                               */}
       {/* ---------------------------------------------------------------- */}
       <div className="max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400 mb-4">
@@ -124,7 +124,7 @@ export default function ContactPage() {
       </div>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Section Formulaire & Sidebar                                      */}
+      {/* Section Formulaire & Sidebar                                     */}
       {/* ---------------------------------------------------------------- */}
       <div className="mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         {/* Kolòn Gòch : Formulaire + Kat Pòtrè (Adapte pou mobil ak PC) */}
@@ -207,13 +207,12 @@ export default function ContactPage() {
           </form>
 
           {/* ---------------------------------------------------------------- */}
-          {/* Kat Pòtrè / Sitasyon (Anpile sou mobil, de kolòn sou gran ekran)  */}
+          {/* Kat Pòtrè / Sitasyon                                             */}
           {/* ---------------------------------------------------------------- */}
           <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
             <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
             
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
-              {/* Tèks ak Sitasyon sou bò gòch */}
               <div className="space-y-3 order-2 sm:order-1">
                 <Quote size={24} className="text-cyan-400 opacity-80" />
                 <p className="font-sans text-xs sm:text-sm italic leading-relaxed text-paper/90">
@@ -224,7 +223,6 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Imaj la sou bò dwat (anlè sou mobil, bò dwat sou PC) */}
               <div className="relative mx-auto w-full h-40 sm:h-48 order-1 sm:order-2 overflow-hidden rounded-xl border border-white/15 shadow-xl">
                <Image
                  src="/images/fednel-coding.jpg" 
@@ -232,7 +230,7 @@ export default function ContactPage() {
                  fill
                  priority 
                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                />
+               />
               </div>
             </div>
           </div>
@@ -256,7 +254,7 @@ export default function ContactPage() {
             </a>
           </div>
 
-          {/* Hiring / Resume Modal Card */}
+          {/* Hiring / Resume Modal Card - Korije pou pase openModal(language) */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <FileText size={20} />
@@ -268,7 +266,7 @@ export default function ContactPage() {
               {labels.hiringDesc}
             </p>
             <button
-              onClick={openModal}
+              onClick={() => openModal(language)}
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3.5 font-sans text-sm font-semibold text-paper transition-all duration-300 hover:scale-105 hover:border-accent-400/50 hover:bg-white/[0.08] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95"
             >
               <FileText size={16} />
@@ -305,14 +303,12 @@ export default function ContactPage() {
               >
                 <Github size={14} className="text-accent-300" /> GitHub
               </a>
-              {/* Bouton X (Twitter) */}
               <a
                 href="https://x.com/feddyhaiti" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 font-mono text-xs text-paper/80 hover:text-paper hover:border-accent-400/50 transition"
               >
-                {/* Icône SVG pou X */}
                 <svg width="24" height="24" className="h-3.5 w-3.5 fill-current text-accent-300" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg> 
