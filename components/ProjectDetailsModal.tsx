@@ -46,7 +46,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop (Fond flou ak nwa) */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -56,39 +56,41 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
           className="fixed inset-0 bg-black/75 backdrop-blur-md"
         />
 
-        {/* Modal Window */}
+        {/* Modal Window ak max-h pou evite debòde sou mobil */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 my-8 w-full max-w-3xl overflow-hidden rounded-2xl border border-white/15 bg-[#0b1329] p-6 shadow-2xl sm:p-8"
+          className="relative z-15 my-auto flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0b1329] shadow-2xl"
         >
-          {/* Bouton de fermeture (X) */}
-          <button
-            onClick={onClose}
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-paper/60 transition hover:bg-white/10 hover:text-paper"
-            aria-label={labels.close}
-          >
-            <X size={18} />
-          </button>
-
-          {/* En-tête Modal */}
-          <div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
-              {labels.caseStudy}
-            </span>
-            <h2 className="mt-2 font-sans text-2xl font-extrabold text-paper sm:text-3xl">
-              {project.title}
-            </h2>
-            <p className="mt-2 font-sans text-sm leading-relaxed text-paper/70">
-              {project.tagline}
-            </p>
+          {/* HEADER FIKS (Pou bouton X la toujou vizib anwo sou mobil) */}
+          <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-[#0b1329]/95 backdrop-blur-md flex-shrink-0">
+            <div>
+              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent-300">
+                {labels.caseStudy}
+              </span>
+              <h2 className="mt-0.5 font-sans text-xl sm:text-2xl font-extrabold text-paper">
+                {project.title}
+              </h2>
+            </div>
+            <button
+              onClick={onClose}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-paper/60 transition hover:bg-white/10 hover:text-paper"
+              aria-label={labels.close}
+            >
+              <X size={18} />
+            </button>
           </div>
 
-          <div className="mt-6 max-h-[65vh] space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+          {/* KÒ MODAL LA KI KA FÈ SCROLL PWÒP */}
+          <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 custom-scrollbar">
+            <p className="font-sans text-xs sm:text-sm leading-relaxed text-paper/70">
+              {project.tagline}
+            </p>
+
             {/* Problème & Solution */}
-            <div className="grid gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-5 sm:grid-cols-2">
+            <div className="grid gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:p-5 sm:grid-cols-2">
               <div>
                 <div className="flex items-center gap-2 text-red-400">
                   <ShieldAlert size={16} />
@@ -115,7 +117,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
 
             {/* Architecture */}
             {project.architecture && (
-              <div className="rounded-xl border border-white/5 bg-white/[0.02] p-5">
+              <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:p-5">
                 <div className="flex items-center gap-2 text-accent-300">
                   <Cpu size={16} />
                   <h3 className="font-mono text-xs uppercase tracking-wider font-semibold">
@@ -145,15 +147,16 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
               </div>
             )}
 
-            {/* Défis Techniques */}
+            {/* Défis Techniques (Koulye a entegre ak yon bèl estil pwòp ki pa gen gwo bwat vid ki fe l parèt diferan) */}
             {project.challenges && project.challenges.length > 0 && (
-              <div>
-                <h3 className="font-mono text-xs uppercase tracking-wider font-semibold text-amber-400">
-                  {labels.challenges}
-                </h3>
-                <ul className="mt-3 space-y-2">
+              <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:p-5 space-y-3">
+                <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
+                  <Cpu size={16} /> {labels.challenges}
+                </div>
+                <ul className="space-y-2">
                   {project.challenges.map((chal, idx) => (
-                    <li key={idx} className="rounded-lg border border-amber-500/10 bg-amber-500/5 p-3 font-sans text-xs text-paper/80">
+                    <li key={idx} className="flex items-start gap-2.5 font-sans text-xs sm:text-sm text-paper/80">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
                       {chal}
                     </li>
                   ))}
@@ -194,15 +197,15 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
             </div>
           </div>
 
-          {/* Footer Modal ak Boutons de Liens */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
-            <div className="flex items-center gap-3">
+          {/* FOOTER FIKS AK ACTION BUTTONS (Asire bouton Close ak lyen yo toujou vizib) */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-6 py-4 bg-[#0b1329]/95 backdrop-blur-md flex-shrink-0">
+            <div className="flex flex-wrap items-center gap-3">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl bg-cta-gradient px-5 py-2.5 font-sans text-xs font-semibold text-paper shadow-glow transition hover:scale-105"
+                  className="flex items-center gap-2 rounded-xl bg-cta-gradient px-4 py-2 font-sans text-xs font-semibold text-paper shadow-glow transition hover:scale-105"
                 >
                   <ExternalLink size={14} />
                   {labels.visitSite}
@@ -213,7 +216,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 font-sans text-xs font-semibold text-paper transition hover:border-white/20 hover:bg-white/10"
+                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-sans text-xs font-semibold text-paper transition hover:border-white/20 hover:bg-white/10"
                 >
                   <Github size={14} />
                   {labels.viewCode}
@@ -223,7 +226,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
 
             <button
               onClick={onClose}
-              className="font-sans text-xs font-medium text-paper/50 hover:text-paper"
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-sans text-xs font-medium text-paper/70 transition hover:bg-white/10 hover:text-paper"
             >
               {labels.close}
             </button>
