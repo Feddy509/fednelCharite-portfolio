@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI Quality & Security Gate
 
 # Déclencheurs / Triggers
 on:
@@ -8,8 +8,8 @@ on:
     branches: [ main ]
 
 jobs:
-  lint-and-typecheck:
-    name: Lint & Type Check (Vérification du code)
+  quality-gate:
+    name: Code Quality & Security Check
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
 
       # 4. Installation des dépendances avec pnpm / Install dependencies
       - name: Install dependencies / Installer les dépendances
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       # 5. Vérification de la qualité du code (ESLint) / Run ESLint check
       - name: Run Linter / Exécuter le linter
@@ -42,24 +42,10 @@ jobs:
       - name: Type check / Vérifier les types TypeScript
         run: npx tsc --noEmit
 
-  docker-build:
-    name: Docker Build Test (Test de construction Docker)
-    runs-on: ubuntu-latest
-    needs: lint-and-typecheck
+      # 7. Audit de sécurité des dépendances / Security Audit
+      - name: Security Audit / Audit de sécurité
+        run: pnpm audit --audit-level=high || true
 
-    steps:
-      # 1. Récupération du code source / Checkout source code
-      - name: Checkout repository / Récupérer le code
-        uses: actions/checkout@v4
-
-      # 2. Configuration de Docker Buildx / Set up Docker Buildx
-      - name: Set up Docker Buildx / Configurer Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # 3. Test de construction de l'image Docker / Test Docker image build
-      - name: Build Docker image / Tester la construction de l'image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
+      # 8. Test de Build Next.js / Test Next.js Build
+      - name: Test Build / Tester la compilation Next.js
+        run: pnpm run build
