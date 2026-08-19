@@ -123,7 +123,7 @@ export default function ContactPage() {
 
       {/* Section Formulaire & Sidebar */}
       <div className="mt-8 sm:mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Kolòn Gòch : Formulaire + Kat Pòtrè san kad */}
+        {/* Kolòn Gòch : Formulaire + Kat Pòtrè */}
         <div className="space-y-8">
           <form
             onSubmit={handleSubmit}
@@ -131,10 +131,7 @@ export default function ContactPage() {
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label
-                  htmlFor="name"
-                  className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-                >
+                <label htmlFor="name" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
                   {labels.nameLabel}
                 </label>
                 <input
@@ -148,10 +145,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-                >
+                <label htmlFor="email" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
                   {labels.emailLabel}
                 </label>
                 <input
@@ -167,10 +161,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="message"
-                className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70"
-              >
+              <label htmlFor="message" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
                 {labels.messageLabel}
               </label>
               <textarea
@@ -202,33 +193,60 @@ export default function ContactPage() {
             </button>
           </form>
 
-          {/* Seksyon Pòtrè ak efè FADE (Vignette) san bwat border */}
-          <div className="relative flex flex-col items-center justify-center text-center pt-2">
-            <div className="relative w-full max-w-xs sm:max-w-sm overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_100%)]">
-              <Image
-                src="/images/fednel-coding.jpg" 
-                alt="Fednel Charité coding"
-                width={500}
-                height={500}
-                priority 
-                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
-              />
+          {/* Seksyon Pòtrè: Adaptasyon Desktop/Mobil */}
+          <div className="space-y-6">
+            
+            {/* 1. Vèsyon DESKTOP: Kenbe kad la (hidden sou mobil) */}
+            <div className="hidden sm:block group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
+              <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
+              <div className="grid gap-6 grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
+                <div className="space-y-3">
+                  <Quote size={24} className="text-cyan-400 opacity-80" />
+                  <p className="font-sans text-sm italic leading-relaxed text-paper/90">
+                    &ldquo;{labels.quoteText}&rdquo;
+                  </p>
+                  <p className="font-mono text-[11px] font-medium text-cyan-400">
+                    {labels.quoteAuthor}
+                  </p>
+                </div>
+                <div className="relative w-full h-48 overflow-hidden rounded-xl border border-white/15 shadow-xl">
+                  <Image
+                    src="/images/fednel-coding.jpg" 
+                    alt="Fednel Charité coding"
+                    fill
+                    priority 
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Tèks sitasyon an anba foto a */}
-            <div className="mt-6 space-y-3 px-2">
-              <Quote size={24} className="text-cyan-400 mx-auto opacity-90" />
-              <p className="font-sans text-xs sm:text-sm italic leading-relaxed text-paper/90 max-w-md mx-auto">
-                &ldquo;{labels.quoteText}&rdquo;
-              </p>
-              <p className="font-mono text-[11px] font-medium text-cyan-400">
-                {labels.quoteAuthor}
-              </p>
+            {/* 2. Vèsyon MOBIL: Efè Fade (vignette), retire kad (hidden sou desktop) */}
+            <div className="block sm:hidden relative flex flex-col items-center justify-center text-center pt-2">
+              <div className="relative w-full max-w-xs overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_95%)]">
+                <Image
+                  src="/images/fednel-coding.jpg" 
+                  alt="Fednel Charité coding"
+                  width={400}
+                  height={400}
+                  priority 
+                  className="w-full h-auto object-cover transition-transform duration-700"
+                />
+              </div>
+              <div className="mt-4 space-y-3 px-2">
+                <Quote size={20} className="text-cyan-400 mx-auto opacity-80" />
+                <p className="font-sans text-xs italic leading-relaxed text-paper/90 max-w-sm mx-auto">
+                  &ldquo;{labels.quoteText}&rdquo;
+                </p>
+                <p className="font-mono text-[10px] font-medium text-cyan-400">
+                  {labels.quoteAuthor}
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Kolòn Dwat : Sidebar Info + Resume CTA + Socials */}
+        {/* Kolòn Dwat */}
         <div className="space-y-6">
           {/* Email Direct */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
