@@ -47,7 +47,7 @@ export default function ContactPage() {
       subtitle:
         "Whether it's for a hiring opportunity (Full-Stack / DevSecOps), a collaboration, or a technical inquiry - I typically respond within 24 hours.",
       nameLabel: "Full Name",
-      namePlaceholder: "e.g., Jean Lucien",
+      namePlaceholder: "Ex: Jean Lucien",
       emailLabel: "Email Address",
       emailPlaceholder: "you@example.com",
       messageLabel: "Message",
