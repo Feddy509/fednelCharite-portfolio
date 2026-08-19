@@ -202,7 +202,7 @@ export default function ContactPage() {
             </button>
           </form>
 
-          {/* Kat Pòtrè / Sitasyon - Kòb / Imaj korije anlè sou mobil */}
+          {/* Kat Pòtrè / Sitasyon */}
           <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
             <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
             
@@ -217,21 +217,21 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Imaj kounya itilize object-top pou tèt la pa janm koupe sou mobil */}
+              {/* Imaj - Korije ak object-contain pou mobil */}
               <div className="relative mx-auto w-full h-36 sm:h-48 order-1 sm:order-2 overflow-hidden rounded-xl border border-white/15 shadow-xl">
-               <Image
-                 src="/images/fednel-coding.jpg" 
-                 alt="Fednel Charité coding"
-                 fill
-                 priority 
-                 className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-               />
+                <Image
+                  src="/images/fednel-coding.jpg" 
+                  alt="Fednel Charité coding"
+                  fill
+                  priority 
+                  className="object-contain sm:object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Kolòn Dwat : Sidebar Info + Resume CTA + Socials */}
+        {/* Kolòn Dwat */}
         <div className="space-y-6">
           {/* Email Direct */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
