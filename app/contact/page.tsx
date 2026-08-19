@@ -102,10 +102,8 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper overflow-x-hidden">
-      {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page                                               */}
-      {/* ---------------------------------------------------------------- */}
+    <div className="mx-auto max-w-6xl px-3 sm:px-6 pt-4 sm:pt-6 pb-16 sm:pb-24 font-sans text-paper overflow-x-hidden">
+      {/* En-tête de la page */}
       <div className="max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400 mb-4">
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -123,17 +121,15 @@ export default function ContactPage() {
         </p>
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Section Formulaire & Sidebar                                     */}
-      {/* ---------------------------------------------------------------- */}
-      <div className="mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Kolòn Gòch : Formulaire + Kat Pòtrè (Adapte pou mobil ak PC) */}
+      {/* Section Formulaire & Sidebar */}
+      <div className="mt-8 sm:mt-12 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        {/* Kolòn Gòch : Formulaire + Kat Pòtrè */}
         <div className="space-y-6">
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition-all"
+            className="space-y-5 rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all"
           >
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label
                   htmlFor="name"
@@ -146,7 +142,7 @@ export default function ContactPage() {
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
                   placeholder={labels.namePlaceholder}
                 />
               </div>
@@ -164,7 +160,7 @@ export default function ContactPage() {
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
                   placeholder={labels.emailPlaceholder}
                 />
               </div>
@@ -180,17 +176,17 @@ export default function ContactPage() {
               <textarea
                 id="message"
                 required
-                rows={6}
+                rows={5}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
                 placeholder={labels.messagePlaceholder}
               />
             </div>
 
             <button
               type="submit"
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
             >
               {sent ? (
                 <>
@@ -206,15 +202,13 @@ export default function ContactPage() {
             </button>
           </form>
 
-          {/* ---------------------------------------------------------------- */}
-          {/* Kat Pòtrè / Sitasyon                                             */}
-          {/* ---------------------------------------------------------------- */}
-          <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
+          {/* Kat Pòtrè / Sitasyon - Kòb / Imaj korije anlè sou mobil */}
+          <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
             <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
             
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
-              <div className="space-y-3 order-2 sm:order-1">
-                <Quote size={24} className="text-cyan-400 opacity-80" />
+            <div className="grid gap-5 grid-cols-1 sm:grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
+              <div className="space-y-2.5 order-2 sm:order-1">
+                <Quote size={22} className="text-cyan-400 opacity-80" />
                 <p className="font-sans text-xs sm:text-sm italic leading-relaxed text-paper/90">
                   &ldquo;{labels.quoteText}&rdquo;
                 </p>
@@ -223,13 +217,14 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <div className="relative mx-auto w-full h-40 sm:h-48 order-1 sm:order-2 overflow-hidden rounded-xl border border-white/15 shadow-xl">
+              {/* Imaj kounya itilize object-top pou tèt la pa janm koupe sou mobil */}
+              <div className="relative mx-auto w-full h-36 sm:h-48 order-1 sm:order-2 overflow-hidden rounded-xl border border-white/15 shadow-xl">
                <Image
                  src="/images/fednel-coding.jpg" 
                  alt="Fednel Charité coding"
                  fill
                  priority 
-                 className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                 className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                />
               </div>
             </div>
@@ -239,11 +234,11 @@ export default function ContactPage() {
         {/* Kolòn Dwat : Sidebar Info + Resume CTA + Socials */}
         <div className="space-y-6">
           {/* Email Direct */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
-            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+            <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <Mail size={20} />
             </span>
-            <p className="mt-5 font-sans text-base font-bold text-paper">
+            <p className="mt-4 sm:mt-5 font-sans text-base font-bold text-paper">
               {labels.directEmailTitle}
             </p>
             <a
@@ -254,12 +249,12 @@ export default function ContactPage() {
             </a>
           </div>
 
-          {/* Hiring / Resume Modal Card - Korije pou pase openModal(language) */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
-            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
+          {/* Hiring / Resume Modal Card */}
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+            <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <FileText size={20} />
             </span>
-            <p className="mt-5 font-sans text-base font-bold text-paper">
+            <p className="mt-4 sm:mt-5 font-sans text-base font-bold text-paper">
               {labels.hiringTitle}
             </p>
             <p className="mt-2 font-sans text-sm leading-relaxed text-paper/65">
@@ -267,7 +262,7 @@ export default function ContactPage() {
             </p>
             <button
               onClick={() => openModal(language)}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3.5 font-sans text-sm font-semibold text-paper transition-all duration-300 hover:scale-105 hover:border-accent-400/50 hover:bg-white/[0.08] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95"
+              className="mt-5 sm:mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3.5 font-sans text-sm font-semibold text-paper transition-all duration-300 hover:scale-105 hover:border-accent-400/50 hover:bg-white/[0.08] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95"
             >
               <FileText size={16} />
               {labels.btnResume}
@@ -276,17 +271,17 @@ export default function ContactPage() {
           </div>
 
           {/* Social Networks Card */}
-          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-6 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
-            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
+          <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
+            <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <MessageSquare size={20} />
             </span>
-            <p className="mt-5 font-sans text-base font-bold text-paper">
+            <p className="mt-4 sm:mt-5 font-sans text-base font-bold text-paper">
               {labels.socialTitle}
             </p>
             <p className="mt-2 font-sans text-sm leading-relaxed text-paper/65">
               {labels.socialDesc}
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-2.5 sm:gap-3">
               <a
                 href={personalInfo.social.linkedin}
                 target="_blank"

@@ -70,7 +70,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
       
       {/* ---------------------------------------------------------------- */}
-      {/* 1. SEKSYON BIOGRAFIC ANLE NET                                    */}
+      {/* 1. SEKSYON BIOGRAFIC ANLE NET                                   */}
       {/* ---------------------------------------------------------------- */}
       <section className="rounded-3xl border border-white/10 bg-ink-surface/50 p-8 sm:p-12 backdrop-blur-xl shadow-glow">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
@@ -101,7 +101,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* 2. LES TROIS PILIERS                                             */}
+      {/* 2. LES TROIS PILIERS                                            */}
       {/* ---------------------------------------------------------------- */}
       <section className="mt-20">
         <h2 className="font-sans text-2xl font-bold text-paper sm:text-3xl">
@@ -241,19 +241,19 @@ export default function AboutPage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* MODAL POP-UP (Affiche l'image du certificat OU la barre %)       */}
+      {/* MODAL POP-UP (Adapté aux grands écrans / Desktop)                */}
       {/* ---------------------------------------------------------------- */}
       {selectedCert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-fadeIn">
-          <div className="relative max-w-3xl w-full rounded-2xl border border-white/10 bg-ink-surface p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 sm:p-6 lg:p-8 backdrop-blur-md animate-fadeIn">
+          <div className="relative max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-ink-surface p-6 sm:p-8 shadow-2xl space-y-4">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
-                <h3 className="font-sans text-lg font-bold text-paper">
+                <h3 className="font-sans text-lg sm:text-xl font-bold text-paper">
                   {selectedCert.name}
                 </h3>
-                <p className="font-mono text-xs text-accent-300">{selectedCert.issuer}</p>
+                <p className="font-mono text-xs sm:text-sm text-accent-300">{selectedCert.issuer}</p>
               </div>
               <button
                 onClick={() => setSelectedCert(null)}
@@ -264,10 +264,10 @@ export default function AboutPage() {
             </div>
 
             {/* Content: Si Complété -> Imaj / Si In-Progress -> Barre % */}
-            <div className="relative min-h-[250px] w-full overflow-hidden rounded-xl bg-black/40 border border-white/5 flex flex-col items-center justify-center p-6">
+            <div className="relative min-h-[250px] lg:min-h-[350px] w-full overflow-hidden rounded-xl bg-black/40 border border-white/5 flex flex-col items-center justify-center p-4 sm:p-6">
               {selectedCert.status === "completed" ? (
                 selectedCert.imageUrl ? (
-                  <div className="relative aspect-[4/3] w-full">
+                  <div className="relative aspect-[4/3] lg:aspect-[16/9] w-full max-h-[60vh]">
                     <Image
                       src={selectedCert.imageUrl}
                       alt={selectedCert.name}
