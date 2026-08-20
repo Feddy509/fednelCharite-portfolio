@@ -1,6 +1,5 @@
 name: CI Quality & Security Gate
 
-# Déclencheurs / Triggers
 on:
   push:
     branches: [ main ]
@@ -13,39 +12,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Récupération du code source / Checkout source code
-      - name: Checkout repository / Récupérer le code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Installation de pnpm / Install pnpm
-      - name: Install pnpm / Installer pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      # 3. Configuration de Node.js / Setup Node.js environment
-      - name: Setup Node.js / Configurer Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      # 4. Installation des dépendances avec pnpm / Install dependencies
-      - name: Install dependencies / Installer les dépendances
-        run: pnpm install --frozen-lockfile
+      - name: Enable Corepack & Install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.1.0 --activate
 
-      # 5. Vérification de la qualité du code (ESLint) / Run ESLint check
-      - name: Run Linter / Exécuter le linter
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile --ignore-workspace
+
+      - name: Run Linter
         run: pnpm run lint
 
-      # 6. Vérification des types TypeScript / Run TypeScript check
-      - name: Type check / Vérifier les types TypeScript
+      - name: Type check
         run: npx tsc --noEmit
 
-      # 7. Audit de sécurité des dépendances / Security Audit
-      - name: Security Audit / Audit de sécurité
+      - name: Security Audit
         run: pnpm audit --audit-level=high || true
 
-      # 8. Test de Build Next.js / Test Next.js Build
-      - name: Test Build / Tester la compilation Next.js
+      - name: Test Build
         run: pnpm run build
