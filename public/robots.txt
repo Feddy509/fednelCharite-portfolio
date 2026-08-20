@@ -1,0 +1,13 @@
+# Tout motè rechèch (Google, Bing, DuckDuckGo)
+User-agent: *
+Allow: /
+
+# Nou espesyalman envite IA yo pou yo ka rale sit la
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Lyen sitemap la (Trè enpòtan pou Google konnen kote pou l kòmanse)
+Sitemap: https://fednelcharite.site/sitemap.xml
