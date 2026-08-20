@@ -17,22 +17,21 @@ jobs:
       - name: Checkout repository / Récupérer le code
         uses: actions/checkout@v4
 
-      # 2. Installation de pnpm / Install pnpm
-      - name: Install pnpm / Installer pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
-
-      # 3. Configuration de Node.js / Setup Node.js environment
+      # 2. Configuration de Node.js / Setup Node.js environment
       - name: Setup Node.js / Configurer Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # 3. Installation de pnpm / Install pnpm
+      - name: Install pnpm / Installer pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       # 4. Installation des dépendances avec pnpm / Install dependencies
       - name: Install dependencies / Installer les dépendances
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       # 5. Vérification de la qualité du code (ESLint) / Run ESLint check
       - name: Run Linter / Exécuter le linter
