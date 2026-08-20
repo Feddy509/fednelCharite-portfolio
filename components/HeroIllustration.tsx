@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { Terminal } from "lucide-react";
 import styles from "./HeroIllustration.module.css";
@@ -8,7 +6,7 @@ export default function HeroIllustration() {
   return (
     <div className={styles.container}>
       {/* ---------------------------------------------------------------- */}
-      {/* SVG Shapes (Grand secteur blanc + Arc bleu élargis)             */}
+      {/* SVG Shapes (Grand secteur blanc + Arc bleu élargis)            */}
       {/* ---------------------------------------------------------------- */}
       <svg
         className={styles.heroSvg}
