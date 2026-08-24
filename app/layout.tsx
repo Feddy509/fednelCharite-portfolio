@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     siteName: personalInfo.name,
     locale: "fr_FR",
     type: "website",
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }], // Asire w ou gen imaj sa nan folder /public
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${personalInfo.name} - Full-Stack Software Engineer`,
+    title: `${personalInfo.name} - Full-Stack Software Engineer & Aspiring DevSecOps`,
     description: personalInfo.heroVision,
     images: ['/og-image.png'],
   },
@@ -49,7 +49,7 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        {/* JSON-LD Structured Data pou IA yo */}
+        {/* JSON-LD Structured Data pou SEO ak IA yo */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -57,16 +57,39 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": personalInfo.name,
-              "jobTitle": "Full-Stack Software Engineer & DevSecOps",
+              "jobTitle": "Full-Stack Software Engineer & Aspiring DevSecOps",
               "url": siteUrl,
               "sameAs": [
-                personalInfo.social?.linkedin || "",
-                personalInfo.social?.github || ""
+                "https://www.linkedin.com/in/fednel-charit%C3%A9-05271823b/",
+                "https://github.com/Feddy509",
+                "https://x.com/fednelcharite",
+                "https://www.facebook.com/FednelCharite/"
               ],
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Solutions Technologies Hub"
-              }
+              "worksFor": [
+                {
+                  "@type": "Organization",
+                  "name": "Solutions Technologies Hub"
+                },
+                {
+                  "@type": "Organization",
+                  "name": "Zye Klere"
+                }
+              ],
+              "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Université Unitech"
+              },
+              "knowsAbout": [
+                "Software Engineering",
+                "Full-Stack Development",
+                "DevSecOps",
+                "Cybersecurity",
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Node.js",
+                "Docker"
+              ]
             }),
           }}
         />
