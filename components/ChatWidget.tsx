@@ -15,17 +15,21 @@ export default function ChatWidget() {
   const { language } = useLanguage();
   const isEn = language === "en";
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: isEn
-        ? "Hello! I'm Feddy, Fednel Charité's virtual assistant. How can I help you learn more about his background, skills, or projects?"
-        : "Bonjour ! Je suis Feddy, l'assistant virtuel de Fednel Charité. Comment puis-je vous aider à découvrir son parcours, ses compétences ou ses projets ?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMessages([
+      {
+        role: "assistant",
+        content: isEn
+          ? "Hello! I'm Feddy, Fednel Charité's virtual assistant. How can I help you learn more about his background, skills, or projects?"
+          : "Bonjour ! Je suis Feddy, l'assistant virtuel de Fednel Charité. Comment puis-je vous aider à découvrir son parcours, ses compétences ou ses projets ?",
+      },
+    ]);
+  }, [language]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -51,16 +55,17 @@ export default function ChatWidget() {
       });
 
       const data = await response.json();
-      if (response.ok) {
+      if (response.ok && data.reply) {
         setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
       } else {
+        const errorMsg = data.error || (isEn ? "Unknown server error" : "Erreur serveur inconnue");
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
             content: isEn
-              ? "Sorry, I encountered an error. Please check your API key configuration."
-              : "Désolé, une erreur s'est produite. Veuillez vérifier la configuration de votre clé API.",
+              ? `⚠️ Error: ${errorMsg}`
+              : `⚠️ Erreur : ${errorMsg}`,
           },
         ]);
       }
@@ -82,7 +87,6 @@ export default function ChatWidget() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 font-sans">
-      {/* Bouton Won Minimalist (Floating Action Button) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -95,26 +99,20 @@ export default function ChatWidget() {
             className="group relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-tr from-accent-600 to-cyan-500 text-white shadow-2xl transition duration-300 border border-white/20 hover:shadow-accent-500/50 hover:shadow-lg cursor-pointer"
             aria-label="Open Feddy Chat"
           >
-            {/* Avatè an won */}
-            <div className="relative flex h-full w-full items-center justify-center rounded-full overflow-hidden bg-ink">
+            <div className="relative flex h-full w-full items-center justify-center rounded-full overflow-hidden bg-[#060b18]">
               <img 
-                src="/avatar.png" 
-                alt="Feddy" 
+                src="/images/avatar.png" 
+                alt="Feddy Avatar" 
                 className="h-full w-full object-cover"
                 onError={(e) => {
-                  // Si imaj la pa jwenn nan public/avatar.png, l ap afiche icon Bot la kòm sekirite
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <div className="absolute inset-0 flex items-center justify-center text-white">
-                <Bot size={22} className="opacity-0 [.fallback-active_&]:opacity-100" />
-              </div>
+              <Bot size={22} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
             </div>
 
-            {/* Pwen vèt ki ap bat (Online indicator) */}
             <span className="absolute top-0 right-0 h-3.5 w-3.5 rounded-full bg-emerald-400 animate-pulse border-2 border-[#081226]" />
 
-            {/* Tooltip minimalist ki parèt lè w pase sourit la */}
             <span className="absolute right-16 px-3 py-1.5 rounded-xl bg-[#081226]/95 border border-white/10 text-paper text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-xl backdrop-blur-md">
               {isEn ? "Chat with Feddy AI ✨" : "Discuter avec Feddy AI ✨"}
             </span>
@@ -122,7 +120,6 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* Fenèt Chat la */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -132,13 +129,12 @@ export default function ChatWidget() {
             transition={{ duration: 0.2 }}
             className="flex flex-col h-[480px] w-[350px] sm:w-[380px] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
           >
-            {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/80 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
                   <img 
-                    src="/avatar.png" 
-                    alt="Feddy" 
+                    src="/images/avatar.png" 
+                    alt="Feddy Avatar" 
                     className="h-full w-full object-cover" 
                   />
                   <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-[#060b18]" />
@@ -161,7 +157,6 @@ export default function ChatWidget() {
               </button>
             </div>
 
-            {/* Kò Konvèsasyon an */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((msg, index) => (
                 <div
@@ -171,8 +166,8 @@ export default function ChatWidget() {
                   }`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
-                      <img src="/avatar.png" alt="Feddy" className="h-full w-full object-cover" />
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
+                      <img src="/images/avatar.png" alt="Feddy Avatar" className="h-full w-full object-cover" />
                     </div>
                   )}
                   <div
@@ -194,8 +189,8 @@ export default function ChatWidget() {
 
               {isLoading && (
                 <div className="flex gap-2.5 items-center">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
-                    <img src="/avatar.png" alt="Feddy" className="h-full w-full object-cover" />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
+                    <img src="/images/avatar.png" alt="Feddy Avatar" className="h-full w-full object-cover" />
                   </div>
                   <div className="bg-white/[0.06] border border-white/10 rounded-xl rounded-bl-none px-3.5 py-2.5 text-paper/70 flex items-center gap-2">
                     <Loader2 size={14} className="animate-spin text-cyan-400" />
@@ -206,7 +201,6 @@ export default function ChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Fòm pou voye mesaj */}
             <form
               onSubmit={handleSubmit}
               className="border-t border-white/10 bg-[#060b18]/80 p-3 flex items-center gap-2"
