@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Github, Linkedin, Mail, ExternalLink, ChevronRight, MessageSquareCode } from "lucide-react";
 import { portfolioData, personalInfo } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { track } from "@vercel/analytics"; // Enpòtasyon pou Custom Events Tracking
 
 const XIcon = ({ size = 16 }: { size?: number }) => (
   <svg
@@ -192,6 +193,7 @@ export default function Footer() {
                   href="https://wa.me/50931554716" 
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track("Contact WhatsApp", { location: "Footer" })}
                   className="flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 font-sans text-xs sm:text-sm font-bold text-white shadow-md transition duration-200 active:scale-95"
                 >
                   <WhatsappIcon size={16} />
