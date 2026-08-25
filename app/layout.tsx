@@ -8,6 +8,7 @@ import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
 import { LanguageProvider } from "@/app/context/LanguageContext";
 import { Analytics } from "@vercel/analytics/react"; // Enpòtasyon Analytics
+import ChatWidget from "@/components/ChatWidget"; // Enpòtasyon Asistan Feddy
 
 // 1. Config polis yo
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -102,6 +103,7 @@ export default function RootLayout({
               <main className="flex-1 pt-2 sm:pt-4">{children}</main>
               <Footer />
               <Analytics /> {/* Entegrasyon Vercel Analytics */}
+              <ChatWidget /> {/* Entegrasyon Asistan Feddy */}
             </div>
           </ResumeModalProvider>
         </LanguageProvider>
