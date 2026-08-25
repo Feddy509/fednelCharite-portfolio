@@ -86,20 +86,22 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans">
+    /* Jere pozisyon an reponn pou mobil (left-4 right-4) ak desktop (sm:left-auto sm:right-6) */
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
+      {/* Bouton Bulle Chat Rektangilè */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.1 }}
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-tr from-accent-600 to-cyan-500 text-white shadow-2xl transition duration-300 border border-white/20 hover:shadow-accent-500/50 hover:shadow-lg cursor-pointer"
+            className="group flex items-center gap-3 rounded-2xl bg-[#081226]/95 hover:bg-[#0c1833] px-4 py-3 text-white shadow-2xl transition duration-300 border border-white/15 backdrop-blur-xl cursor-pointer"
             aria-label="Open Feddy Chat"
           >
-            <div className="relative flex h-full w-full items-center justify-center rounded-full overflow-hidden bg-[#060b18]">
+            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border-2 border-accent-500/50 bg-[#060b18]">
               <img 
                 src="/images/avatar.png" 
                 alt="Feddy Avatar" 
@@ -108,18 +110,23 @@ export default function ChatWidget() {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <Bot size={22} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
+              <Bot size={20} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
+              <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#081226] animate-pulse" />
             </div>
 
-            <span className="absolute top-0 right-0 h-3.5 w-3.5 rounded-full bg-emerald-400 animate-pulse border-2 border-[#081226]" />
-
-            <span className="absolute right-16 px-3 py-1.5 rounded-xl bg-[#081226]/95 border border-white/10 text-paper text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-xl backdrop-blur-md">
-              {isEn ? "Chat with Feddy AI ✨" : "Discuter avec Feddy AI ✨"}
-            </span>
+            <div className="flex flex-col text-left">
+              <span className="text-xs font-bold tracking-wide text-paper flex items-center gap-1.5">
+                Feddy AI <Sparkles size={12} className="text-yellow-400" />
+              </span>
+              <span className="text-[11px] text-paper/70 font-medium">
+                {isEn ? "Chat with me ✨" : "Discuter avec moi ✨"}
+              </span>
+            </div>
           </motion.button>
         )}
       </AnimatePresence>
 
+      {/* Fenèt Chat la - Ajiste ak w-full sou mobil epi sm:w-[380px] sou gwo ekran */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -127,8 +134,9 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col h-[480px] w-[350px] sm:w-[380px] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            className="flex flex-col h-[480px] w-full sm:w-[380px] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
           >
+            {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/80 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
                 <div className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
@@ -157,6 +165,7 @@ export default function ChatWidget() {
               </button>
             </div>
 
+            {/* Kò Konvèsasyon an */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((msg, index) => (
                 <div
@@ -201,6 +210,7 @@ export default function ChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Fòm pou voye mesaj */}
             <form
               onSubmit={handleSubmit}
               className="border-t border-white/10 bg-[#060b18]/80 p-3 flex items-center gap-2"

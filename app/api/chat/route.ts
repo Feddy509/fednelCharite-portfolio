@@ -68,7 +68,7 @@ STRICT BEHAVIOR RULES:
         "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
+        model: "llama-3.3-70b-versatile", // Nou mete modèl ki pi estab ak pwisan nan Groq la
         messages: [
           { role: "system", content: activeSystemPrompt },
           ...messages,
