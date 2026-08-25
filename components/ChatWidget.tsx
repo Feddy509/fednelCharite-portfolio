@@ -20,14 +20,13 @@ export default function ChatWidget() {
       role: "assistant",
       content: isEn
         ? "Hello! I'm Feddy, Fednel Charité's virtual assistant. How can I help you learn more about his background, skills, or projects?"
-        : "Bonjou! Mwen se Feddy, asistan vityèl Fednel Charité. Kijan m ka ede w dekouvri parcours, konpetans oswa pwojè l yo?",
+        : "Bonjour ! Je suis Feddy, l'assistant virtuel de Fednel Charité. Comment puis-je vous aider à découvrir son parcours, ses compétences ou ses projets ?",
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Desann nan dènye mesaj la otomatikman lè gen nouvo mesaj
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
@@ -60,8 +59,8 @@ export default function ChatWidget() {
           {
             role: "assistant",
             content: isEn
-              ? "Sorry, I encountered an error. Please try again later."
-              : "Eskize m, gen yon erè ki pwodui. Tanpri eseye ankò pita.",
+              ? "Sorry, I encountered an error. Please check your API key configuration."
+              : "Désolé, une erreur s'est produite. Veuillez vérifier la configuration de votre clé API.",
           },
         ]);
       }
@@ -73,7 +72,7 @@ export default function ChatWidget() {
           role: "assistant",
           content: isEn
             ? "Network error. Please check your connection."
-            : "Erè rezo. Tanpri tcheke koneksyon ou.",
+            : "Erreur réseau. Veuillez vérifier votre connexion.",
         },
       ]);
     } finally {
@@ -83,31 +82,42 @@ export default function ChatWidget() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 font-sans">
-      {/* Bouton Flotan pou louvri Chat la */}
+      {/* Bouton Won Minimalist (Floating Action Button) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group flex items-center gap-2.5 rounded-full bg-accent-600 hover:bg-accent-500 px-4 py-3 text-white shadow-xl transition duration-200 border border-white/15"
+            className="group relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-tr from-accent-600 to-cyan-500 text-white shadow-2xl transition duration-300 border border-white/20 hover:shadow-accent-500/50 hover:shadow-lg cursor-pointer"
             aria-label="Open Feddy Chat"
           >
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white font-mono text-xs font-bold">
-              <span>FC</span>
-              <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse border-2 border-accent-600" />
+            {/* Avatè an won */}
+            <div className="relative flex h-full w-full items-center justify-center rounded-full overflow-hidden bg-ink">
+              <img 
+                src="/avatar.png" 
+                alt="Feddy" 
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  // Si imaj la pa jwenn nan public/avatar.png, l ap afiche icon Bot la kòm sekirite
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center text-white">
+                <Bot size={22} className="opacity-0 [.fallback-active_&]:opacity-100" />
+              </div>
             </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xs font-semibold tracking-wide flex items-center gap-1">
-                Feddy AI <Sparkles size={11} className="text-yellow-300" />
-              </span>
-              <span className="text-[10px] text-white/80">
-                {isEn ? "Ask me anything" : "Poze m kesyon"}
-              </span>
-            </div>
+
+            {/* Pwen vèt ki ap bat (Online indicator) */}
+            <span className="absolute top-0 right-0 h-3.5 w-3.5 rounded-full bg-emerald-400 animate-pulse border-2 border-[#081226]" />
+
+            {/* Tooltip minimalist ki parèt lè w pase sourit la */}
+            <span className="absolute right-16 px-3 py-1.5 rounded-xl bg-[#081226]/95 border border-white/10 text-paper text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-xl backdrop-blur-md">
+              {isEn ? "Chat with Feddy AI ✨" : "Discuter avec Feddy AI ✨"}
+            </span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -125,8 +135,12 @@ export default function ChatWidget() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/80 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-accent-600/20 border border-accent-500/30 text-cyan-400 font-bold text-sm">
-                  <Bot size={18} />
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
+                  <img 
+                    src="/avatar.png" 
+                    alt="Feddy" 
+                    className="h-full w-full object-cover" 
+                  />
                   <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-[#060b18]" />
                 </div>
                 <div>
@@ -134,13 +148,13 @@ export default function ChatWidget() {
                     Feddy <span className="text-[10px] font-mono font-normal text-cyan-400 px-1.5 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/20">AI Assistant</span>
                   </h3>
                   <p className="text-[11px] text-paper/60">
-                    {isEn ? "Online • Ready to assist" : "Anliy • Disponib pou ede w"}
+                    {isEn ? "Online • Ready to assist" : "En ligne • Prêt à vous aider"}
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg p-1.5 text-paper/60 hover:bg-white/10 hover:text-paper transition"
+                className="rounded-lg p-1.5 text-paper/60 hover:bg-white/10 hover:text-paper transition cursor-pointer"
                 aria-label="Close chat"
               >
                 <X size={18} />
@@ -157,8 +171,8 @@ export default function ChatWidget() {
                   }`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-600/20 border border-accent-500/30 text-cyan-400">
-                      <Bot size={14} />
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
+                      <img src="/avatar.png" alt="Feddy" className="h-full w-full object-cover" />
                     </div>
                   )}
                   <div
@@ -180,12 +194,12 @@ export default function ChatWidget() {
 
               {isLoading && (
                 <div className="flex gap-2.5 items-center">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-600/20 border border-accent-500/30 text-cyan-400">
-                    <Bot size={14} />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-ink">
+                    <img src="/avatar.png" alt="Feddy" className="h-full w-full object-cover" />
                   </div>
                   <div className="bg-white/[0.06] border border-white/10 rounded-xl rounded-bl-none px-3.5 py-2.5 text-paper/70 flex items-center gap-2">
                     <Loader2 size={14} className="animate-spin text-cyan-400" />
-                    <span className="text-xs">{isEn ? "Feddy is thinking..." : "Feddy ap reflechi..."}</span>
+                    <span className="text-xs">{isEn ? "Feddy is thinking..." : "Feddy réfléchit..."}</span>
                   </div>
                 </div>
               )}
@@ -204,14 +218,14 @@ export default function ChatWidget() {
                 placeholder={
                   isEn
                     ? "Ask about Fednel's skills, projects..."
-                    : "Poze kesyon sou konpetans, pwojè..."
+                    : "Posez vos questions sur les compétences, projets..."
                 }
                 className="flex-1 rounded-xl border border-white/15 bg-white/[0.04] px-3.5 py-2 text-xs sm:text-sm text-paper placeholder:text-paper/40 focus:border-accent-500 focus:outline-none transition"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-600 text-white shadow-md transition hover:bg-accent-500 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-600 text-white shadow-md transition hover:bg-accent-500 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 aria-label="Send message"
               >
                 <Send size={15} />
