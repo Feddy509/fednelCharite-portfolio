@@ -86,9 +86,8 @@ export default function ChatWidget() {
   };
 
   return (
-    /* Jere pozisyon an reponn pou mobil (left-4 right-4) ak desktop (sm:left-auto sm:right-6) */
-    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
-      {/* Bouton Bulle Chat Rektangilè */}
+    <div className="fixed bottom-3 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
+      {/* Bouton Bulle Chat Flotan */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -126,7 +125,7 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* Fenèt Chat la - Ajiste ak w-full sou mobil epi sm:w-[380px] sou gwo ekran */}
+      {/* Fenèt Chat la - Ajiste wotè l pou l pa janm monte sou eleman ekran yo sou mobil */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -134,7 +133,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col h-[480px] w-full sm:w-[380px] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            className="flex flex-col h-[420px] sm:h-[480px] w-full sm:w-[380px] max-h-[80vh] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/80 px-4 py-3.5">
