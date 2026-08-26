@@ -64,9 +64,7 @@ export default function ChatWidget() {
           ...prev,
           {
             role: "assistant",
-            content: isEn
-              ? `⚠️ Error: ${errorMsg}`
-              : `⚠️ Erreur : ${errorMsg}`,
+            content: isEn ? `⚠️ Error: ${errorMsg}` : `⚠️ Erreur : ${errorMsg}`,
           },
         ]);
       }
@@ -88,7 +86,8 @@ export default function ChatWidget() {
 
   return (
     <div className="fixed bottom-4 right-4 sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
-      {/* Bouton Flotan An Fòm De Bil Kole (Double Speech Bubble ki fusionnen) */}
+      
+      {/* Bouton Flotan An Fòm Egzakman Jan Ou Vle A (Double Bil ak Avata ak Ti Pwen Vèt) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -98,11 +97,11 @@ export default function ChatWidget() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center -space-x-1.5 cursor-pointer focus:outline-none"
+            className="group relative flex items-center -space-x-2 cursor-pointer focus:outline-none"
             aria-label="Open Feddy Chat"
           >
-            {/* Premye Bil (Bil Aven la ak foto w kòm yon ti bul avata won) */}
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl overflow-hidden border-2 border-cyan-400 bg-[#081226] shadow-xl shadow-cyan-500/20 z-10 shrink-0">
+            {/* Premye Bil (Avata foto w ak fwontyè Cyan ak Ti Pwen Vèt la anba a) */}
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-[22px] overflow-hidden border-[2.5p] border-cyan-400 bg-[#081226] shadow-2xl shadow-cyan-500/30 z-10 shrink-0">
               <img 
                 src="/images/avatar.png" 
                 alt="Feddy Avatar" 
@@ -111,23 +110,24 @@ export default function ChatWidget() {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <Bot size={20} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
-              <span className="absolute bottom-0.5 right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#081226] animate-pulse" />
+              <Bot size={22} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
+              {/* Ti pwen vèt la ki kanpe egzakman menm jan ak nan imaj la */}
+              <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full bg-emerald-400 border-2 border-[#081226] shadow-md animate-pulse" />
             </div>
 
-            {/* Dezyèm Bil (Bil Tèks ki kole drese ak premye a tankou ikòn nan) */}
-            <div className="relative bg-[#081226] text-white pl-5 pr-4 py-2.5 rounded-2xl shadow-xl border border-cyan-500/40 backdrop-blur-xl flex items-center gap-2">
-              <MessageSquare size={14} className="text-cyan-400" />
-              <span className="text-xs font-semibold tracking-wide text-paper font-heading whitespace-nowrap">
+            {/* Dezyèm Bil (Feddy AI ak ti ikòn chat ak etwal klere) */}
+            <div className="relative bg-[#060b18] text-white pl-6 pr-5 py-3 rounded-3xl shadow-2xl border border-cyan-500/50 backdrop-blur-2xl flex items-center gap-2.5">
+              <MessageSquare size={16} className="text-cyan-400 shrink-0" />
+              <span className="text-xs sm:text-sm font-bold tracking-wide text-white font-heading whitespace-nowrap">
                 Feddy AI
               </span>
-              <Sparkles size={12} className="text-cyan-300 animate-pulse" />
+              <Sparkles size={14} className="text-cyan-400 animate-pulse shrink-0" />
             </div>
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Fenèt Chat la */}
+      {/* Fenèt Chat la - Koreksyon pafè pou mobil (Santre nèt, pa koupe) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -135,7 +135,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col h-[420px] sm:h-[480px] w-full sm:w-[380px] max-h-[78vh] rounded-2xl border border-cyan-500/30 bg-[#081226]/98 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            className="flex flex-col h-[440px] sm:h-[480px] w-[94vw] sm:w-[380px] max-w-[380px] max-h-[80vh] rounded-2xl border border-cyan-500/40 bg-[#081226]/98 backdrop-blur-2xl shadow-2xl overflow-hidden fixed bottom-4 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 mx-auto"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/90 px-4 py-3.5">
