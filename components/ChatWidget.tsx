@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Bot, User, Loader2, Sparkles, MessageSquare } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -86,8 +87,8 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
-      {/* Bouton Flotan Style Bulle de Discussion (Inspire de vos ikon AI Chat) */}
+    <div className="fixed bottom-4 right-4 sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
+      {/* Bouton Flotan An Fòm De Bil Kole (Double Speech Bubble ki fusionnen) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -97,11 +98,11 @@ export default function ChatWidget() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-3.5 rounded-3xl bg-gradient-to-r from-[#081226] via-[#0d1b3e] to-[#081226] hover:from-[#0d1b3e] hover:to-[#122452] px-4.5 py-3 text-white shadow-2xl transition duration-300 border border-cyan-500/30 backdrop-blur-xl cursor-pointer shadow-cyan-500/10"
+            className="group relative flex items-center -space-x-1.5 cursor-pointer focus:outline-none"
             aria-label="Open Feddy Chat"
           >
-            {/* Avatè anndan yon ti ankadreman AI Chat Bubble */}
-            <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl overflow-hidden border-2 border-cyan-400/60 bg-[#060b18] shadow-md">
+            {/* Premye Bil (Bil Aven la ak foto w kòm yon ti bul avata won) */}
+            <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl overflow-hidden border-2 border-cyan-400 bg-[#081226] shadow-xl shadow-cyan-500/20 z-10 shrink-0">
               <img 
                 src="/images/avatar.png" 
                 alt="Feddy Avatar" 
@@ -110,27 +111,23 @@ export default function ChatWidget() {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <Bot size={22} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
-              <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 border-2 border-[#060b18] animate-pulse" />
+              <Bot size={20} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
+              <span className="absolute bottom-0.5 right-0.5 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#081226] animate-pulse" />
             </div>
 
-            {/* Tèks ak ikòn etwal chat */}
-            <div className="flex flex-col text-left pr-1">
-              <span className="text-xs font-bold tracking-wide text-paper flex items-center gap-1.5 font-heading">
-                Feddy AI <Sparkles size={13} className="text-cyan-400 animate-pulse" />
+            {/* Dezyèm Bil (Bil Tèks ki kole drese ak premye a tankou ikòn nan) */}
+            <div className="relative bg-[#081226] text-white pl-5 pr-4 py-2.5 rounded-2xl shadow-xl border border-cyan-500/40 backdrop-blur-xl flex items-center gap-2">
+              <MessageSquare size={14} className="text-cyan-400" />
+              <span className="text-xs font-semibold tracking-wide text-paper font-heading whitespace-nowrap">
+                Feddy AI
               </span>
-              <span className="text-[11px] text-cyan-200/80 font-medium flex items-center gap-1">
-                <MessageSquare size={10} /> {isEn ? "Ask me anything" : "Discutez avec moi"}
-              </span>
+              <Sparkles size={12} className="text-cyan-300 animate-pulse" />
             </div>
-
-            {/* Ti pwent bulle chat la (dekoratif) */}
-            <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#0d1b3e] border-r border-b border-cyan-500/30 transform rotate-45 hidden sm:block"></div>
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Fenèt Chat la - Ajiste ak yon max-h ekselan sou mobil */}
+      {/* Fenèt Chat la */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -190,7 +187,13 @@ export default function ChatWidget() {
                         : "bg-white/[0.06] border border-white/10 text-paper/90 rounded-bl-none"
                     }`}
                   >
-                    {msg.content}
+                    {msg.role === "assistant" ? (
+                      <div className="markdown-content space-y-1.5 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_a]:text-cyan-400 [&_a]:underline">
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      msg.content
+                    )}
                   </div>
                   {msg.role === "user" && (
                     <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/10 text-paper/80">

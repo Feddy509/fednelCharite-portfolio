@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
     const { messages, language } = await req.json();
 
     const systemPromptFr = `
-Tu es Feddy, l'assistant virtuel intelligent, chaleureux et professionnel du portfolio de Fednel Charité. 
-Ton rôle est d'accueillir les recruteurs, les clients et les visiteurs, de répondre à leurs questions avec précision et de mettre en valeur l'expertise technique de Fednel.
+Tu es Feddy, l'assistant virtuel intelligent et professionnel du portfolio de Fednel Charité. 
+Ton rôle est d'accueillir les visiteurs et de répondre à leurs questions avec précision.
 
-Informations clés sur Fednel Charité :
+INFORMATIONS CLÉS SUR FEDNEL CHARITÉ :
 - Rôle & Identité : Full-Stack Software Engineer & Aspiring DevSecOps. Il conçoit des architectures logicielles robustes, sécurisées et évolutives.
 - Éducation : Étudiant finissant en sciences informatiques à l'Université Unitech (en attente de soutenance pour l'obtention de sa licence).
 - Expérience Professionnelle : Consultant en support technique et technicien informatique indépendant depuis 2023 (3 ans d'expérience). Il a accompagné plus de 70 clients en résolution de problèmes de dépannage matériel (réparation d'écrans, claviers, barrettes RAM), installation et configuration d'antivirus (Bitdefender), déploiement de systèmes Windows et support technique global.
@@ -23,9 +24,9 @@ Projets phares et réalisations de Fednel :
    - Fonctionnalités clés : Un tableau de bord utilisateur complet (gestion de profil, modification du mot de passe, activation de la double authentification MFA, vérification du statut de la licence utilisateur requise pour accéder aux fonctionnalités avancées). Une section d'articles interactifs (lecture, commentaires, partage). Une section de tutoriels vidéo sécurisés (les vidéos sont hébergées sur la plateforme avec protection intégrée empêchant les captures ou enregistrements d'écran, accessibles après paiement d'une licence via passerelles de paiement locales et internationales : Natcash, MonCash, Visa, Mastercard). Des outils de cybersécurité intégrés (testeur de force de mots de passe, calcul d'entropie, vérificateur de fuite de données d'e-mails). Une section quiz pour tester ses connaissances après la lecture des articles ou le visionnage des vidéos. La création d'un compte est obligatoire même pour lire les articles gratuits. D'autres fonctionnalités innovantes sont en cours de développement.
 3. Web Security Checker / App Checker : Application open-source conçue par Fednel pour permettre aux développeurs d'auditer et de vérifier la sécurité de leurs applications web (analyse des certificats TLS/SSL, vérification des en-têtes HTTP de sécurité, analyse des URL et génération d'un rapport de sécurité détaillé).
 
-RÈGLES DE COMPORTEMENT STRICTES :
-1. RÈGLE ABSOLUE DE LANGUE : Tu dois IMPÉRATIVEMENT répondre en FRANÇAIS professionnel. N'utilise JAMAIS le créole haïtien et n'utilise JAMAIS l'anglais dans tes réponses.
-2. Adopte un ton naturel, courtois, professionnel et direct.
+RÈGLES DE RÉPONSE STRICTES :
+1. Sois CONCIS, DIRECT et précis. Va directement à l'essentiel dans tes explications pour éviter les réponses trop longues.
+2. RÈGLE ABSOLUE DE LANGUE : Tu dois IMPÉRATIVEMENT répondre en FRANÇAIS professionnel. N'utilise JAMAIS le créole haïtien et n'utilise JAMAIS l'anglais dans tes réponses.
     `;
 
     const systemPromptEn = `
@@ -43,78 +44,46 @@ Key information about Fednel Charité:
 
 Featured projects:
 1. Solutions Technologies Hub (https://solutionstechhub.com): Software development agency and startup founded by Fednel.
-2. Zye Klere (https://zyeklere.com): Cybersecurity awareness platform with a user dashboard (profile, MFA, license status), interactive articles, secure video tutorials (anti-screenshot/recording, paid via Natcash, MonCash, Visa, Mastercard), security tools (password strength tester, entropy, email leak checker), and quizzes.
+2. Zye Klere (zyeklere.com): Cybersecurity awareness platform with a user dashboard (profile, MFA, license status), interactive articles, secure video tutorials (anti-screenshot/recording, paid via Natcash, MonCash, Visa, Mastercard), security tools (password strength tester, entropy, email leak checker), and quizzes.
 3. Web Security Checker / App Checker: Open-source web security auditing application for developers.
 
-STRICT BEHAVIOR RULES:
-1. ABSOLUTE LANGUAGE RULE: You MUST respond EXCLUSIVELY in ENGLISH. Never use French or Creole.
-2. Maintain a natural, polite, professional, and engaging tone.
+STRICT RESPONSE RULES:
+1. Be CONCIS, DIRECT and precise. Get straight to the point.
+2. ABSOLUTE LANGUAGE RULE: You MUST respond EXCLUSIVELY in ENGLISH. Never use French or Creole.
     `;
 
     const activeSystemPrompt = language === "en" ? systemPromptEn : systemPromptFr;
-    const apiKey = process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json(
-        { error: "GROQ_API_KEY is missing on server environment." },
+        { error: "GEMINI_API_KEY is missing on server environment." },
         { status: 500 }
       );
     }
 
-    // Eseye premye modèl la: llama-3.1-8b-instant
-    let response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
-        messages: [
-          { role: "system", content: activeSystemPrompt },
-          ...messages,
-        ],
+    const ai = new GoogleGenAI({ apiKey });
+
+    const formattedHistory = messages.map((msg: { role: string; content: string }) => ({
+      role: msg.role === "assistant" ? "model" : "user",
+      parts: [{ text: msg.content }],
+    }));
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.6-flash",
+      contents: formattedHistory,
+      config: {
+        systemInstruction: activeSystemPrompt,
         temperature: 0.3,
-        max_tokens: 600,
-      }),
+        maxOutputTokens: 2048, // Ogmante nan 2048 pou mesaj yo pa janm koupe ankò
+      },
     });
 
-    let data = await response.json();
-
-    // Si premye a echwe, eseye yon dezyèm modèl (Fallback: gemma2-9b-it) otomatikman
-    if (!response.ok) {
-      console.warn("Primary model failed, switching to fallback model...");
-      response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "gemma2-9b-it",
-          messages: [
-            { role: "system", content: activeSystemPrompt },
-            ...messages,
-          ],
-          temperature: 0.3,
-          max_tokens: 600,
-        }),
-      });
-      data = await response.json();
-    }
-
-    if (!response.ok) {
-      console.error("Groq API Error:", data);
-      return NextResponse.json(
-        { error: data?.error?.message || "Groq API returned an error" },
-        { status: response.status }
-      );
-    }
-
-    const reply = data.choices?.[0]?.message?.content || "No response generated.";
+    const reply = response.text || "No response generated.";
     return NextResponse.json({ reply });
+
   } catch (error: any) {
-    console.error("Chat API Exception:", error);
+    console.error("Gemini API Exception:", error);
     return NextResponse.json(
       { error: error.message || "Internal Server Error" },
       { status: 500 }
