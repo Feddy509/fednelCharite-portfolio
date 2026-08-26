@@ -61,14 +61,15 @@ STRICT BEHAVIOR RULES:
       );
     }
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    // Eseye premye modèl la: llama-3.1-8b-instant
+    let response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant", // Modèl ki pi stab epi ki garanti sou Groq Free Tier la
+        model: "llama-3.1-8b-instant",
         messages: [
           { role: "system", content: activeSystemPrompt },
           ...messages,
@@ -78,7 +79,29 @@ STRICT BEHAVIOR RULES:
       }),
     });
 
-    const data = await response.json();
+    let data = await response.json();
+
+    // Si premye a echwe, eseye yon dezyèm modèl (Fallback: gemma2-9b-it) otomatikman
+    if (!response.ok) {
+      console.warn("Primary model failed, switching to fallback model...");
+      response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gemma2-9b-it",
+          messages: [
+            { role: "system", content: activeSystemPrompt },
+            ...messages,
+          ],
+          temperature: 0.3,
+          max_tokens: 600,
+        }),
+      });
+      data = await response.json();
+    }
 
     if (!response.ok) {
       console.error("Groq API Error:", data);
