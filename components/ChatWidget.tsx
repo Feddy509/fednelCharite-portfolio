@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Bot, User, Loader2, Sparkles } from "lucide-react";
+import { X, Send, Bot, User, Loader2, Sparkles, MessageSquare } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 interface Message {
@@ -86,8 +86,8 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-3 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
-      {/* Bouton Bulle Chat Flotan */}
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
+      {/* Bouton Flotan Style Bulle de Discussion (Inspire de vos ikon AI Chat) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -97,10 +97,11 @@ export default function ChatWidget() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="group flex items-center gap-3 rounded-2xl bg-[#081226]/95 hover:bg-[#0c1833] px-4 py-3 text-white shadow-2xl transition duration-300 border border-white/15 backdrop-blur-xl cursor-pointer"
+            className="group relative flex items-center gap-3.5 rounded-3xl bg-gradient-to-r from-[#081226] via-[#0d1b3e] to-[#081226] hover:from-[#0d1b3e] hover:to-[#122452] px-4.5 py-3 text-white shadow-2xl transition duration-300 border border-cyan-500/30 backdrop-blur-xl cursor-pointer shadow-cyan-500/10"
             aria-label="Open Feddy Chat"
           >
-            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full overflow-hidden border-2 border-accent-500/50 bg-[#060b18]">
+            {/* Avatè anndan yon ti ankadreman AI Chat Bubble */}
+            <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl overflow-hidden border-2 border-cyan-400/60 bg-[#060b18] shadow-md">
               <img 
                 src="/images/avatar.png" 
                 alt="Feddy Avatar" 
@@ -109,23 +110,27 @@ export default function ChatWidget() {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <Bot size={20} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
-              <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#081226] animate-pulse" />
+              <Bot size={22} className="absolute text-cyan-300 opacity-0 [.fallback-active_&]:opacity-100" />
+              <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 border-2 border-[#060b18] animate-pulse" />
             </div>
 
-            <div className="flex flex-col text-left">
-              <span className="text-xs font-bold tracking-wide text-paper flex items-center gap-1.5">
-                Feddy AI <Sparkles size={12} className="text-yellow-400" />
+            {/* Tèks ak ikòn etwal chat */}
+            <div className="flex flex-col text-left pr-1">
+              <span className="text-xs font-bold tracking-wide text-paper flex items-center gap-1.5 font-heading">
+                Feddy AI <Sparkles size={13} className="text-cyan-400 animate-pulse" />
               </span>
-              <span className="text-[11px] text-paper/70 font-medium">
-                {isEn ? "Chat with me ✨" : "Discuter avec moi ✨"}
+              <span className="text-[11px] text-cyan-200/80 font-medium flex items-center gap-1">
+                <MessageSquare size={10} /> {isEn ? "Ask me anything" : "Discutez avec moi"}
               </span>
             </div>
+
+            {/* Ti pwent bulle chat la (dekoratif) */}
+            <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#0d1b3e] border-r border-b border-cyan-500/30 transform rotate-45 hidden sm:block"></div>
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Fenèt Chat la - Ajiste wotè l pou l pa janm monte sou eleman ekran yo sou mobil */}
+      {/* Fenèt Chat la - Ajiste ak yon max-h ekselan sou mobil */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -133,18 +138,18 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col h-[420px] sm:h-[480px] w-full sm:w-[380px] max-h-[80vh] rounded-2xl border border-white/15 bg-[#081226]/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            className="flex flex-col h-[420px] sm:h-[480px] w-full sm:w-[380px] max-h-[78vh] rounded-2xl border border-cyan-500/30 bg-[#081226]/98 backdrop-blur-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/80 px-4 py-3.5">
+            <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/90 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
+                <div className="relative flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden border border-cyan-400/40 bg-[#060b18]">
                   <img 
                     src="/images/avatar.png" 
                     alt="Feddy Avatar" 
                     className="h-full w-full object-cover" 
                   />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-[#060b18]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border border-[#060b18]" />
                 </div>
                 <div>
                   <h3 className="font-heading text-sm font-bold text-paper flex items-center gap-1.5">
@@ -174,7 +179,7 @@ export default function ChatWidget() {
                   }`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl overflow-hidden border border-cyan-400/30 bg-[#060b18]">
                       <img src="/images/avatar.png" alt="Feddy Avatar" className="h-full w-full object-cover" />
                     </div>
                   )}
@@ -197,7 +202,7 @@ export default function ChatWidget() {
 
               {isLoading && (
                 <div className="flex gap-2.5 items-center">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden border border-accent-500/30 bg-[#060b18]">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl overflow-hidden border border-cyan-400/30 bg-[#060b18]">
                     <img src="/images/avatar.png" alt="Feddy Avatar" className="h-full w-full object-cover" />
                   </div>
                   <div className="bg-white/[0.06] border border-white/10 rounded-xl rounded-bl-none px-3.5 py-2.5 text-paper/70 flex items-center gap-2">
@@ -212,7 +217,7 @@ export default function ChatWidget() {
             {/* Fòm pou voye mesaj */}
             <form
               onSubmit={handleSubmit}
-              className="border-t border-white/10 bg-[#060b18]/80 p-3 flex items-center gap-2"
+              className="border-t border-white/10 bg-[#060b18]/90 p-3 flex items-center gap-2"
             >
               <input
                 type="text"
@@ -223,7 +228,7 @@ export default function ChatWidget() {
                     ? "Ask about Fednel's skills, projects..."
                     : "Posez vos questions sur les compétences, projets..."
                 }
-                className="flex-1 rounded-xl border border-white/15 bg-white/[0.04] px-3.5 py-2 text-xs sm:text-sm text-paper placeholder:text-paper/40 focus:border-accent-500 focus:outline-none transition"
+                className="flex-1 rounded-xl border border-white/15 bg-white/[0.04] px-3.5 py-2 text-xs sm:text-sm text-paper placeholder:text-paper/40 focus:border-cyan-500 focus:outline-none transition"
               />
               <button
                 type="submit"
