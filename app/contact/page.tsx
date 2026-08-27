@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote } from "lucide-react";
+import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote, Loader2, AlertCircle } from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -12,7 +12,9 @@ export default function ContactPage() {
   const { openModal } = useResumeModal();
   const { language } = useLanguage();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const labels = {
     fr: {
@@ -28,7 +30,9 @@ export default function ContactPage() {
       messageLabel: "Message",
       messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
       btnSend: "Envoyer le message",
-      btnSent: "Client mail ouvert",
+      btnSending: "Envoi en cours...",
+      btnSent: "Message envoyé avec succès !",
+      errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réespérer.",
       directEmailTitle: "Écrire directement",
       hiringTitle: "Vous recrutez ?",
       hiringDesc:
@@ -53,7 +57,9 @@ export default function ContactPage() {
       messageLabel: "Message",
       messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
       btnSend: "Send Message",
-      btnSent: "Mail client opened",
+      btnSending: "Sending message...",
+      btnSent: "Message sent successfully!",
+      errorGeneral: "An error occurred while sending. Please try again.",
       directEmailTitle: "Write directly",
       hiringTitle: "Are you hiring?",
       hiringDesc:
@@ -78,7 +84,9 @@ export default function ContactPage() {
     messageLabel: "Message",
     messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
     btnSend: "Envoyer le message",
-    btnSent: "Client mail ouvert",
+    btnSending: "Envoi en cours...",
+    btnSent: "Message envoyé avec succès !",
+    errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réespérer.",
     directEmailTitle: "Écrire directement",
     hiringTitle: "Vous recrutez ?",
     hiringDesc:
@@ -91,14 +99,41 @@ export default function ContactPage() {
     quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contact portfolio - ${form.name}`);
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name} (${form.email})`
-    );
-    window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          lang: language, // Transmet lang la bay API a
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || labels.errorGeneral);
+      }
+
+      setSent(true);
+      setForm({ name: "", email: "", message: "" });
+      
+      // Remettre le bouton à son état normal après 6 secondes
+      setTimeout(() => {
+        setSent(false);
+      }, 6000);
+    } catch (err: any) {
+      setErrorMsg(err.message || labels.errorGeneral);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,6 +164,13 @@ export default function ContactPage() {
             onSubmit={handleSubmit}
             className="space-y-5 rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all"
           >
+            {errorMsg && (
+              <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-400">
+                <AlertCircle size={16} className="shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
@@ -137,9 +179,10 @@ export default function ContactPage() {
                 <input
                   id="name"
                   required
+                  disabled={loading}
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
                   placeholder={labels.namePlaceholder}
                 />
               </div>
@@ -152,9 +195,10 @@ export default function ContactPage() {
                   id="email"
                   type="email"
                   required
+                  disabled={loading}
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
                   placeholder={labels.emailPlaceholder}
                 />
               </div>
@@ -168,20 +212,31 @@ export default function ContactPage() {
                 id="message"
                 required
                 rows={5}
+                disabled={loading}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400"
+                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
                 placeholder={labels.messagePlaceholder}
               />
             </div>
 
             <button
               type="submit"
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95"
+              disabled={loading || sent}
+              className={`group flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:pointer-events-none ${
+                sent
+                  ? "bg-emerald-600 text-white"
+                  : "bg-cta-gradient hover:shadow-[0_0_25px_rgba(10,107,255,0.6)]"
+              }`}
             >
-              {sent ? (
+              {loading ? (
                 <>
-                  <CheckCircle2 size={18} className="text-accent-300" />
+                  <Loader2 size={18} className="animate-spin text-paper" />
+                  {labels.btnSending}
+                </>
+              ) : sent ? (
+                <>
+                  <CheckCircle2 size={18} className="text-white" />
                   {labels.btnSent}
                 </>
               ) : (
@@ -195,7 +250,6 @@ export default function ContactPage() {
 
           {/* Seksyon Pòtrè: Adaptasyon Desktop/Mobil */}
           <div className="space-y-6">
-            
             {/* 1. Vèsyon DESKTOP: Kenbe kad la (hidden sou mobil) */}
             <div className="hidden sm:block group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
               <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
