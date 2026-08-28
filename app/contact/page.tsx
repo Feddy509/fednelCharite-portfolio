@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote, Loader2, AlertCircle } from "lucide-react";
+import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote, Loader2, AlertCircle, RefreshCw } from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -31,8 +31,10 @@ export default function ContactPage() {
       messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
       btnSend: "Envoyer le message",
       btnSending: "Envoi en cours...",
-      btnSent: "Message envoyé avec succès !",
-      errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réespérer.",
+      successTitle: "Message envoyé avec succès !",
+      successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
+      btnNewMessage: "Envoyer un autre message",
+      errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
       directEmailTitle: "Écrire directement",
       hiringTitle: "Vous recrutez ?",
       hiringDesc:
@@ -58,7 +60,9 @@ export default function ContactPage() {
       messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
       btnSend: "Send Message",
       btnSending: "Sending message...",
-      btnSent: "Message sent successfully!",
+      successTitle: "Message sent successfully!",
+      successDesc: "Thank you for reaching out. I have received your message and will respond in less than 24 hours.",
+      btnNewMessage: "Send another message",
       errorGeneral: "An error occurred while sending. Please try again.",
       directEmailTitle: "Write directly",
       hiringTitle: "Are you hiring?",
@@ -85,8 +89,10 @@ export default function ContactPage() {
     messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
     btnSend: "Envoyer le message",
     btnSending: "Envoi en cours...",
-    btnSent: "Message envoyé avec succès !",
-    errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réespérer.",
+    successTitle: "Message envoyé avec succès !",
+    successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
+    btnNewMessage: "Envoyer un autre message",
+    errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
     directEmailTitle: "Écrire directement",
     hiringTitle: "Vous recrutez ?",
     hiringDesc:
@@ -112,7 +118,7 @@ export default function ContactPage() {
           name: form.name,
           email: form.email,
           message: form.message,
-          lang: language, // Transmet lang la bay API a
+          lang: language,
         }),
       });
 
@@ -124,11 +130,6 @@ export default function ContactPage() {
 
       setSent(true);
       setForm({ name: "", email: "", message: "" });
-      
-      // Remettre le bouton à son état normal après 6 secondes
-      setTimeout(() => {
-        setSent(false);
-      }, 6000);
     } catch (err: any) {
       setErrorMsg(err.message || labels.errorGeneral);
     } finally {
@@ -156,101 +157,115 @@ export default function ContactPage() {
         </p>
       </div>
 
-      {/* Section Formulaire & Sidebar */}
+      {/* Section Formulaire / Ecran Succès & Sidebar */}
       <div className="mt-8 sm:mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Kolòn Gòch : Formulaire + Kat Pòtrè */}
+        {/* Kolòn Gòch : Formulaire OUBYEN Ecran Succès */}
         <div className="space-y-8">
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5 rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all"
-          >
-            {errorMsg && (
-              <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-400">
-                <AlertCircle size={16} className="shrink-0" />
-                <span>{errorMsg}</span>
+          {sent ? (
+            /* Bèl Ekran Siksè ki pran tout espas fòm lan */
+            <div className="flex flex-col items-center justify-center text-center rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-8 sm:p-12 backdrop-blur-md shadow-card transition-all">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 ring-8 ring-emerald-500/10 mb-6">
+                <CheckCircle2 size={48} className="animate-bounce" />
               </div>
-            )}
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
-                  {labels.nameLabel}
-                </label>
-                <input
-                  id="name"
-                  required
-                  disabled={loading}
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
-                  placeholder={labels.namePlaceholder}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
-                  {labels.emailLabel}
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  disabled={loading}
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
-                  placeholder={labels.emailPlaceholder}
-                />
-              </div>
+              <h2 className="font-sans text-2xl sm:text-3xl font-extrabold text-paper">
+                {labels.successTitle}
+              </h2>
+              <p className="mt-3 font-sans text-sm sm:text-base text-paper/75 max-w-md leading-relaxed">
+                {labels.successDesc}
+              </p>
+              <button
+                onClick={() => setSent(false)}
+                className="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.05] px-6 py-3 font-sans text-sm font-semibold text-paper hover:bg-white/10 transition-all"
+              >
+                <RefreshCw size={16} />
+                {labels.btnNewMessage}
+              </button>
             </div>
-
-            <div>
-              <label htmlFor="message" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
-                {labels.messageLabel}
-              </label>
-              <textarea
-                id="message"
-                required
-                rows={5}
-                disabled={loading}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
-                placeholder={labels.messagePlaceholder}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading || sent}
-              className={`group flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:pointer-events-none ${
-                sent
-                  ? "bg-emerald-600 text-white"
-                  : "bg-cta-gradient hover:shadow-[0_0_25px_rgba(10,107,255,0.6)]"
-              }`}
+          ) : (
+            /* Fòm Kontak Nòmal la */
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5 rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all"
             >
-              {loading ? (
-                <>
-                  <Loader2 size={18} className="animate-spin text-paper" />
-                  {labels.btnSending}
-                </>
-              ) : sent ? (
-                <>
-                  <CheckCircle2 size={18} className="text-white" />
-                  {labels.btnSent}
-                </>
-              ) : (
-                <>
-                  <Send size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  {labels.btnSend}
-                </>
+              {errorMsg && (
+                <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-400">
+                  <AlertCircle size={16} className="shrink-0" />
+                  <span>{errorMsg}</span>
+                </div>
               )}
-            </button>
-          </form>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="name" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
+                    {labels.nameLabel}
+                  </label>
+                  <input
+                    id="name"
+                    required
+                    disabled={loading}
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
+                    placeholder={labels.namePlaceholder}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
+                    {labels.emailLabel}
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    disabled={loading}
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
+                    placeholder={labels.emailPlaceholder}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="font-sans text-xs font-semibold uppercase tracking-wider text-paper/70">
+                  {labels.messageLabel}
+                </label>
+                <textarea
+                  id="message"
+                  required
+                  rows={5}
+                  disabled={loading}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3.5 py-2.5 sm:px-4 sm:py-3 font-sans text-sm text-paper placeholder:text-paper/30 transition focus:border-accent-400 focus:outline-none focus:ring-1 focus:ring-accent-400 disabled:opacity-50"
+                  placeholder={labels.messagePlaceholder}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95 disabled:pointer-events-none"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin text-paper" />
+                    {labels.btnSending}
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    {labels.btnSend}
+                  </>
+                )}
+              </button>
+            </form>
+          )}
 
           {/* Seksyon Pòtrè: Adaptasyon Desktop/Mobil */}
           <div className="space-y-6">
-            {/* 1. Vèsyon DESKTOP: Kenbe kad la (hidden sou mobil) */}
+            {/* Vèsyon DESKTOP */}
             <div className="hidden sm:block group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
               <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
               <div className="grid gap-6 grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
@@ -275,7 +290,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* 2. Vèsyon MOBIL: Efè Fade (vignette), retire kad (hidden sou desktop) */}
+            {/* Vèsyon MOBIL */}
             <div className="block sm:hidden relative flex flex-col items-center justify-center text-center pt-2">
               <div className="relative w-full max-w-xs overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_95%)]">
                 <Image
@@ -302,7 +317,6 @@ export default function ContactPage() {
 
         {/* Kolòn Dwat */}
         <div className="space-y-6">
-          {/* Email Direct */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <Mail size={20} />
@@ -318,7 +332,6 @@ export default function ContactPage() {
             </a>
           </div>
 
-          {/* Hiring / Resume Modal Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <FileText size={20} />
@@ -339,7 +352,6 @@ export default function ContactPage() {
             </button>
           </div>
 
-          {/* Social Networks Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <MessageSquare size={20} />
