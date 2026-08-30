@@ -1,9 +1,64 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
+// 1. Rate Limiting an memwa (Pwoteksyon kont abiz / DDoS)
+const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
+const LIMIT = 10; // Maksimòm 10 mesaj
+const WINDOW_MS = 15 * 60 * 1000; // Chak 15 minit
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const userRate = rateLimitMap.get(ip);
+
+  if (!userRate) {
+    rateLimitMap.set(ip, { count: 1, lastReset: now });
+    return false;
+  }
+
+  if (now - userRate.lastReset > WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, lastReset: now });
+    return false;
+  }
+
+  if (userRate.count >= LIMIT) {
+    return true;
+  }
+
+  userRate.count += 1;
+  return false;
+}
+
 export async function POST(req: Request) {
   try {
+    // Rekipere IP itilizatè a sou Vercel / Proxy
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+
+    // Pwoteksyon Rate Limit
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in 15 minutes." },
+        { status: 429 }
+      );
+    }
+
     const { messages, language } = await req.json();
+
+    // 2. Validation & Sanitization pou done ki rantre yo
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid or empty messages payload." },
+        { status: 400 }
+      );
+    }
+
+    // Pwoteksyon Prompt Injection: Limite dènye mesaj itilizatè a ak 500 karaktè
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.content && lastMessage.content.length > 500) {
+      return NextResponse.json(
+        { error: "Message is too long (maximum 500 characters)." },
+        { status: 400 }
+      );
+    }
 
     const systemPromptFr = `
 Tu es Feddy, l'assistant virtuel intelligent et professionnel du portfolio de Fednel Charité. 
@@ -75,7 +130,7 @@ STRICT RESPONSE RULES:
       config: {
         systemInstruction: activeSystemPrompt,
         temperature: 0.3,
-        maxOutputTokens: 2048, // Ogmante nan 2048 pou mesaj yo pa janm koupe ankò
+        maxOutputTokens: 2048,
       },
     });
 
