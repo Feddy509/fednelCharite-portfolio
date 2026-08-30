@@ -20,18 +20,16 @@ export async function POST(req: Request) {
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.zoho.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+   const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.zoho.com',
+  port: Number(process.env.SMTP_PORT) || 465,
+  secure: true, // true pou port 465 sou Vercel
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
+  },
+  connectionTimeout: 10000, // 10 segonn max pou timeout
+});
 
     const senderEmail = process.env.SMTP_USER || 'contact@fednelcharite.site';
 
