@@ -7,14 +7,18 @@ import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function ContactPage() {
   const { openModal } = useResumeModal();
   const { language } = useLanguage();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const officialEmail = "contact@fednelcharite.site";
 
   const labels = {
     fr: {
@@ -35,6 +39,7 @@ export default function ContactPage() {
       successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
       btnNewMessage: "Envoyer un autre message",
       errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
+      errorTurnstile: "Veuillez valider le test de sécurité anti-bot.",
       directEmailTitle: "Écrire directement",
       hiringTitle: "Vous recrutez ?",
       hiringDesc:
@@ -64,6 +69,7 @@ export default function ContactPage() {
       successDesc: "Thank you for reaching out. I have received your message and will respond in less than 24 hours.",
       btnNewMessage: "Send another message",
       errorGeneral: "An error occurred while sending. Please try again.",
+      errorTurnstile: "Please complete the anti-bot security check.",
       directEmailTitle: "Write directly",
       hiringTitle: "Are you hiring?",
       hiringDesc:
@@ -93,6 +99,7 @@ export default function ContactPage() {
     successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
     btnNewMessage: "Envoyer un autre message",
     errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
+    errorTurnstile: "Veuillez valider le test de sécurité anti-bot.",
     directEmailTitle: "Écrire directement",
     hiringTitle: "Vous recrutez ?",
     hiringDesc:
@@ -107,8 +114,14 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMsg("");
+
+    if (!turnstileToken) {
+      setErrorMsg(labels.errorTurnstile);
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch("/api/contact", {
@@ -119,6 +132,7 @@ export default function ContactPage() {
           email: form.email,
           message: form.message,
           lang: language,
+          token: turnstileToken,
         }),
       });
 
@@ -130,6 +144,7 @@ export default function ContactPage() {
 
       setSent(true);
       setForm({ name: "", email: "", message: "" });
+      setTurnstileToken(null);
     } catch (err: any) {
       setErrorMsg(err.message || labels.errorGeneral);
     } finally {
@@ -243,10 +258,22 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* Widget Cloudflare Turnstile */}
+              <div className="flex justify-start py-1">
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onExpire={() => setTurnstileToken(null)}
+                  options={{
+                    theme: "dark",
+                  }}
+                />
+              </div>
+
               <button
                 type="submit"
-                disabled={loading}
-                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95 disabled:pointer-events-none"
+                disabled={loading || !turnstileToken}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cta-gradient px-6 py-3.5 sm:py-4 font-sans text-sm font-semibold text-paper shadow-glow transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(10,107,255,0.6)] active:scale-95 disabled:pointer-events-none disabled:opacity-50"
               >
                 {loading ? (
                   <>
@@ -317,6 +344,7 @@ export default function ContactPage() {
 
         {/* Kolòn Dwat */}
         <div className="space-y-6">
+          {/* Direct Email Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <Mail size={20} />
@@ -325,13 +353,14 @@ export default function ContactPage() {
               {labels.directEmailTitle}
             </p>
             <a
-              href={`mailto:${personalInfo.email}`}
+              href={`mailto:${officialEmail}`}
               className="mt-2 block break-all font-mono text-sm font-medium text-accent-300 hover:text-accent-200 hover:underline"
             >
-              {personalInfo.email}
+              {officialEmail}
             </a>
           </div>
 
+          {/* Hiring / Resume Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <FileText size={20} />
@@ -352,6 +381,7 @@ export default function ContactPage() {
             </button>
           </div>
 
+          {/* Social Networks Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
             <span className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-accent-600/20 text-accent-300 transition-transform duration-300 group-hover:scale-110">
               <MessageSquare size={20} />
