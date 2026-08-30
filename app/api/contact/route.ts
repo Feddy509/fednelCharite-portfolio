@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, message, lang } = body;
+    const { name, email, message, lang, token } = body;
 
     const currentLang = lang === 'en' ? 'en' : 'fr';
 
@@ -13,6 +13,12 @@ export async function POST(req: Request) {
       en: 'Please fill in all required fields.',
     }[currentLang];
 
+    const errorTurnstile = {
+      fr: 'Échec de la vérification de sécurité anti-bot.',
+      en: 'Anti-bot security verification failed.',
+    }[currentLang];
+
+    // 1. Validation des champs obligatoires et du token Turnstile
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: errorValidation },
@@ -20,16 +26,46 @@ export async function POST(req: Request) {
       );
     }
 
-   const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.zoho.com',
-  port: Number(process.env.SMTP_PORT) || 465,
-  secure: true, // true pou port 465 sou Vercel
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-  connectionTimeout: 10000, // 10 segonn max pou timeout
-});
+    if (!token) {
+      return NextResponse.json(
+        { error: errorTurnstile },
+        { status: 400 }
+      );
+    }
+
+    // 2. Vérification du token auprès des serveurs Cloudflare Turnstile
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      const verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+      const turnstileRes = await fetch(verifyUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: turnstileSecret,
+          response: token,
+        }),
+      });
+
+      const turnstileData = await turnstileRes.json();
+
+      if (!turnstileData.success) {
+        return NextResponse.json(
+          { error: errorTurnstile },
+          { status: 400 }
+        );
+      }
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.zoho.com',
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: true, // true pou port 465 sou Vercel
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+      connectionTimeout: 10000, // 10 segonn max pou timeout
+    });
 
     const senderEmail = process.env.SMTP_USER || 'contact@fednelcharite.site';
 
