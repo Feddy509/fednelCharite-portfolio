@@ -59,15 +59,16 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.zoho.com',
       port: Number(process.env.SMTP_PORT) || 465,
-      secure: true, // true pou port 465 sou Vercel
+      secure: true,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
-      connectionTimeout: 10000, // 10 segonn max pou timeout
+      connectionTimeout: 10000,
     });
 
     const senderEmail = process.env.SMTP_USER || 'contact@fednelcharite.site';
+    const profileImageUrl = 'https://fednelcharite.site/images/avatar.png'; 
 
     // 1. Email alèt pou ou menm
     const adminMailOptions = {
@@ -88,17 +89,26 @@ export async function POST(req: Request) {
       `,
     };
 
-    // 2. Modèl imèl akizè de resepsyon imèn, pwofesyonèl ak bèl header
+    // 2. Modèl imèl akizè de resepsyon imèn ak FOTO PROFIL
     const autoReplyTemplates = {
       fr: {
         subject: 'Merci pour votre message | Fednel Charité',
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #0f172a; max-width: 600px; margin: 0 auto; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; background-color: #0f172a;">
             
-            <!-- Header avec Design sombre / Gradient -->
+            <!-- Header avec Design sombre, Gradient et Foto Profil -->
             <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 32px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-              <p style="margin: 0; font-family: monospace; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px;">Fednel Charité · Software Engineer</p>
-              <h1 style="margin: 8px 0 0 0; font-size: 22px; font-weight: 800; color: #ffffff;">Bien reçu ! Merci de m'avoir écrit.</h1>
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                <tr>
+                  <td style="vertical-align: middle;">
+                    <p style="margin: 0; font-family: monospace; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px;">Fednel Charité · Software Engineer</p>
+                    <h1 style="margin: 8px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">Bien reçu ! Merci de m'avoir écrit.</h1>
+                  </td>
+                  <td style="width: 64px; text-align: right; vertical-align: middle;">
+                    <img src="${profileImageUrl}" alt="Fednel Charité" style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid #38bdf8; object-fit: cover; display: block;" />
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <!-- Content -->
@@ -107,10 +117,20 @@ export async function POST(req: Request) {
               <p>J'ai bien pris connaissance de votre message transmis via mon portfolio (<strong>fednelcharite.site</strong>).</p>
               <p>Chaque opportunité et projet compte pour moi. Je vous reviendrai personnellement en <strong>moins de 24 heures</strong>.</p>
               
+              <!-- Signature avec Foto Profil -->
               <div style="margin-top: 28px; padding-top: 20px; border-top: 2px solid #2563eb;">
-                <p style="margin: 0; font-weight: 700; color: #0f172a; font-size: 15px;">Fednel Charité</p>
-                <p style="margin: 2px 0 0 0; color: #64748b; font-size: 13px;">Software Engineer & DevSecOps Consultant</p>
-                <p style="margin: 8px 0 0 0;"><a href="https://fednelcharite.site" style="color: #2563eb; text-decoration: none; font-size: 13px; font-weight: 600;">fednelcharite.site</a></p>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="padding-right: 12px; vertical-align: middle;">
+                      <img src="${profileImageUrl}" alt="Fednel Charité" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; display: block;" />
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <p style="margin: 0; font-weight: 700; color: #0f172a; font-size: 15px;">Fednel Charité</p>
+                      <p style="margin: 2px 0 0 0; color: #64748b; font-size: 13px;">Software Engineer & DevSecOps Specialist</p>
+                      <p style="margin: 4px 0 0 0;"><a href="https://fednelcharite.site" style="color: #2563eb; text-decoration: none; font-size: 13px; font-weight: 600;">fednelcharite.site</a></p>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
 
@@ -122,10 +142,19 @@ export async function POST(req: Request) {
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #0f172a; max-width: 600px; margin: 0 auto; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; background-color: #0f172a;">
             
-            <!-- Header with Dark / Gradient Design -->
+            <!-- Header with Dark / Gradient Design and Profile Picture -->
             <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 32px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-              <p style="margin: 0; font-family: monospace; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px;">Fednel Charité · Software Engineer</p>
-              <h1 style="margin: 8px 0 0 0; font-size: 22px; font-weight: 800; color: #ffffff;">Message Received! Thanks for reaching out.</h1>
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                <tr>
+                  <td style="vertical-align: middle;">
+                    <p style="margin: 0; font-family: monospace; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px;">Fednel Charité · Software Engineer</p>
+                    <h1 style="margin: 8px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">Message Received! Thanks for reaching out.</h1>
+                  </td>
+                  <td style="width: 64px; text-align: right; vertical-align: middle;">
+                    <img src="${profileImageUrl}" alt="Fednel Charité" style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid #38bdf8; object-fit: cover; display: block;" />
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <!-- Content -->
@@ -134,10 +163,20 @@ export async function POST(req: Request) {
               <p>I have successfully received your message sent through my portfolio (<strong>fednelcharite.site</strong>).</p>
               <p>Every project and opportunity is important to me. I will personally respond in <strong>less than 24 hours</strong>.</p>
               
+              <!-- Signature with Profile Picture -->
               <div style="margin-top: 28px; padding-top: 20px; border-top: 2px solid #2563eb;">
-                <p style="margin: 0; font-weight: 700; color: #0f172a; font-size: 15px;">Fednel Charité</p>
-                <p style="margin: 2px 0 0 0; color: #64748b; font-size: 13px;">Software Engineer & DevSecOps Consultant</p>
-                <p style="margin: 8px 0 0 0;"><a href="https://fednelcharite.site" style="color: #2563eb; text-decoration: none; font-size: 13px; font-weight: 600;">fednelcharite.site</a></p>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="padding-right: 12px; vertical-align: middle;">
+                      <img src="${profileImageUrl}" alt="Fednel Charité" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; display: block;" />
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <p style="margin: 0; font-weight: 700; color: #0f172a; font-size: 15px;">Fednel Charité</p>
+                      <p style="margin: 2px 0 0 0; color: #64748b; font-size: 13px;">Software Engineer & DevSecOps Consultant</p>
+                      <p style="margin: 4px 0 0 0;"><a href="https://fednelcharite.site" style="color: #2563eb; text-decoration: none; font-size: 13px; font-weight: 600;">fednelcharite.site</a></p>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
 
