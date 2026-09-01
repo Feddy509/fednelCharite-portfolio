@@ -1,7 +1,7 @@
 # 1. Étape de base : Image Node.js 20
 FROM node:20-alpine AS base
 
-# Activation de pnpm v9 via corepack / Activer pnpm
+# Activation de pnpm v9 via corepack
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # 2. Étape des dépendances : Installation des paquets avec pnpm
@@ -9,9 +9,11 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copie des fichiers de configuration package et workspace
+# Copie des fichiers de configuration package
 COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
-RUN pnpm install --frozen-lockfile
+
+# Inyore workspace yo epi enstale depandans yo san erè
+RUN pnpm install --no-frozen-lockfile --ignore-workspace
 
 # 3. Étape de construction : Build de l'application
 FROM base AS builder
