@@ -1,7 +1,7 @@
 # 1. Étape de base : Image Node.js 20
 FROM node:20-alpine AS base
 
-# Activation de pnpm v9 via corepack / Activer pnpm
+# Activation de pnpm v9 via corepack
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # 2. Étape des dépendances : Installation des paquets avec pnpm
@@ -9,8 +9,11 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# Copie des fichiers package uniquement
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install
+
+# Installation des dépendances sans bloquer sur les workspaces
+RUN pnpm install --no-frozen-lockfile --ignore-workspace
 
 # 3. Étape de construction : Build de l'application
 FROM base AS builder
@@ -18,8 +21,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Désactivation de la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
 RUN pnpm run build
 
