@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { logSecurityEvent } from '@/lib/logger';
 
 export async function POST(req: Request) {
+  const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+  const userAgent = req.headers.get('user-agent') || 'UNKNOWN';
+  const path = '/api/contact';
+
   try {
     const body = await req.json();
     const { name, email, message, lang, token } = body;
@@ -20,6 +25,14 @@ export async function POST(req: Request) {
 
     // 1. Validation des champs obligatoires et du token Turnstile
     if (!name || !email || !message) {
+      logSecurityEvent('WARN', {
+        event: 'CONTACT_FORM_INVALID_INPUT',
+        ip,
+        userAgent,
+        path,
+        details: { reason: 'Missing required fields', hasName: !!name, hasEmail: !!email, hasMessage: !!message },
+      });
+
       return NextResponse.json(
         { error: errorValidation },
         { status: 400 }
@@ -27,6 +40,14 @@ export async function POST(req: Request) {
     }
 
     if (!token) {
+      logSecurityEvent('SECURITY', {
+        event: 'CONTACT_FORM_MISSING_TURNSTILE_TOKEN',
+        ip,
+        userAgent,
+        path,
+        details: { reason: 'No bot-verification token provided' },
+      });
+
       return NextResponse.json(
         { error: errorTurnstile },
         { status: 400 }
@@ -49,6 +70,14 @@ export async function POST(req: Request) {
       const turnstileData = await turnstileRes.json();
 
       if (!turnstileData.success) {
+        logSecurityEvent('SECURITY', {
+          event: 'CONTACT_FORM_TURNSTILE_FAILED',
+          ip,
+          userAgent,
+          path,
+          details: { errorCodes: turnstileData['error-codes'] || [] },
+        });
+
         return NextResponse.json(
           { error: errorTurnstile },
           { status: 400 }
@@ -195,12 +224,27 @@ export async function POST(req: Request) {
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(autoReplyOptions);
 
+    logSecurityEvent('INFO', {
+      event: 'CONTACT_FORM_SUBMITTED_SUCCESS',
+      ip,
+      userAgent,
+      path,
+      details: { email, name, lang: currentLang },
+    });
+
     return NextResponse.json(
       { success: true, message: 'Message sent successfully!' },
       { status: 200 }
     );
   } catch (error: any) {
-    console.error('Erreur API /api/contact:', error?.message || error);
+    logSecurityEvent('ERROR', {
+      event: 'CONTACT_API_FAILURE',
+      ip,
+      userAgent,
+      path,
+      details: { error: error?.message || String(error) },
+    });
+
     return NextResponse.json(
       { error: 'An error occurred while sending the message.' },
       { status: 500 }
