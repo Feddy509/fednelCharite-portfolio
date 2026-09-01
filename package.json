@@ -11,6 +11,8 @@
   "dependencies": {
     "@google/genai": "^2.18.0",
     "@marsidev/react-turnstile": "^1.6.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.3",
     "@vercel/analytics": "^2.0.1",
     "clsx": "2.1.1",
     "framer-motion": "11.3.19",
