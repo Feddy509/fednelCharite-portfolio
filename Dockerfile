@@ -9,8 +9,9 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install
+# Copie des fichiers de configuration package et workspace
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
+RUN pnpm install --frozen-lockfile
 
 # 3. Étape de construction : Build de l'application
 FROM base AS builder
@@ -20,6 +21,7 @@ COPY . .
 
 # Désactivation de la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
 RUN pnpm run build
 
