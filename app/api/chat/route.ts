@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { logSecurityEvent } from "@/lib/logger";
 
 // 1. Rate Limiting an memwa (Pwoteksyon kont abiz / DDoS)
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
@@ -29,12 +30,21 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: Request) {
-  try {
-    // Rekipere IP itilizatè a sou Vercel / Proxy
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+  const userAgent = req.headers.get("user-agent") || "UNKNOWN";
+  const path = "/api/chat";
 
+  try {
     // Pwoteksyon Rate Limit
     if (isRateLimited(ip)) {
+      logSecurityEvent("SECURITY", {
+        event: "CHAT_RATE_LIMIT_EXCEEDED",
+        ip,
+        userAgent,
+        path,
+        details: { limit: LIMIT, windowMs: WINDOW_MS },
+      });
+
       return NextResponse.json(
         { error: "Too many requests. Please try again in 15 minutes." },
         { status: 429 }
@@ -45,6 +55,14 @@ export async function POST(req: Request) {
 
     // 2. Validation & Sanitization pou done ki rantre yo
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      logSecurityEvent("WARN", {
+        event: "CHAT_API_INVALID_PAYLOAD",
+        ip,
+        userAgent,
+        path,
+        details: { reason: "Invalid or empty messages payload" },
+      });
+
       return NextResponse.json(
         { error: "Invalid or empty messages payload." },
         { status: 400 }
@@ -54,6 +72,17 @@ export async function POST(req: Request) {
     // Pwoteksyon Prompt Injection: Limite dènye mesaj itilizatè a ak 500 karaktè
     const lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.content && lastMessage.content.length > 500) {
+      logSecurityEvent("SECURITY", {
+        event: "CHAT_PROMPT_INJECTION_SUSPECTED",
+        ip,
+        userAgent,
+        path,
+        details: {
+          reason: "Message exceeded maximum character limit",
+          contentLength: lastMessage.content.length,
+        },
+      });
+
       return NextResponse.json(
         { error: "Message is too long (maximum 500 characters)." },
         { status: 400 }
@@ -111,6 +140,14 @@ STRICT RESPONSE RULES:
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
+      logSecurityEvent("ERROR", {
+        event: "CHAT_API_MISSING_ENV_KEY",
+        ip,
+        userAgent,
+        path,
+        details: { reason: "GEMINI_API_KEY missing from environment" },
+      });
+
       return NextResponse.json(
         { error: "GEMINI_API_KEY is missing on server environment." },
         { status: 500 }
@@ -123,6 +160,14 @@ STRICT RESPONSE RULES:
       role: msg.role === "assistant" ? "model" : "user",
       parts: [{ text: msg.content }],
     }));
+
+    logSecurityEvent("INFO", {
+      event: "CHAT_PROMPT_SUBMITTED",
+      ip,
+      userAgent,
+      path,
+      details: { messageCount: messages.length, language: language || "fr" },
+    });
 
     const response = await ai.models.generateContent({
       model: "gemini-3.6-flash",
@@ -138,9 +183,16 @@ STRICT RESPONSE RULES:
     return NextResponse.json({ reply });
 
   } catch (error: any) {
-    console.error("Gemini API Exception:", error);
+    logSecurityEvent("ERROR", {
+      event: "CHAT_API_EXCEPTION",
+      ip,
+      userAgent,
+      path,
+      details: { error: error?.message || String(error) },
+    });
+
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: error?.message || "Internal Server Error" },
       { status: 500 }
     );
   }
