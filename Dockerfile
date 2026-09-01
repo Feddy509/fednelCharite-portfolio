@@ -9,10 +9,10 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copie des fichiers de configuration package
-COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
+# Copie des fichiers package uniquement
+COPY package.json pnpm-lock.yaml* ./
 
-# Inyore workspace yo epi enstale depandans yo san erè
+# Installation des dépendances sans bloquer sur les workspaces
 RUN pnpm install --no-frozen-lockfile --ignore-workspace
 
 # 3. Étape de construction : Build de l'application
@@ -21,7 +21,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Désactivation de la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
