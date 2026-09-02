@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { logSecurityEvent } from "@/lib/logger";
 
-// 1. Rate Limiting an memwa (Pwoteksyon kont abiz / DDoS)
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const LIMIT = 10; // Maksimòm 10 mesaj
-const WINDOW_MS = 15 * 60 * 1000; // Chak 15 minit
+const LIMIT = 10;
+const WINDOW_MS = 15 * 60 * 1000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -29,13 +28,20 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+// Netwaye epi izole nèt chèn valè yo
+function sanitizeText(input: unknown): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+    .trim();
+}
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
   const userAgent = req.headers.get("user-agent") || "UNKNOWN";
   const path = "/api/chat";
 
   try {
-    // Pwoteksyon Rate Limit
     if (isRateLimited(ip)) {
       logSecurityEvent("SECURITY", {
         event: "CHAT_RATE_LIMIT_EXCEEDED",
@@ -51,10 +57,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const { messages, language } = await req.json();
+    // 1. Dekonstriksyon ak Sanitization Strik anvan nenpòt itilizasyon
+    const rawBody = await req.json();
+    const rawMessages = Array.isArray(rawBody?.messages) ? rawBody.messages : [];
+    const isEnglish = String(rawBody?.language || "").toLowerCase() === "en";
 
-    // 2. Validation & Sanitization pou done ki rantre yo
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    if (rawMessages.length === 0) {
       logSecurityEvent("WARN", {
         event: "CHAT_API_INVALID_PAYLOAD",
         ip,
@@ -69,9 +77,35 @@ export async function POST(req: Request) {
       );
     }
 
-    // Pwoteksyon Prompt Injection: Limite dènye mesaj itilizatè a ak 500 karaktè
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.content && lastMessage.content.length > 500) {
+    // 2. Izolasyon Konplè (Disconnecting Taint Flow for CodeQL)
+    const sanitizedMessages: Array<{ role: "user" | "model"; text: string }> = [];
+
+    for (const item of rawMessages) {
+      if (!item || typeof item !== "object") continue;
+      
+      const roleStr = String((item as Record<string, unknown>).role || "");
+      const contentStr = sanitizeText((item as Record<string, unknown>).content);
+
+      if (!contentStr) continue;
+
+      const safeRole = roleStr === "assistant" || roleStr === "model" ? "model" : "user";
+      sanitizedMessages.push({
+        role: safeRole,
+        text: contentStr,
+      });
+    }
+
+    if (sanitizedMessages.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid content format." },
+        { status: 400 }
+      );
+    }
+
+    // 3. Verifikasyon maksimòm 500 karaktè sou dènye mesaj la
+    const lastItem = sanitizedMessages[sanitizedMessages.length - 1];
+
+    if (lastItem.text.length > 500) {
       logSecurityEvent("SECURITY", {
         event: "CHAT_PROMPT_INJECTION_SUSPECTED",
         ip,
@@ -79,16 +113,21 @@ export async function POST(req: Request) {
         path,
         details: {
           reason: "Message exceeded maximum character limit",
-          contentLength: lastMessage.content.length,
+          contentLength: lastItem.text.length,
         },
       });
 
+      const errorMsg = isEnglish
+        ? "Your message must not exceed 500 characters."
+        : "Votre message ne doit pas dépasser 500 caractères.";
+
       return NextResponse.json(
-        { error: "Message is too long (maximum 500 characters)." },
+        { error: errorMsg },
         { status: 400 }
       );
     }
 
+    // Fixed System Prompts
     const systemPromptFr = `
 Tu es Feddy, l'assistant virtuel intelligent et professionnel du portfolio de Fednel Charité. 
 Ton rôle est d'accueillir les visiteurs et de répondre à leurs questions avec précision.
@@ -136,7 +175,7 @@ STRICT RESPONSE RULES:
 2. ABSOLUTE LANGUAGE RULE: You MUST respond EXCLUSIVELY in ENGLISH. Never use French or Creole.
     `;
 
-    const activeSystemPrompt = language === "en" ? systemPromptEn : systemPromptFr;
+    const activeSystemPrompt = isEnglish ? systemPromptEn : systemPromptFr;
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
@@ -156,9 +195,10 @@ STRICT RESPONSE RULES:
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const formattedHistory = messages.map((msg: { role: string; content: string }) => ({
-      role: msg.role === "assistant" ? "model" : "user",
-      parts: [{ text: msg.content }],
+    // Formatage konplètman izole pou Gemini API
+    const formattedHistory = sanitizedMessages.map((msg) => ({
+      role: msg.role,
+      parts: [{ text: msg.text }],
     }));
 
     logSecurityEvent("INFO", {
@@ -166,11 +206,11 @@ STRICT RESPONSE RULES:
       ip,
       userAgent,
       path,
-      details: { messageCount: messages.length, language: language || "fr" },
+      details: { messageCount: sanitizedMessages.length, language: isEnglish ? "en" : "fr" },
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: formattedHistory,
       config: {
         systemInstruction: activeSystemPrompt,
