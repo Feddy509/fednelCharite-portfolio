@@ -36,6 +36,7 @@ export default function Footer() {
 
   const isEn = language === "en";
   const currentYear = new Date().getFullYear();
+  const officialEmail = "contact@fednelcharite.site";
 
   return (
     <footer className="mt-auto bg-gradient-to-b from-[#081226] via-[#060b18] to-[#04070e] font-sans text-paper">
@@ -86,7 +87,7 @@ export default function Footer() {
                 <Linkedin size={16} />
               </a>
               <a
-                href="https://x.com/fednelcharite"
+                href="https://x.com/feddyhaiti"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X (Twitter)"
@@ -94,13 +95,13 @@ export default function Footer() {
               >
                 <XIcon size={14} />
               </a>
-              <a
-                href={`mailto:${personalInfo.email}`}
-                aria-label="Email"
+              <Link
+                href="/contact"
+                aria-label="Contact"
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-paper/85 transition hover:border-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
               >
                 <Mail size={16} />
-              </a>
+              </Link>
             </div>
           </div>
 

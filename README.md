@@ -75,6 +75,7 @@ Observability: Structured JSON security logging with automatic PII Sanitation (l
 ---
 
 🇫🇷 Version Française
+
 🔒 Fonctionnalités de Sécurité Implémentées
 1. Contrôles de Sécurité Automatisés (CI/CD)
 Détection de Secrets : Gitleaks bloque les clés API et identifiants exposés avant tout commit.
