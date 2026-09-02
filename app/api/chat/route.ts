@@ -28,7 +28,8 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-function sanitizeString(input: string): string {
+// Netwaye epi izole nèt chèn valè yo
+function sanitizeText(input: unknown): string {
   if (typeof input !== "string") return "";
   return input
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
@@ -56,13 +57,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req.json();
-    const messages = body?.messages;
-    
-    // Sanitization strik pou chwa lang nan pou CodeQL pa sipèkte n
-    const isEnglish = String(body?.language || "").toLowerCase() === "en";
+    // 1. Dekonstriksyon ak Sanitization Strik anvan nenpòt itilizasyon
+    const rawBody = await req.json();
+    const rawMessages = Array.isArray(rawBody?.messages) ? rawBody.messages : [];
+    const isEnglish = String(rawBody?.language || "").toLowerCase() === "en";
 
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    if (rawMessages.length === 0) {
       logSecurityEvent("WARN", {
         event: "CHAT_API_INVALID_PAYLOAD",
         ip,
@@ -77,10 +77,35 @@ export async function POST(req: Request) {
       );
     }
 
-    const lastMessage = messages[messages.length - 1];
-    const rawContent = lastMessage?.content ? String(lastMessage.content) : "";
+    // 2. Izolasyon Konplè (Disconnecting Taint Flow for CodeQL)
+    const sanitizedMessages: Array<{ role: "user" | "model"; text: string }> = [];
 
-    if (rawContent.length > 500) {
+    for (const item of rawMessages) {
+      if (!item || typeof item !== "object") continue;
+      
+      const roleStr = String((item as Record<string, unknown>).role || "");
+      const contentStr = sanitizeText((item as Record<string, unknown>).content);
+
+      if (!contentStr) continue;
+
+      const safeRole = roleStr === "assistant" || roleStr === "model" ? "model" : "user";
+      sanitizedMessages.push({
+        role: safeRole,
+        text: contentStr,
+      });
+    }
+
+    if (sanitizedMessages.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid content format." },
+        { status: 400 }
+      );
+    }
+
+    // 3. Verifikasyon maksimòm 500 karaktè sou dènye mesaj la
+    const lastItem = sanitizedMessages[sanitizedMessages.length - 1];
+
+    if (lastItem.text.length > 500) {
       logSecurityEvent("SECURITY", {
         event: "CHAT_PROMPT_INJECTION_SUSPECTED",
         ip,
@@ -88,7 +113,7 @@ export async function POST(req: Request) {
         path,
         details: {
           reason: "Message exceeded maximum character limit",
-          contentLength: rawContent.length,
+          contentLength: lastItem.text.length,
         },
       });
 
@@ -102,6 +127,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // Fixed System Prompts
     const systemPromptFr = `
 Tu es Feddy, l'assistant virtuel intelligent et professionnel du portfolio de Fednel Charité. 
 Ton rôle est d'accueillir les visiteurs et de répondre à leurs questions avec précision.
@@ -149,7 +175,6 @@ STRICT RESPONSE RULES:
 2. ABSOLUTE LANGUAGE RULE: You MUST respond EXCLUSIVELY in ENGLISH. Never use French or Creole.
     `;
 
-    // System prompt la chwazi dirèkteman an fonksyon de isEnglish (Booleen)
     const activeSystemPrompt = isEnglish ? systemPromptEn : systemPromptFr;
     const apiKey = process.env.GEMINI_API_KEY;
 
@@ -170,20 +195,18 @@ STRICT RESPONSE RULES:
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const formattedHistory = messages.map((msg: { role: string; content: string }) => {
-      const cleanContent = sanitizeString(msg.content || "");
-      return {
-        role: msg.role === "assistant" ? "model" : "user",
-        parts: [{ text: cleanContent }],
-      };
-    });
+    // Formatage konplètman izole pou Gemini API
+    const formattedHistory = sanitizedMessages.map((msg) => ({
+      role: msg.role,
+      parts: [{ text: msg.text }],
+    }));
 
     logSecurityEvent("INFO", {
       event: "CHAT_PROMPT_SUBMITTED",
       ip,
       userAgent,
       path,
-      details: { messageCount: messages.length, language: isEnglish ? "en" : "fr" },
+      details: { messageCount: sanitizedMessages.length, language: isEnglish ? "en" : "fr" },
     });
 
     const response = await ai.models.generateContent({
