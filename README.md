@@ -42,7 +42,12 @@ graph TD
         K --> N[Structured JSON Security Logging / SIEM]
     end
 
+```
+
+---
+
 🇺🇸 English Version
+
 🔒 Implemented Security Features
 1. Automated Security Gates (CI/CD)
 Secret Scanning: Gitleaks blocks hardcoded API keys and credentials before merging.
@@ -65,7 +70,9 @@ Strict Headers: CSP, HSTS, X-Frame-Options: DENY, X-Content-Type-Options: nosnif
 
 Anti-Abuse & Anti-Bot: Integrated Cloudflare Turnstile & Upstash Redis rate-limiting.
 
-Observability: Structured JSON security logging with automatic PII Sanitation (lib/logger.ts).
+Observability: Structured JSON security logging with automatic PII Sanitation (lib/logger.ts).    
+
+---
 
 🇫🇷 Version Française
 🔒 Fonctionnalités de Sécurité Implémentées
@@ -92,9 +99,12 @@ Anti-Abus et Anti-Bot : Protection intégrée via Cloudflare Turnstile et gestio
 
 Observabilité : Journalisation structurée au format JSON compatible SIEM avec masquage automatique des données personnelles (PII) (lib/logger.ts).
 
+---
+
 🚀 Local Development / Développement Local
+
 # Clone the repository / Cloner le dépôt
-git clone [https://github.com/Feddy509/fednelCharite-portfolio.git](https://github.com/Feddy509/fednelCharite-portfolio.git)
+git clone https://github.com/Feddy509/fednelCharite-portfolio.git
 cd fednelCharite-portfolio
 
 # Install dependencies / Installer les dépendances
