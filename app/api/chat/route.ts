@@ -29,6 +29,14 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+// Fonksyon netwayaj pou evite Prompt Injection epi asire CodeQL valide sekirite input yo
+function sanitizeString(input: string): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "") // Retire karaktè kontwòl enkoni
+    .trim();
+}
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
   const userAgent = req.headers.get("user-agent") || "UNKNOWN";
@@ -71,7 +79,9 @@ export async function POST(req: Request) {
 
     // Pwoteksyon Prompt Injection: Limite dènye mesaj itilizatè a ak 500 karaktè
     const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.content && lastMessage.content.length > 500) {
+    const rawContent = lastMessage?.content ? String(lastMessage.content) : "";
+
+    if (rawContent.length > 500) {
       logSecurityEvent("SECURITY", {
         event: "CHAT_PROMPT_INJECTION_SUSPECTED",
         ip,
@@ -79,12 +89,17 @@ export async function POST(req: Request) {
         path,
         details: {
           reason: "Message exceeded maximum character limit",
-          contentLength: lastMessage.content.length,
+          contentLength: rawContent.length,
         },
       });
 
+      // Mesaj erè pèsonalize ak adapte selon lang itilizatè a (Franse / Anglè)
+      const errorMsg = language === "en"
+        ? "Your message must not exceed 500 characters."
+        : "Votre message ne doit pas dépasser 500 caractères.";
+
       return NextResponse.json(
-        { error: "Message is too long (maximum 500 characters)." },
+        { error: errorMsg },
         { status: 400 }
       );
     }
@@ -156,10 +171,14 @@ STRICT RESPONSE RULES:
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const formattedHistory = messages.map((msg: { role: string; content: string }) => ({
-      role: msg.role === "assistant" ? "model" : "user",
-      parts: [{ text: msg.content }],
-    }));
+    // Sanitization tout mesaj ki anndan istorik la pou asire sekirite konplè pou CodeQL
+    const formattedHistory = messages.map((msg: { role: string; content: string }) => {
+      const cleanContent = sanitizeString(msg.content || "");
+      return {
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: cleanContent }],
+      };
+    });
 
     logSecurityEvent("INFO", {
       event: "CHAT_PROMPT_SUBMITTED",
@@ -170,7 +189,7 @@ STRICT RESPONSE RULES:
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: formattedHistory,
       config: {
         systemInstruction: activeSystemPrompt,

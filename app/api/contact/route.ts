@@ -2,6 +2,17 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { logSecurityEvent } from '@/lib/logger';
 
+// Fonksyon Sanitization pou eschape karaktè HTML espesyal yo epi elimine fay XSS/HTML Injection (CodeQL)
+function escapeHtml(str: string): string {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function POST(req: Request) {
   const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
   const userAgent = req.headers.get('user-agent') || 'UNKNOWN';
@@ -85,6 +96,11 @@ export async function POST(req: Request) {
       }
     }
 
+    // 3. Netwayaj ak Sanitization pou rann variable yo san danje pou CodeQL
+    const safeName = escapeHtml(String(name).trim());
+    const safeEmail = escapeHtml(String(email).trim());
+    const safeMessage = escapeHtml(String(message).trim());
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.zoho.com',
       port: Number(process.env.SMTP_PORT) || 465,
@@ -103,17 +119,17 @@ export async function POST(req: Request) {
     const adminMailOptions = {
       from: `"Portfolio Contact" <${senderEmail}>`,
       to: senderEmail,
-      replyTo: email,
-      subject: `[Portfolio Contact] Nouveau message de ${name}`,
+      replyTo: safeEmail,
+      subject: `[Portfolio Contact] Nouveau message de ${safeName}`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #111; max-width: 600px; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #ffffff;">
           <h2 style="color: #2563eb; margin-top: 0;">Nouveau message de contact</h2>
-          <p><strong>Nom :</strong> ${name}</p>
-          <p><strong>Email :</strong> ${email}</p>
+          <p><strong>Nom :</strong> ${safeName}</p>
+          <p><strong>Email :</strong> ${safeEmail}</p>
           <p><strong>Langue :</strong> ${currentLang.toUpperCase()}</p>
           <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 16px 0;" />
           <p><strong>Message :</strong></p>
-          <p style="white-space: pre-wrap; background-color: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0;">${message}</p>
+          <p style="white-space: pre-wrap; background-color: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0;">${safeMessage}</p>
         </div>
       `,
     };
@@ -142,7 +158,7 @@ export async function POST(req: Request) {
 
             <!-- Content -->
             <div style="padding: 28px 24px; background-color: #ffffff; color: #334155;">
-              <p style="margin-top: 0; font-size: 16px; font-weight: 600; color: #0f172a;">Bonjour ${name},</p>
+              <p style="margin-top: 0; font-size: 16px; font-weight: 600; color: #0f172a;">Bonjour ${safeName},</p>
               <p>J'ai bien pris connaissance de votre message transmis via mon portfolio (<strong>fednelcharite.site</strong>).</p>
               <p>Chaque opportunité et projet compte pour moi. Je vous reviendrai personnellement en <strong>moins de 24 heures</strong>.</p>
               
@@ -188,7 +204,7 @@ export async function POST(req: Request) {
 
             <!-- Content -->
             <div style="padding: 28px 24px; background-color: #ffffff; color: #334155;">
-              <p style="margin-top: 0; font-size: 16px; font-weight: 600; color: #0f172a;">Hello ${name},</p>
+              <p style="margin-top: 0; font-size: 16px; font-weight: 600; color: #0f172a;">Hello ${safeName},</p>
               <p>I have successfully received your message sent through my portfolio (<strong>fednelcharite.site</strong>).</p>
               <p>Every project and opportunity is important to me. I will personally respond in <strong>less than 24 hours</strong>.</p>
               
@@ -216,7 +232,7 @@ export async function POST(req: Request) {
 
     const autoReplyOptions = {
       from: `"Fednel Charité" <${senderEmail}>`,
-      to: email,
+      to: safeEmail,
       subject: autoReplyTemplates[currentLang].subject,
       html: autoReplyTemplates[currentLang].html,
     };
@@ -229,7 +245,7 @@ export async function POST(req: Request) {
       ip,
       userAgent,
       path,
-      details: { email, name, lang: currentLang },
+      details: { email: safeEmail, name: safeName, lang: currentLang },
     });
 
     return NextResponse.json(
