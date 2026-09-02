@@ -42,7 +42,7 @@ graph TD
         K --> N[Structured JSON Security Logging / SIEM]
     end
 
-********************************************************************************************************
+🇺🇸 English Version
 🔒 Implemented Security Features
 1. Automated Security Gates (CI/CD)
 Secret Scanning: Gitleaks blocks hardcoded API keys and credentials before merging.
@@ -65,11 +65,10 @@ Strict Headers: CSP, HSTS, X-Frame-Options: DENY, X-Content-Type-Options: nosnif
 
 Anti-Abuse & Anti-Bot: Integrated Cloudflare Turnstile & Upstash Redis rate-limiting.
 
-Observability: Structured JSON security logging with automatic PII Sanitation (lib/logger.ts).    
+Observability: Structured JSON security logging with automatic PII Sanitation (lib/logger.ts).
 
-***********************************************************************************************************
-
-Fonctionnalités de Sécurité Implémentées
+🇫🇷 Version Française
+🔒 Fonctionnalités de Sécurité Implémentées
 1. Contrôles de Sécurité Automatisés (CI/CD)
 Détection de Secrets : Gitleaks bloque les clés API et identifiants exposés avant tout commit.
 
@@ -115,6 +114,3 @@ docker run -p 3000:3000 fednel-portfolio:latest
 For security concerns or vulnerability disclosure, refer to our SECURITY.md policy.
 
 Pour tout signalement de vulnérabilité, veuillez consulter notre politique SECURITY.md.
-
-Developer par Fednel Charite
-Build by Fednel Charite
