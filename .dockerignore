@@ -1,7 +1,20 @@
+# ==============================================================================
+# FR: Fichier d'Exclusion Docker / .dockerignore
+# EN: Docker Build Context Exclusion File / .dockerignore
+# ==============================================================================
+
+# FR: Dépendances et builds locaux (Reconstruits dans le conteneur)
+# EN: Local dependencies and build outputs (Rebuilt inside container)
 node_modules
 .next
+
+# FR: Contrôle de version et configuration Git
+# EN: Version control history and Git config
 .git
 .gitignore
+
+# FR: Fichiers de configuration et documentation
+# EN: Build scripts and project documentation
 Dockerfile
 README.md
 pnpm-workspace.yaml

@@ -1,28 +1,50 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Composant Carte de Projet / ProjectCard (Client Component)
+ * EN: Project Card Component / ProjectCard (Client Component)
+ * ==============================================================================
+ * 
+ * FR: Affiche un projet individuel avec sa stack technique, son problème/solution
+ *     et offre des déclencheurs pour ouvrir la modale d'étude de cas (Case Study).
+ * EN: Displays an individual project with tech stack, problem/solution overview,
+ *     and provides triggers to open the case study details modal.
+ */
+
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github, Clock, BookOpen } from "lucide-react";
 import type { Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
+/**
+ * FR: Définition des propriétés transmises au composant ProjectCard
+ * EN: Interface props definition for the ProjectCard component
+ */
 interface ProjectCardProps {
   project: Project;
   onOpenDetails?: (project: Project) => void;
 }
 
 export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps) {
+  // FR: Extraction de la langue actuelle depuis le contexte
+  // EN: Extract current active language from context
   const { language } = useLanguage();
 
   const categories = project.categories || [];
   const stackList = project.stack || [];
   const description = project.tagline || "";
 
+  // FR: Étiquettes bilingues pour les catégories de projets
+  // EN: Bilingual category labels mapping
   const categoryLabels: Record<string, { fr: string; en: string }> = {
     "full-stack": { fr: "Full-Stack", en: "Full-Stack" },
     security: { fr: "DevSecOps / Sécurité", en: "DevSecOps / Security" },
     "mobile-cloud": { fr: "Mobile / Cloud", en: "Mobile / Cloud" },
   };
 
+  // FR: Dictionnaire d'interface bilingue pour la carte
+  // EN: Bilingual UI string labels
   const labels = {
     fr: {
       problem: "Problème",
@@ -59,7 +81,9 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
       className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-card backdrop-blur-sm transition-all hover:border-accent-500/40 hover:shadow-glow"
     >
       <div>
-        {/* Badges de catégories */}
+        {/* ------------------------------------------------------------------ */}
+        {/* 1. BADGES DE CATÉGORIES & DÉCLENCHEUR RAPIDE CASE STUDY            */}
+        {/* ------------------------------------------------------------------ */}
         <div className="flex flex-wrap items-center justify-between gap-1.5">
           <div className="flex flex-wrap gap-1.5">
             {categories.map((cat) => (
@@ -72,11 +96,11 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
             ))}
           </div>
 
-          {/* Bouton rapide Case study nan tèt kat la */}
+          {/* FR: Bouton d'accès rapide à l'étude de cas / EN: Quick Case Study trigger button */}
           {onOpenDetails && (
             <button
               onClick={() => onOpenDetails(project)}
-              className="flex items-center gap-1 rounded-lg border border-accent-500/20 bg-accent-500/10 px-2.5 py-1 font-sans text-xs font-medium text-accent-300 transition hover:bg-accent-500/20"
+              className="flex items-center gap-1 rounded-lg border border-accent-500/20 bg-accent-500/10 px-2.5 py-1 font-sans text-xs font-medium text-accent-300 transition hover:bg-accent-500/20 cursor-pointer"
             >
               <BookOpen size={13} />
               <span>Case Study</span>
@@ -84,7 +108,9 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
           )}
         </div>
 
-        {/* Titre */}
+        {/* ------------------------------------------------------------------ */}
+        {/* 2. TITRE ET DESCRIPTION DU PROJET / TITLE & DESCRIPTION            */}
+        {/* ------------------------------------------------------------------ */}
         <h3
           onClick={() => onOpenDetails && onOpenDetails(project)}
           className="mt-4 cursor-pointer font-card text-lg sm:text-xl font-bold text-paper transition-colors group-hover:text-accent-300"
@@ -92,12 +118,13 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
           {project.title}
         </h3>
 
-        {/* Description / Tagline */}
         <p className="mt-2 font-sans text-sm sm:text-base leading-relaxed text-paper/75">
           {description}
         </p>
 
-        {/* Section Problem & Solution */}
+        {/* ------------------------------------------------------------------ */}
+        {/* 3. SECTION PROBLÈME & SOLUTION / PROBLEM & SOLUTION OVERVIEW      */}
+        {/* ------------------------------------------------------------------ */}
         {(project.problem || project.solution) && (
           <div className="mt-4 space-y-2 border-t border-white/5 pt-4">
             {project.problem && (
@@ -125,7 +152,9 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
       </div>
 
       <div>
-        {/* Stack Technique Badges */}
+        {/* ------------------------------------------------------------------ */}
+        {/* 4. BADGES DE LA STACK TECHNIQUE / TECH STACK BADGES                */}
+        {/* ------------------------------------------------------------------ */}
         <div className="mt-5 flex flex-wrap gap-1.5">
           {stackList.map((tech) => (
             <span
@@ -137,7 +166,9 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
           ))}
         </div>
 
-        {/* Liens externes et Déclencheur Modal */}
+        {/* ------------------------------------------------------------------ */}
+        {/* 5. LIENS EXTERNES ET DÉCLENCHEUR PRINCIPAL DE MODALE              */}
+        {/* ------------------------------------------------------------------ */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-4">
           <div className="flex items-center gap-3">
             {project.liveUrl && (
@@ -170,11 +201,12 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
             )}
           </div>
 
-          {/* Bouton d'ouverture principale pour la Modal */}
+          {/* FR: Lien d'ouverture de la modale de détails d'architecture */}
+          {/* EN: Trigger link to open detailed architecture modal */}
           {onOpenDetails && (
             <button
               onClick={() => onOpenDetails(project)}
-              className="flex items-center gap-1.5 font-sans text-xs font-semibold text-accent-300 transition hover:underline"
+              className="flex items-center gap-1.5 font-sans text-xs font-semibold text-accent-300 transition hover:underline cursor-pointer"
             >
               <BookOpen size={14} />
               <span>{labels.details}</span>

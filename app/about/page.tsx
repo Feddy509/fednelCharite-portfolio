@@ -1,11 +1,40 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Page "À propos" du Portfolio (Next.js App Router Client Component)
+ * EN: Portfolio "About" Page (Next.js App Router Client Component)
+ * ==============================================================================
+ * 
+ * FR: Présente le parcours professionnel, la biographie, les piliers d'ingénierie,
+ *     le parcours académique et les certifications interactives.
+ * EN: Displays professional background, biography, engineering pillars,
+ *     academic history, and interactive certification badges.
+ */
+
 import React, { useState } from "react";
 import Image from "next/image";
-import { GraduationCap, Code2, ShieldCheck, Cloud, Clock, Award, CheckCircle2, UserCheck, X, Eye, FileText, Loader2 } from "lucide-react";
+import {
+  GraduationCap,
+  Code2,
+  ShieldCheck,
+  Cloud,
+  Clock,
+  Award,
+  CheckCircle2,
+  UserCheck,
+  X,
+  Eye,
+  FileText,
+  Loader2,
+} from "lucide-react";
 import { certifications, portfolioData, Certification } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
+/**
+ * FR: Mappage des icônes pour les piliers d'identité technique.
+ * EN: Icon mapping for technical identity pillars.
+ */
 const identityIcons: Record<string, React.ElementType> = {
   engineer: Code2,
   securiste: ShieldCheck,
@@ -13,23 +42,31 @@ const identityIcons: Record<string, React.ElementType> = {
 };
 
 export default function AboutPage() {
+  // FR: Extraction de la langue actuelle depuis le contexte
+  // EN: Extract current language from context
   const { language } = useLanguage();
   const data = portfolioData?.[language] || portfolioData?.fr || {};
 
+  // FR: État local pour gérer la certification sélectionnée dans la modale
+  // EN: Local state to track selected certification for modal display
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
 
-  // Sètifika konplè ak sa k gen pousantaj ( progress ) yo
+  // FR: Filtrage des certifications terminées ou en cours avec progression explicite
+  // EN: Filtering completed certifications or in-progress ones with explicit progress
   const completedOrActive = (certifications || []).filter(
     (c) => c?.status === "completed" || (c?.status === "in-progress" && c?.progress)
   );
 
-  // Sètifika ki anba nèt yo (CompTIA, AWS, Azure - san pousantaj)
+  // FR: Filtrage des certifications à venir (en cours sans pourcentage affiché)
+  // EN: Filtering upcoming certifications (in-progress without visible percentage)
   const upcoming = (certifications || []).filter(
     (c) => c?.status === "in-progress" && !c?.progress
   );
 
   const isEn = language === "en";
 
+  // FR: Dictionnaire de traductions locales pour l'interface de la page
+  // EN: Localized UI strings dictionary
   const labels =
     {
       fr: {
@@ -69,9 +106,9 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
       
-      {/* ---------------------------------------------------------------- */}
-      {/* 1. SEKSYON BIOGRAFIC ANLE NET                                   */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 1. SECTIONS BIOGRAPHIQUE / BIOGRAPHY SECTION                       */}
+      {/* ------------------------------------------------------------------ */}
       <section className="rounded-3xl border border-white/10 bg-ink-surface/50 p-8 sm:p-12 backdrop-blur-xl shadow-glow">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
@@ -100,9 +137,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* 2. LES TROIS PILIERS                                            */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 2. PILIERS TECHNIQUES / ENGINEERING PILLARS                        */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mt-20">
         <h2 className="font-sans text-2xl font-bold text-paper sm:text-3xl">
           {labels.pillarsTitle}
@@ -131,9 +168,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* 3. PARCOURS ACADÉMIQUE                                           */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 3. PARCOURS ACADÉMIQUE / ACADEMIC BACKGROUND                       */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mt-20">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
           {labels.academic}
@@ -160,9 +197,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* 4. CERTIFICATIONS & FORMATIONS (Cliquables pour Popup)           */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 4. CERTIFICATIONS ET FORMATIONS / CERTIFICATIONS SECTION          */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mt-20">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
@@ -176,7 +213,7 @@ export default function AboutPage() {
           <Award className="text-accent-300/40" size={32} />
         </div>
 
-        {/* Lis Sètifika prensipal yo (Cliquable pou louvri imaj/pousantaj) */}
+        {/* FR: Grille des certifications principales / EN: Main certifications grid */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {completedOrActive.map((cert) => {
             const isDone = cert.status === "completed";
@@ -215,7 +252,7 @@ export default function AboutPage() {
           })}
         </div>
 
-        {/* Certifications En Préparation à Venir (CompTIA, AWS, Azure - Rete jan yo ye a) */}
+        {/* FR: Certifications en cours et à venir / EN: Upcoming certifications */}
         <div className="mt-12">
           <div className="flex items-center gap-2 text-paper/50">
             <Clock size={16} className="text-accent-300" />
@@ -240,14 +277,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* MODAL POP-UP (Adapté aux grands écrans / Desktop)                */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 5. MODALE DE CERTIFICATION / CERTIFICATION MODAL DIALOG            */}
+      {/* ------------------------------------------------------------------ */}
       {selectedCert && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 sm:p-6 lg:p-8 backdrop-blur-md animate-fadeIn">
           <div className="relative max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-ink-surface p-6 sm:p-8 shadow-2xl space-y-4">
             
-            {/* Modal Header */}
+            {/* FR: En-tête de la modale / EN: Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
                 <h3 className="font-sans text-lg sm:text-xl font-bold text-paper">
@@ -263,7 +300,7 @@ export default function AboutPage() {
               </button>
             </div>
 
-            {/* Content: Si Complété -> Imaj / Si In-Progress -> Barre % */}
+            {/* FR: Corps de la modale / EN: Modal Content Body */}
             <div className="relative min-h-[250px] lg:min-h-[350px] w-full overflow-hidden rounded-xl bg-black/40 border border-white/5 flex flex-col items-center justify-center p-4 sm:p-6">
               {selectedCert.status === "completed" ? (
                 selectedCert.imageUrl ? (
@@ -286,7 +323,8 @@ export default function AboutPage() {
                   </div>
                 )
               ) : (
-                /* Si c'est en progression */
+                /* FR: Progression dynamique si la certification est en cours */
+                /* EN: Dynamic progress bar if certification is in progress */
                 <div className="w-full max-w-md text-center space-y-5 p-4">
                   <div className="flex justify-center">
                     <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
@@ -305,7 +343,7 @@ export default function AboutPage() {
                     </p>
                   </div>
 
-                  {/* Ba de Pwogresyon % */}
+                  {/* FR: Barre de progression (%) / EN: Progress Bar (%) */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between font-mono text-xs">
                       <span className="text-paper/60">{isEn ? "Progression" : "Avancement"}</span>
@@ -322,7 +360,7 @@ export default function AboutPage() {
               )}
             </div>
 
-            {/* Modal Footer ak Bouton PDF si l ekziste */}
+            {/* FR: Pied de modale / EN: Modal Footer */}
             <div className="flex items-center justify-between pt-2">
               {selectedCert.pdfUrl && selectedCert.status === "completed" ? (
                 <a
@@ -334,7 +372,9 @@ export default function AboutPage() {
                   <FileText size={14} />
                   {labels.openPdf}
                 </a>
-              ) : <div />}
+              ) : (
+                <div />
+              )}
 
               <button
                 onClick={() => setSelectedCert(null)}

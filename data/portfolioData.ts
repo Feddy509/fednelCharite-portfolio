@@ -1,14 +1,27 @@
 // ============================================================================
+// portfolioData.ts - Source unique de vérité pour tout le contenu du portfolio.
 // portfolioData.ts - Single source of truth for all portfolio content.
 // ============================================================================
 
+/**
+ * FR: Catégories de compétences techniques
+ * EN: Technical skill categories
+ */
 export type SkillCategory = "frontend" | "backend" | "security" | "other" | "certification";
 
+/**
+ * FR: Structure d'une compétence individuelle
+ * EN: Individual skill shape
+ */
 export interface Skill {
   name: string;
   category: SkillCategory;
 }
 
+/**
+ * FR: Structure d'une certification professionnelle
+ * EN: Professional certification shape
+ */
 export interface Certification {
   name: string;
   issuer: string;
@@ -18,8 +31,16 @@ export interface Certification {
   progress?: number;
 }
 
+/**
+ * FR: Catégories de classification des projets
+ * EN: Project classification categories
+ */
 export type ProjectCategory = "full-stack" | "security";
 
+/**
+ * FR: Structure complète d'un projet du portfolio (avec étude de cas)
+ * EN: Complete portfolio project shape (including case study details)
+ */
 export interface Project {
   slug: string;
   title: string;
@@ -31,21 +52,32 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
-  // Nouvo champ pou modal Case Study an:
   architecture?: string;
   challenges?: string[];
   keyFeatures?: string[];
   securityFocus?: string;
 }
 
+/**
+ * FR: Identifiants de profils pour l'exportation de CV
+ * EN: Profile identifiers for resume exports
+ */
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
+/**
+ * FR: Option de CV dans la modale de téléchargement
+ * EN: Resume option in the download modal
+ */
 export interface ResumeItem {
   id: ResumeProfile;
   label: string;
   description: string;
 }
 
+/**
+ * FR: Informations personnelles globales
+ * EN: Global personal information
+ */
 export const personalInfo = {
   name: "Fednel Charité",
   initials: "FC",
@@ -65,6 +97,10 @@ export const personalInfo = {
     "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
 };
 
+/**
+ * FR: Données bilingues du portfolio (Français / Anglais)
+ * EN: Bilingual portfolio content dictionary (French / English)
+ */
 export const portfolioData = {
   fr: {
     navLinks: [
@@ -416,7 +452,8 @@ export const portfolioData = {
 };
 
 // ----------------------------------------------------------------------------
-// Lis Konpetans ak Zouti Yo
+// FR: Liste des Compétences Techniques & Outils
+// EN: Technical Skills & Tools List
 // ----------------------------------------------------------------------------
 
 export const skills: Skill[] = [
@@ -453,6 +490,10 @@ export const skills: Skill[] = [
   { name: "AWS Certified Developer - Associate (en cours)", category: "certification" },
 ];
 
+/**
+ * FR: Liste des Certifications Professionnelles
+ * EN: Professional Certifications List
+ */
 export const certifications: Certification[] = [
   {
     name: "Full Stack Software Developer",
@@ -534,6 +575,7 @@ export const certifications: Certification[] = [
   },
 ];
 
+// FR: Exports par défaut pour raccourcis directs / EN: Default exports for direct shorthand access
 export const navLinks = portfolioData.fr.navLinks;
 export const aboutIdentities = portfolioData.fr.aboutIdentities;
 export const education = portfolioData.fr.education;

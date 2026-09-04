@@ -1,3 +1,8 @@
+# ==============================================================================
+# FR: Pipeline CI/CD pour le contrôle de qualité et de sécurité (DevSecOps Gate)
+# EN: CI/CD Pipeline for Quality and Security Control (DevSecOps Gate)
+# ==============================================================================
+
 name: CI Quality & Security Gate
 
 on:
@@ -9,6 +14,8 @@ on:
 jobs:
   # ==========================================
   # 1. SECRET SCANNING (Gitleaks)
+  # FR: Détection des fuites de secrets et clés API dans l'historique Git
+  # EN: Leak detection for secrets and API keys in Git history
   # ==========================================
   secret-scan:
     name: Secret Leak Detection (Gitleaks)
@@ -26,6 +33,8 @@ jobs:
 
   # ==========================================
   # 2. STATIC APPLICATION SECURITY TESTING (SAST - CodeQL)
+  # FR: Analyse statique de sécurité du code source JavaScript/TypeScript
+  # EN: Static security analysis on JavaScript/TypeScript source code
   # ==========================================
   sast-scan:
     name: CodeQL Security Analysis (SAST)
@@ -49,6 +58,8 @@ jobs:
 
   # ==========================================
   # 3. INFRASTRUCTURE AS CODE SCAN (Checkov IaC)
+  # FR: Audit et scan de sécurité pour les fichiers de configuration Terraform
+  # EN: Security audit and scan for Terraform configuration files
   # ==========================================
   iac-scan:
     name: Infrastructure as Code Scan (Checkov)
@@ -68,6 +79,8 @@ jobs:
 
   # ==========================================
   # 4. CODE QUALITY & DEPENDENCY SCAN (SCA)
+  # FR: Tests de qualité du code, audit des dépendances et génération du SBOM
+  # EN: Code quality testing, dependency audit, and SBOM generation
   # ==========================================
   quality-gate:
     name: Code Quality & Security Check
@@ -120,6 +133,8 @@ jobs:
 
   # ==========================================
   # 5. CONTAINER SECURITY SCAN & OIDC KEYLESS SIGNING (Cosign)
+  # FR: Analyse d'image Docker et préparation pour la signature OIDC sans clé
+  # EN: Docker image scan and preparation for keyless OIDC signing
   # ==========================================
   container-security:
     name: Docker Image Vulnerability Scan & Cosign Signing
@@ -128,7 +143,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write # Pèmisyon OIDC pou Cosign san kle (Keyless)
+      id-token: write # FR: Permissions OIDC pour Cosign sans clé / EN: OIDC permission for keyless Cosign
 
     steps:
       - name: Checkout repository

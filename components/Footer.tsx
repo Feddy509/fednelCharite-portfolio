@@ -1,11 +1,27 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Composant Pied de Page Global / Footer (Next.js Client Component)
+ * EN: Global Footer Component (Next.js Client Component)
+ * ==============================================================================
+ * 
+ * FR: Affiche la navigation secondaire, les liens vers les projets phares, 
+ *     les réseaux sociaux et le canal de communication directe WhatsApp.
+ * EN: Displays secondary navigation, featured system links, social networks,
+ *     and direct WhatsApp communication channel.
+ */
+
 import Link from "next/link";
 import { Github, Linkedin, Mail, ExternalLink, ChevronRight, MessageSquareCode } from "lucide-react";
 import { portfolioData, personalInfo } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
-import { track } from "@vercel/analytics"; // Enpòtasyon pou Custom Events Tracking
+import { track } from "@vercel/analytics";
 
+/**
+ * FR: Icône SVG personnalisée pour le réseau X (Twitter)
+ * EN: Custom SVG icon for X (Twitter) social network
+ */
 const XIcon = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
@@ -18,6 +34,10 @@ const XIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
+/**
+ * FR: Icône SVG personnalisée pour WhatsApp
+ * EN: Custom SVG icon for WhatsApp messenger
+ */
 const WhatsappIcon = ({ size = 18 }: { size?: number }) => (
   <svg
     width={size}
@@ -31,6 +51,8 @@ const WhatsappIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 export default function Footer() {
+  // FR: Extraction de la langue et des données de portfolio
+  // EN: Language context and portfolio data extraction
   const { language } = useLanguage();
   const data = portfolioData?.[language] || portfolioData?.fr;
 
@@ -41,15 +63,17 @@ export default function Footer() {
   return (
     <footer className="mt-auto bg-gradient-to-b from-[#081226] via-[#060b18] to-[#04070e] font-sans text-paper">
       
-      {/* Tras Blan Anlè a */}
+      {/* FR: Ligne de séparation supérieure / EN: Top accent border line */}
       <div className="w-full h-[4px] bg-white/65 shadow-[0_0_10px_rgba(255,255,255,0.15)]" />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-14">
         
-        {/* Griy 4 Kolòn */}
+        {/* ------------------------------------------------------------------ */}
+        {/* GRILLE 4 COLONNES / 4-COLUMN FOOTER GRID                          */}
+        {/* ------------------------------------------------------------------ */}
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 items-start xl:gap-12">
           
-          {/* Kolòn 1: Identity & Description */}
+          {/* FR: Colonne 1: Identité et description / EN: Column 1: Identity & Description */}
           <div className="space-y-3.5">
             <Link
               href="/"
@@ -66,7 +90,7 @@ export default function Footer() {
                 : "Conception d'applications web sécurisées et évolutives, axées sur la qualité du code et la sécurité."}
             </p>
 
-            {/* Social Icons */}
+            {/* FR: Liens sociaux rapides / EN: Social networks icon bar */}
             <div className="flex items-center gap-3 pt-1">
               <a
                 href={personalInfo.social.github}
@@ -105,7 +129,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Kolòn 2: Navigation */}
+          {/* FR: Colonne 2: Navigation principale / EN: Column 2: Main Navigation Links */}
           <div className="space-y-4 lg:ml-12">
             <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               NAVIGATION
@@ -130,7 +154,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Kolòn 3: Featured Systems */}
+          {/* FR: Colonne 3: Projets et Systèmes Phares / EN: Column 3: Featured Systems */}
           <div className="space-y-4">
             <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               {isEn ? "FEATURED SYSTEMS" : "PROJETS PHARES"}
@@ -172,7 +196,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Kolòn 4: Contact & Direct WhatsApp Sync */}
+          {/* FR: Colonne 4: Contact Direct & Intégration WhatsApp / EN: Column 4: Direct WhatsApp Contact */}
           <div className="space-y-4">
             <h4 className="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400">
               {isEn ? "DIRECT CONTACT" : "CONTACT DIRECT"}
@@ -206,7 +230,9 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Copyright Bar */}
+        {/* ------------------------------------------------------------------ */}
+        {/* BARRE DE COPYRIGHT / COPYRIGHT BOTTOM BAR                         */}
+        {/* ------------------------------------------------------------------ */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 text-center text-xs text-paper/60 sm:flex-row sm:text-left">
           <p className="font-sans">© {currentYear} {personalInfo.name}. All rights reserved.</p>
           <p className="font-mono text-xs">

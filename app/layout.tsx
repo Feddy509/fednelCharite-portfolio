@@ -7,10 +7,15 @@ import Footer from "@/components/Footer";
 import { ResumeModalProvider } from "@/components/ResumeModal";
 import { personalInfo } from "@/data/portfolioData";
 import { LanguageProvider } from "@/app/context/LanguageContext";
-import { Analytics } from "@vercel/analytics/react"; // Enpòtasyon Analytics
-import ChatWidget from "@/components/ChatWidget"; // Enpòtasyon Asistan Feddy
+import { Analytics } from "@vercel/analytics/react";
+import ChatWidget from "@/components/ChatWidget";
 
-// 1. Config polis yo
+/**
+ * ==============================================================================
+ * FR: Configuration et optimisation des polices de caractères Google Fonts
+ * EN: Google Fonts configuration and optimization
+ * ==============================================================================
+ */
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space", display: "swap" });
@@ -18,6 +23,12 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jet
 
 const siteUrl = personalInfo?.social?.website || "https://fednelcharite.site";
 
+/**
+ * ==============================================================================
+ * FR: Métadonnées globales (SEO, OpenGraph, Twitter Cards)
+ * EN: Global metadata configuration (SEO, OpenGraph, Twitter Cards)
+ * ==============================================================================
+ */
 export const metadata: Metadata = {
   title: `${personalInfo.name} - Full-Stack Software Engineer & Aspiring DevSecOps`,
   description: personalInfo.heroVision,
@@ -39,6 +50,12 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * ==============================================================================
+ * FR: Composant Disposition Racine (Root Layout)
+ * EN: Root Layout Component
+ * ==============================================================================
+ */
 export default function RootLayout({
   children,
 }: {
@@ -50,7 +67,8 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        {/* JSON-LD Structured Data pou SEO ak IA yo */}
+        {/* FR: Données structurées JSON-LD pour l'indexation SEO et moteurs IA */}
+        {/* EN: JSON-LD Structured Data for SEO and AI search indexing */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -96,14 +114,22 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-ink font-sans text-paper antialiased selection:bg-accent-600/30 selection:text-paper">
+        {/* FR: Fournisseur de contexte pour l'internationalisation */}
+        {/* EN: Language internationalization context provider */}
         <LanguageProvider>
+          {/* FR: Fournisseur de contexte pour la modale de téléchagement de CV */}
+          {/* EN: Resume download modal context provider */}
           <ResumeModalProvider>
             <div className="flex min-h-screen flex-col">
               <Navbar />
               <main className="flex-1 pt-2 sm:pt-4">{children}</main>
               <Footer />
-              <Analytics /> {/* Entegrasyon Vercel Analytics */}
-              <ChatWidget /> {/* Entegrasyon Asistan Feddy */}
+              {/* FR: Intégration de l'outil d'analyse Vercel Analytics */}
+              {/* EN: Vercel Analytics tracking integration */}
+              <Analytics />
+              {/* FR: Intégration du Widget d'assistance IA (Feddy) */}
+              {/* EN: AI Assistant Chatbot Widget Integration (Feddy) */}
+              <ChatWidget />
             </div>
           </ResumeModalProvider>
         </LanguageProvider>

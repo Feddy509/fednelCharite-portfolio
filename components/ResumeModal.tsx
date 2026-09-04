@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Fournisseur de Contexte et Modale de Téléchargement de CV (Client Component)
+ * EN: Context Provider and Resume Download Modal Component (Client Component)
+ * ==============================================================================
+ * 
+ * FR: Gère l'état global d'ouverture de la modale de CV et permet le téléchargement 
+ *     adapté selon le profil (Full-Stack, Backend, DevSecOps) et la langue.
+ * EN: Manages global state for the resume modal and enables profile-targeted
+ *     downloads (Full-Stack, Backend, DevSecOps) in French or English.
+ */
+
 import {
   createContext,
   useContext,
@@ -11,10 +23,10 @@ import { X, Download, Layers, Server, ShieldCheck, Check } from "lucide-react";
 import { portfolioData, type ResumeProfile } from "@/data/portfolioData";
 import { cn } from "@/lib/utils";
 
-// ----------------------------------------------------------------------------
-// Context
-// ----------------------------------------------------------------------------
-
+/**
+ * FR: Interface du contexte de la modale de CV
+ * EN: Resume modal context interface
+ */
 interface ResumeModalContextValue {
   isOpen: boolean;
   openModal: (lang?: 'en' | 'fr') => void;
@@ -24,6 +36,10 @@ interface ResumeModalContextValue {
 
 const ResumeModalContext = createContext<ResumeModalContextValue | null>(null);
 
+/**
+ * FR: Hook personnalisé pour accéder au contexte de la modale de CV
+ * EN: Custom hook to access resume modal context
+ */
 export function useResumeModal() {
   const ctx = useContext(ResumeModalContext);
   if (!ctx) {
@@ -32,12 +48,20 @@ export function useResumeModal() {
   return ctx;
 }
 
+/**
+ * FR: Mappage des icônes par profil technique de CV
+ * EN: Icon mapping per technical resume profile
+ */
 const profileIcons: Record<ResumeProfile, typeof Layers> = {
   "full-stack": Layers,
   backend: Server,
   devsecops: ShieldCheck,
 };
 
+/**
+ * FR: Fournisseur de Contexte et Composant Modale
+ * EN: Context Provider & Modal Component
+ */
 export function ResumeModalProvider({ 
   children, 
   defaultLang = 'fr' 
@@ -49,6 +73,8 @@ export function ResumeModalProvider({
   const [selected, setSelected] = useState<ResumeProfile | null>("full-stack");
   const [currentLang, setCurrentLang] = useState<'en' | 'fr'>(defaultLang);
 
+  // FR: Ouverture de la modale avec définition optionnelle de la langue
+  // EN: Open modal with optional language override
   const openModal = (lang?: 'en' | 'fr') => {
     if (lang) {
       setCurrentLang(lang);
@@ -56,6 +82,8 @@ export function ResumeModalProvider({
     setIsOpen(true);
   };
 
+  // FR: Fermeture de la modale et réinitialisation de la sélection
+  // EN: Close modal and reset selection
   const closeModal = () => {
     setIsOpen(false);
     setTimeout(() => setSelected(null), 250);
@@ -79,14 +107,16 @@ export function ResumeModalProvider({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Backdrop */}
+            {/* FR: Arrière-plan flouté / EN: Backdrop */}
             <motion.button
               aria-label="Fermer"
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={closeModal}
             />
 
-            {/* Panel */}
+            {/* ------------------------------------------------------------------ */}
+            {/* PANNEAU PRINCIPAL / MAIN DIALOG PANEL                              */}
+            {/* ------------------------------------------------------------------ */}
             <motion.div
               role="dialog"
               aria-modal="true"
@@ -97,7 +127,7 @@ export function ResumeModalProvider({
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Header */}
+              {/* FR: En-tête de la Modale / EN: Modal Header */}
               <div className="flex items-start justify-between border-b border-white/10 p-6">
                 <div>
                   <h2
@@ -115,13 +145,13 @@ export function ResumeModalProvider({
                 <button
                   onClick={closeModal}
                   aria-label="Fermer la fenêtre"
-                  className="rounded-full p-1.5 text-gray-400 transition hover:bg-white/5 hover:text-white"
+                  className="rounded-full p-1.5 text-gray-400 transition hover:bg-white/5 hover:text-white cursor-pointer"
                 >
                   <X size={18} />
                 </button>
               </div>
 
-              {/* Profiles Selection List */}
+              {/* FR: Liste des Profils Techniques / EN: Technical Profiles Selection List */}
               <div className="space-y-2 p-6 max-h-[40vh] overflow-y-auto">
                 {resumeProfiles.map((profile) => {
                   const Icon = profileIcons[profile.id];
@@ -131,7 +161,7 @@ export function ResumeModalProvider({
                       key={profile.id}
                       onClick={() => setSelected(profile.id)}
                       className={cn(
-                        "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition",
+                        "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition cursor-pointer",
                         isSelected
                           ? "border-blue-500 bg-blue-600/10"
                           : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
@@ -163,11 +193,11 @@ export function ResumeModalProvider({
                 })}
               </div>
 
-              {/* Footer / Download Buttons (Order changes dynamically based on safeLang) */}
+              {/* FR: Pied de page / Boutons de Téléchargement PDF / EN: Footer / PDF Download Buttons */}
               <div className="border-t border-white/10 p-6 space-y-3 bg-slate-950/50">
                 {selected ? (
                   safeLang === 'en' ? (
-                    // Lè sit la an ANGLÈ: Bouton Anglè anlè (ble), Franse anba (gri)
+                    // FR: Mode Anglais: Anglais en premier / EN: English Mode: English first
                     <>
                       <a
                         href={`/resumes/fednel-charite-${selected}-en.pdf`}
@@ -190,7 +220,7 @@ export function ResumeModalProvider({
                       </a>
                     </>
                   ) : (
-                    // Lè sit la an FRANSE: Bouton Franse anlè (ble), Anglè anba (gri)
+                    // FR: Mode Français: Français en premier / EN: French Mode: French first
                     <>
                       <a
                         href={`/resumes/fednel-charite-${selected}-fr.pdf`}

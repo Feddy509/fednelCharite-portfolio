@@ -1,26 +1,38 @@
-# dependencies
+# ==============================================================================
+# FR: Fichier d'Exclusion Git / .gitignore
+# EN: Git Version Control Exclusion File / .gitignore
+# ==============================================================================
+
+# FR: Dépendances du projet (Installees via pnpm/npm/yarn)
+# EN: Project dependencies (Installed via pnpm/npm/yarn)
 /node_modules
 
-# next.js
+# FR: Fichiers de compilation Next.js et exports statiques
+# EN: Next.js build artifacts and static export outputs
 /.next/
 /out/
 
-# production
+# FR: Dossiers de production
+# EN: Production build output
 /build
 
-# misc
+# FR: Fichiers système et certificats de sécurité sensibles
+# EN: OS system files and sensitive security keys
 .DS_Store
 *.pem
 
-# debug
+# FR: Journaux d'erreurs et de débogage
+# EN: Package manager debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# FR: Protection des variables d'environnement et secrets
+# EN: Environment variables and secrets protection
 .env*.local
 .env
 
-# typescript
+# FR: Fichiers de cache et définitions TypeScript
+# EN: TypeScript build cache and Next.js ambient types
 *.tsbuildinfo
 next-env.d.ts

@@ -2,10 +2,23 @@ import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { logSecurityEvent } from "@/lib/logger";
 
+/**
+ * ==============================================================================
+ * FR: Gestionnaire du Limiteur de Débit (Rate Limiting) en Mémoire
+ * EN: In-Memory Rate Limiting Manager
+ * ==============================================================================
+ */
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
 const LIMIT = 10;
-const WINDOW_MS = 15 * 60 * 1000;
+const WINDOW_MS = 15 * 60 * 1000; // FR: Fenêtre de 15 minutes / EN: 15-minute window
 
+/**
+ * FR: Vérifie si une adresse IP donnée a dépassé la limite d'appels.
+ * EN: Checks if a given IP address has exceeded the rate limit.
+ *
+ * @param ip - FR: Adresse IP du client / EN: Client IP address
+ * @returns FR: Vrai si l'IP est limitée / EN: True if IP is rate limited
+ */
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const userRate = rateLimitMap.get(ip);
@@ -28,7 +41,13 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-// Netwaye epi izole nèt chèn valè yo
+/**
+ * FR: Assainit une chaîne de caractères en supprimant les caractères de contrôle.
+ * EN: Sanitizes a string by stripping non-printable control characters.
+ *
+ * @param input - FR: Entrée brute utilisateur / EN: Raw user input
+ * @returns FR: Chaîne nettoyée / EN: Cleaned string
+ */
 function sanitizeText(input: unknown): string {
   if (typeof input !== "string") return "";
   return input
@@ -36,12 +55,22 @@ function sanitizeText(input: unknown): string {
     .trim();
 }
 
+/**
+ * ==============================================================================
+ * FR: Route Handler HTTP POST - Assistant IA Portfolio
+ * EN: HTTP POST Route Handler - Portfolio AI Assistant
+ * ==============================================================================
+ */
 export async function POST(req: Request) {
+  // FR: Extraction des en-têtes réseau pour la sécurité et l'audit
+  // EN: Network headers extraction for security auditing
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
   const userAgent = req.headers.get("user-agent") || "UNKNOWN";
   const path = "/api/chat";
 
   try {
+    // FR: Contrôle de débit (Rate Limiting)
+    // EN: Rate limiting check
     if (isRateLimited(ip)) {
       logSecurityEvent("SECURITY", {
         event: "CHAT_RATE_LIMIT_EXCEEDED",
@@ -57,7 +86,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1. Dekonstriksyon ak Sanitization Strik anvan nenpòt itilizasyon
+    // FR: 1. Déconstruction et validation de la charge utile (Payload)
+    // EN: 1. Payload deconstruction and initial validation
     const rawBody = await req.json();
     const rawMessages = Array.isArray(rawBody?.messages) ? rawBody.messages : [];
     const isEnglish = String(rawBody?.language || "").toLowerCase() === "en";
@@ -77,12 +107,13 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Izolasyon Konplè (Disconnecting Taint Flow for CodeQL)
+    // FR: 2. Isolation complète des données pour prévenir le Taint Flow (CodeQL SAST)
+    // EN: 2. Complete data isolation to prevent Taint Flow (CodeQL SAST)
     const sanitizedMessages: Array<{ role: "user" | "model"; text: string }> = [];
 
     for (const item of rawMessages) {
       if (!item || typeof item !== "object") continue;
-      
+
       const roleStr = String((item as Record<string, unknown>).role || "");
       const contentStr = sanitizeText((item as Record<string, unknown>).content);
 
@@ -102,7 +133,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3. Verifikasyon maksimòm 500 karaktè sou dènye mesaj la
+    // FR: 3. Validation de la longueur maximale du dernier message (Anti-Prompt Injection)
+    // EN: 3. Maximum character length validation on the latest message (Anti-Prompt Injection)
     const lastItem = sanitizedMessages[sanitizedMessages.length - 1];
 
     if (lastItem.text.length > 500) {
@@ -127,7 +159,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Fixed System Prompts
+    // FR: System Prompts préconfigurés pour la personnalité de l'assistant (FR & EN)
+    // EN: Pre-configured System Prompts for assistant persona (FR & EN)
     const systemPromptFr = `
 Tu es Feddy, l'assistant virtuel intelligent et professionnel du portfolio de Fednel Charité. 
 Ton rôle est d'accueillir les visiteurs et de répondre à leurs questions avec précision.
@@ -195,7 +228,8 @@ STRICT RESPONSE RULES:
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Formatage konplètman izole pou Gemini API
+    // FR: Mappage de l'historique vers le format attendu par le SDK Google GenAI
+    // EN: Mapping chat history to the structure expected by the Google GenAI SDK
     const formattedHistory = sanitizedMessages.map((msg) => ({
       role: msg.role,
       parts: [{ text: msg.text }],
@@ -209,6 +243,8 @@ STRICT RESPONSE RULES:
       details: { messageCount: sanitizedMessages.length, language: isEnglish ? "en" : "fr" },
     });
 
+    // FR: Appel au modèle Gemini avec paramètres de sécurité et instructions système
+    // EN: Call to Gemini model with system instructions and security parameters
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: formattedHistory,
