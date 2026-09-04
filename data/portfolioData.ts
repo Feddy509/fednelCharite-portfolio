@@ -75,6 +75,39 @@ export interface ResumeItem {
 }
 
 /**
+ * FR: Structure des libellés UI réutilisables
+ * EN: Reusable UI string labels structure
+ */
+export interface UILabels {
+  caseStudyModal: {
+    caseStudy: string;
+    problem: string;
+    solution: string;
+    architecture: string;
+    keyFeatures: string;
+    challenges: string;
+    security: string;
+    techStack: string;
+    visitSite: string;
+    viewCode: string;
+    close: string;
+  };
+  resumeModal: {
+    title: string;
+    subtitle: string;
+    downloadFr: string;
+    downloadEn: string;
+    selectProfilePrompt: string;
+    close: string;
+  };
+  common: {
+    backToHome: string;
+    loading: string;
+    error: string;
+  };
+}
+
+/**
  * FR: Informations personnelles globales
  * EN: Global personal information
  */
@@ -116,6 +149,34 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
+    uiLabels: {
+      caseStudyModal: {
+        caseStudy: "Étude de cas & Architecture",
+        problem: "Le Problème",
+        solution: "La Solution",
+        architecture: "Architecture & Conception",
+        keyFeatures: "Fonctionnalités Clés",
+        challenges: "Défis Techniques & Apprentissages",
+        security: "Posture de Sécurité DevSecOps",
+        techStack: "Technologies Utilisées",
+        visitSite: "Visiter le site",
+        viewCode: "Code source",
+        close: "Fermer",
+      },
+      resumeModal: {
+        title: "Télécharger mon CV",
+        subtitle: "Choisissez un profil technique et téléchargez la version de votre choix.",
+        downloadFr: "Télécharger le CV en Français (PDF)",
+        downloadEn: "Télécharger le CV en Anglais (PDF)",
+        selectProfilePrompt: "Veuillez sélectionner un profil ci-dessus pour afficher les options.",
+        close: "Fermer",
+      },
+      common: {
+        backToHome: "Retour à l'accueil",
+        loading: "Chargement...",
+        error: "Une erreur est survenue",
+      },
+    } as UILabels,
     contactQuote: {
       text: "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
@@ -294,6 +355,34 @@ export const portfolioData = {
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
+    uiLabels: {
+      caseStudyModal: {
+        caseStudy: "Case Study & Architecture",
+        problem: "The Problem",
+        solution: "The Solution",
+        architecture: "Architecture & Design",
+        keyFeatures: "Key Features",
+        challenges: "Technical Challenges & Learnings",
+        security: "DevSecOps Security Posture",
+        techStack: "Tech Stack & Tools",
+        visitSite: "Visit Website",
+        viewCode: "Source Code",
+        close: "Close",
+      },
+      resumeModal: {
+        title: "Download Resume",
+        subtitle: "Choose a technical profile and download the version of your choice.",
+        downloadFr: "Download French CV (PDF)",
+        downloadEn: "Download English CV (PDF)",
+        selectProfilePrompt: "Please select a profile above to display options.",
+        close: "Close",
+      },
+      common: {
+        backToHome: "Back to Home",
+        loading: "Loading...",
+        error: "An error occurred",
+      },
+    } as UILabels,
     contactQuote: {
       text: "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",

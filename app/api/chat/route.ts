@@ -258,17 +258,19 @@ STRICT RESPONSE RULES:
     const reply = response.text || "No response generated.";
     return NextResponse.json({ reply });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+
     logSecurityEvent("ERROR", {
       event: "CHAT_API_EXCEPTION",
       ip,
       userAgent,
       path,
-      details: { error: error?.message || String(error) },
+      details: { error: errorMessage },
     });
 
     return NextResponse.json(
-      { error: error?.message || "Internal Server Error" },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

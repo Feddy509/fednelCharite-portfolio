@@ -14,7 +14,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Github, ShieldAlert, Cpu, CheckCircle, Wrench } from "lucide-react";
-import type { Project } from "@/data/portfolioData";
+import { portfolioData, type Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 /**
@@ -33,36 +33,10 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
 
   if (!project) return null;
 
-  // FR: Dictionnaire bilingue pour la modale
-  // EN: Bilingual UI string labels for the modal
-  const labels = {
-    fr: {
-      caseStudy: "Étude de cas & Architecture",
-      problem: "Le Problème",
-      solution: "La Solution",
-      architecture: "Architecture & Conception",
-      keyFeatures: "Fonctionnalités Clés",
-      challenges: "Défis Techniques & Apprentissages",
-      security: "Posture de Sécurité DevSecOps",
-      techStack: "Technologies Utilisées",
-      visitSite: "Visiter le site",
-      viewCode: "Code source",
-      close: "Fermer",
-    },
-    en: {
-      caseStudy: "Case Study & Architecture",
-      problem: "The Problem",
-      solution: "The Solution",
-      architecture: "Architecture & Design",
-      keyFeatures: "Key Features",
-      challenges: "Technical Challenges & Learnings",
-      security: "DevSecOps Security Posture",
-      techStack: "Tech Stack & Tools",
-      visitSite: "Visit Website",
-      viewCode: "Source Code",
-      close: "Close",
-    },
-  }[language];
+  // FR: Récupération des libellés UI centralisés depuis portfolioData.ts
+  // EN: Retrieve centralized UI labels from portfolioData.ts
+  const safeLang = language === "en" || language === "fr" ? language : "fr";
+  const labels = portfolioData[safeLang].uiLabels.caseStudyModal;
 
   return (
     <AnimatePresence>
@@ -87,7 +61,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-15 my-auto flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0b1329] shadow-2xl"
+          className="relative z-50 my-auto flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0b1329] shadow-2xl"
         >
           {/* FR: EN-TÊTE FIXE (Toujours visible) / EN: FIXED HEADER (Always visible) */}
           <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-[#0b1329]/95 backdrop-blur-md flex-shrink-0">

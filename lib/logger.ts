@@ -37,7 +37,26 @@ interface SecurityLogPayload {
  */
 function sanitizeData(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data };
-  const sensitiveKeys = ['email', 'password', 'token', 'apiKey', 'name', 'phone'];
+  
+  // FR: Liste explicite des clés PII et secrets (évite le masquage de nom générique comme project.name)
+  // EN: Explicit PII and secret keys dictionary (prevents accidental masking of generic keys like project.name)
+  const sensitiveKeys = [
+    'email',
+    'password',
+    'passcode',
+    'token',
+    'apikey',
+    'secret',
+    'full_name',
+    'user_name',
+    'username',
+    'phone_number',
+    'telephone',
+    'credit_card',
+    'card_number',
+    'ssn',
+    'authorization'
+  ];
 
   for (const key of Object.keys(sanitized)) {
     if (sensitiveKeys.some((sensitive) => key.toLowerCase().includes(sensitive))) {

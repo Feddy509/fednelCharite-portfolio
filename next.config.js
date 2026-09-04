@@ -38,7 +38,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.groq.com https://generativelanguage.googleapis.com https://challenges.cloudflare.com",
+              "connect-src 'self' https://challenges.cloudflare.com https://vitals.vercel-insights.com",
               "frame-src 'self' https://challenges.cloudflare.com",
               "frame-ancestors 'none'",
             ].join('; '),

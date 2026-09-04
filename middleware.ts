@@ -4,10 +4,10 @@
  * EN: Rate Limiting & Edge Security Middleware (Edge Middleware)
  * ==============================================================================
  * 
- * FR: Protège les routes API sensibles (/api/chat, /api/contact) contre le spam,
- *     les attaques par déni de service (DDoS) et l'usurpation d'identités.
- * EN: Protects sensitive API endpoints (/api/chat, /api/contact) against spam,
- *     denial of service (DDoS) attacks, and brute-force abuse.
+ * FR: Protège les routes API sensibles (/api/chat, /api/contact) contre le spam
+ *     et les attaques DDoS avec un mécanisme Fail-Open de secours.
+ * EN: Protects sensitive API endpoints (/api/chat, /api/contact) against spam
+ *     and DDoS attacks featuring a resilient Fail-Open fallback mechanism.
  */
 
 import { NextResponse } from 'next/server';
@@ -40,29 +40,40 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/api/chat') ||
     request.nextUrl.pathname.startsWith('/api/contact')
   ) {
-    // FR: Fallback de sécurité si Upstash Redis n'est pas configuré en dev
-    // EN: Graceful fallback if Upstash Redis credentials are omitted in dev
+    // FR: Fallback immédiat si les identifiants Upstash Redis ne sont pas configurés
+    // EN: Immediate graceful fallback if Upstash Redis credentials are missing
     if (!process.env.UPSTASH_REDIS_REST_URL) {
       return NextResponse.next();
     }
 
-    const { success, limit, reset, remaining } = await ratelimit.limit(ip);
+    try {
+      // FR: Tentative d'évaluation de la limite de débit sur Redis
+      // EN: Attempt rate limit check against Upstash Redis
+      const { success, limit, reset, remaining } = await ratelimit.limit(ip);
 
-    // FR: Bloque la requête avec le code HTTP 429 si la limite est atteinte
-    // EN: Reject request with HTTP 429 Too Many Requests if threshold is exceeded
-    if (!success) {
-      return new NextResponse(
-        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
-        {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-RateLimit-Limit': limit.toString(),
-            'X-RateLimit-Remaining': remaining.toString(),
-            'X-RateLimit-Reset': reset.toString(),
-          },
-        }
-      );
+      // FR: Bloque la requête avec le code HTTP 429 si la limite est atteinte
+      // EN: Reject request with HTTP 429 Too Many Requests if threshold is exceeded
+      if (!success) {
+        return new NextResponse(
+          JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+          {
+            status: 429,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-RateLimit-Limit': limit.toString(),
+              'X-RateLimit-Remaining': remaining.toString(),
+              'X-RateLimit-Reset': reset.toString(),
+            },
+          }
+        );
+      }
+    } catch (error) {
+      // FR: STRATÉGIE FAIL-OPEN : En cas de panne Upstash Redis, on laisse passer la requête
+      //     pour éviter d'interrompre l'expérience utilisateur avec une erreur 500.
+      // EN: FAIL-OPEN STRATEGY: In case of Upstash Redis service outage, fail open
+      //     to avoid breaking legitimate user traffic with 500 Server Errors.
+      console.error('[RateLimit Error] Fallback Fail-Open executed:', error);
+      return NextResponse.next();
     }
   }
 

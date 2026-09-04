@@ -1,5 +1,3 @@
 {
-  "/* FR: Extension des règles d'optimisation et bonnes pratiques Next.js */": "Core Web Vitals",
-  "/* EN: Extension of Next.js performance and best practice rules */": "Core Web Vitals",
   "extends": "next/core-web-vitals"
 }

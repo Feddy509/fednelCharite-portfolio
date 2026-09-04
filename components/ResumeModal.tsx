@@ -29,9 +29,9 @@ import { cn } from "@/lib/utils";
  */
 interface ResumeModalContextValue {
   isOpen: boolean;
-  openModal: (lang?: 'en' | 'fr') => void;
+  openModal: (lang?: "en" | "fr") => void;
   closeModal: () => void;
-  currentLang: 'en' | 'fr';
+  currentLang: "en" | "fr";
 }
 
 const ResumeModalContext = createContext<ResumeModalContextValue | null>(null);
@@ -62,20 +62,20 @@ const profileIcons: Record<ResumeProfile, typeof Layers> = {
  * FR: Fournisseur de Contexte et Composant Modale
  * EN: Context Provider & Modal Component
  */
-export function ResumeModalProvider({ 
-  children, 
-  defaultLang = 'fr' 
-}: { 
+export function ResumeModalProvider({
+  children,
+  defaultLang = "fr",
+}: {
   children: ReactNode;
-  defaultLang?: 'en' | 'fr';
+  defaultLang?: "en" | "fr";
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<ResumeProfile | null>("full-stack");
-  const [currentLang, setCurrentLang] = useState<'en' | 'fr'>(defaultLang);
+  const [currentLang, setCurrentLang] = useState<"en" | "fr">(defaultLang);
 
   // FR: Ouverture de la modale avec définition optionnelle de la langue
   // EN: Open modal with optional language override
-  const openModal = (lang?: 'en' | 'fr') => {
+  const openModal = (lang?: "en" | "fr") => {
     if (lang) {
       setCurrentLang(lang);
     }
@@ -86,11 +86,16 @@ export function ResumeModalProvider({
   // EN: Close modal and reset selection
   const closeModal = () => {
     setIsOpen(false);
-    setTimeout(() => setSelected(null), 250);
+    setTimeout(() => setSelected("full-stack"), 250);
   };
 
-  const safeLang = (currentLang === 'en' || currentLang === 'fr') ? currentLang : 'fr';
-  const resumeProfiles = portfolioData[safeLang]?.resumeProfiles || portfolioData.fr.resumeProfiles;
+  const safeLang = currentLang === "en" || currentLang === "fr" ? currentLang : "fr";
+  const resumeProfiles =
+    portfolioData[safeLang]?.resumeProfiles || portfolioData.fr.resumeProfiles;
+  
+  // FR: Libellés UI centralisés depuis portfolioData.ts
+  // EN: Centralized UI labels from portfolioData.ts
+  const uiLabels = portfolioData[safeLang].uiLabels.resumeModal;
 
   return (
     <ResumeModalContext.Provider
@@ -101,7 +106,7 @@ export function ResumeModalProvider({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-end justify-center p-4 sm:items-center"
+            className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -109,8 +114,8 @@ export function ResumeModalProvider({
           >
             {/* FR: Arrière-plan flouté / EN: Backdrop */}
             <motion.button
-              aria-label="Fermer"
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              aria-label={uiLabels.close}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
               onClick={closeModal}
             />
 
@@ -134,17 +139,15 @@ export function ResumeModalProvider({
                     id="resume-modal-title"
                     className="font-sans text-lg font-semibold text-white"
                   >
-                    {safeLang === 'en' ? 'Download Resume' : 'Télécharger mon CV'}
+                    {uiLabels.title}
                   </h2>
                   <p className="mt-1 text-sm text-gray-400">
-                    {safeLang === 'en'
-                      ? 'Choose a technical profile and download the version of your choice.'
-                      : 'Choisissez un profil technique et téléchargez la version de votre choix.'}
+                    {uiLabels.subtitle}
                   </p>
                 </div>
                 <button
                   onClick={closeModal}
-                  aria-label="Fermer la fenêtre"
+                  aria-label={uiLabels.close}
                   className="rounded-full p-1.5 text-gray-400 transition hover:bg-white/5 hover:text-white cursor-pointer"
                 >
                   <X size={18} />
@@ -152,7 +155,7 @@ export function ResumeModalProvider({
               </div>
 
               {/* FR: Liste des Profils Techniques / EN: Technical Profiles Selection List */}
-              <div className="space-y-2 p-6 max-h-[40vh] overflow-y-auto">
+              <div className="space-y-2 p-6 max-h-[40vh] overflow-y-auto custom-scrollbar">
                 {resumeProfiles.map((profile) => {
                   const Icon = profileIcons[profile.id];
                   const isSelected = selected === profile.id;
@@ -196,7 +199,7 @@ export function ResumeModalProvider({
               {/* FR: Pied de page / Boutons de Téléchargement PDF / EN: Footer / PDF Download Buttons */}
               <div className="border-t border-white/10 p-6 space-y-3 bg-slate-950/50">
                 {selected ? (
-                  safeLang === 'en' ? (
+                  safeLang === "en" ? (
                     // FR: Mode Anglais: Anglais en premier / EN: English Mode: English first
                     <>
                       <a
@@ -206,7 +209,7 @@ export function ResumeModalProvider({
                         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
                       >
                         <Download size={16} />
-                        Download English CV (PDF)
+                        {uiLabels.downloadEn}
                       </a>
 
                       <a
@@ -216,7 +219,7 @@ export function ResumeModalProvider({
                         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
                       >
                         <Download size={16} />
-                        Download French CV (PDF)
+                        {uiLabels.downloadFr}
                       </a>
                     </>
                   ) : (
@@ -229,7 +232,7 @@ export function ResumeModalProvider({
                         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition"
                       >
                         <Download size={16} />
-                        Télécharger le CV en Français (PDF)
+                        {uiLabels.downloadFr}
                       </a>
 
                       <a
@@ -239,15 +242,13 @@ export function ResumeModalProvider({
                         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
                       >
                         <Download size={16} />
-                        Télécharger le CV en Anglais (PDF)
+                        {uiLabels.downloadEn}
                       </a>
                     </>
                   )
                 ) : (
                   <div className="text-center text-sm text-gray-500 py-2">
-                    {safeLang === 'en'
-                      ? 'Please select a profile above to display options.'
-                      : 'Veuillez sélectionner un profil ci-dessus pour afficher les options.'}
+                    {uiLabels.selectProfilePrompt}
                   </div>
                 )}
               </div>
