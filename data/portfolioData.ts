@@ -1,14 +1,27 @@
 // ============================================================================
+// portfolioData.ts - Source unique de vérité pour tout le contenu du portfolio.
 // portfolioData.ts - Single source of truth for all portfolio content.
 // ============================================================================
 
+/**
+ * FR: Catégories de compétences techniques
+ * EN: Technical skill categories
+ */
 export type SkillCategory = "frontend" | "backend" | "security" | "other" | "certification";
 
+/**
+ * FR: Structure d'une compétence individuelle
+ * EN: Individual skill shape
+ */
 export interface Skill {
   name: string;
   category: SkillCategory;
 }
 
+/**
+ * FR: Structure d'une certification professionnelle
+ * EN: Professional certification shape
+ */
 export interface Certification {
   name: string;
   issuer: string;
@@ -18,8 +31,16 @@ export interface Certification {
   progress?: number;
 }
 
+/**
+ * FR: Catégories de classification des projets
+ * EN: Project classification categories
+ */
 export type ProjectCategory = "full-stack" | "security";
 
+/**
+ * FR: Structure complète d'un projet du portfolio (avec étude de cas)
+ * EN: Complete portfolio project shape (including case study details)
+ */
 export interface Project {
   slug: string;
   title: string;
@@ -31,21 +52,65 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
-  // Nouvo champ pou modal Case Study an:
   architecture?: string;
   challenges?: string[];
   keyFeatures?: string[];
   securityFocus?: string;
 }
 
+/**
+ * FR: Identifiants de profils pour l'exportation de CV
+ * EN: Profile identifiers for resume exports
+ */
 export type ResumeProfile = "full-stack" | "backend" | "devsecops";
 
+/**
+ * FR: Option de CV dans la modale de téléchargement
+ * EN: Resume option in the download modal
+ */
 export interface ResumeItem {
   id: ResumeProfile;
   label: string;
   description: string;
 }
 
+/**
+ * FR: Structure des libellés UI réutilisables
+ * EN: Reusable UI string labels structure
+ */
+export interface UILabels {
+  caseStudyModal: {
+    caseStudy: string;
+    problem: string;
+    solution: string;
+    architecture: string;
+    keyFeatures: string;
+    challenges: string;
+    security: string;
+    techStack: string;
+    visitSite: string;
+    viewCode: string;
+    close: string;
+  };
+  resumeModal: {
+    title: string;
+    subtitle: string;
+    downloadFr: string;
+    downloadEn: string;
+    selectProfilePrompt: string;
+    close: string;
+  };
+  common: {
+    backToHome: string;
+    loading: string;
+    error: string;
+  };
+}
+
+/**
+ * FR: Informations personnelles globales
+ * EN: Global personal information
+ */
 export const personalInfo = {
   name: "Fednel Charité",
   initials: "FC",
@@ -65,6 +130,10 @@ export const personalInfo = {
     "Mon écosystème : TypeScript, React/Next.js, Node.js, API REST, Docker, CI/CD (GitHub Actions), Git, Linux | Pratiques DevSecOps : Analyse de code (SonarQube/Snyk), OWASP, Cloud Fundamentals.",
 };
 
+/**
+ * FR: Données bilingues du portfolio (Français / Anglais)
+ * EN: Bilingual portfolio content dictionary (French / English)
+ */
 export const portfolioData = {
   fr: {
     navLinks: [
@@ -80,6 +149,34 @@ export const portfolioData = {
         { label: "Co-fondateur", org: "Zye Klere" },
       ],
     },
+    uiLabels: {
+      caseStudyModal: {
+        caseStudy: "Étude de cas & Architecture",
+        problem: "Le Problème",
+        solution: "La Solution",
+        architecture: "Architecture & Conception",
+        keyFeatures: "Fonctionnalités Clés",
+        challenges: "Défis Techniques & Apprentissages",
+        security: "Posture de Sécurité DevSecOps",
+        techStack: "Technologies Utilisées",
+        visitSite: "Visiter le site",
+        viewCode: "Code source",
+        close: "Fermer",
+      },
+      resumeModal: {
+        title: "Télécharger mon CV",
+        subtitle: "Choisissez un profil technique et téléchargez la version de votre choix.",
+        downloadFr: "Télécharger le CV en Français (PDF)",
+        downloadEn: "Télécharger le CV en Anglais (PDF)",
+        selectProfilePrompt: "Veuillez sélectionner un profil ci-dessus pour afficher les options.",
+        close: "Fermer",
+      },
+      common: {
+        backToHome: "Retour à l'accueil",
+        loading: "Chargement...",
+        error: "Une erreur est survenue",
+      },
+    } as UILabels,
     contactQuote: {
       text: "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
@@ -258,6 +355,34 @@ export const portfolioData = {
       heroSubline:
         "Core Stack: TypeScript, React/Next.js, Node.js, REST APIs, Docker, CI/CD (GitHub Actions), Git, Linux | DevSecOps Focus: Code Scanning (SonarQube/Snyk), OWASP practices, Cloud Fundamentals.",
     },
+    uiLabels: {
+      caseStudyModal: {
+        caseStudy: "Case Study & Architecture",
+        problem: "The Problem",
+        solution: "The Solution",
+        architecture: "Architecture & Design",
+        keyFeatures: "Key Features",
+        challenges: "Technical Challenges & Learnings",
+        security: "DevSecOps Security Posture",
+        techStack: "Tech Stack & Tools",
+        visitSite: "Visit Website",
+        viewCode: "Source Code",
+        close: "Close",
+      },
+      resumeModal: {
+        title: "Download Resume",
+        subtitle: "Choose a technical profile and download the version of your choice.",
+        downloadFr: "Download French CV (PDF)",
+        downloadEn: "Download English CV (PDF)",
+        selectProfilePrompt: "Please select a profile above to display options.",
+        close: "Close",
+      },
+      common: {
+        backToHome: "Back to Home",
+        loading: "Loading...",
+        error: "An error occurred",
+      },
+    } as UILabels,
     contactQuote: {
       text: "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
       author: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
@@ -416,7 +541,8 @@ export const portfolioData = {
 };
 
 // ----------------------------------------------------------------------------
-// Lis Konpetans ak Zouti Yo
+// FR: Liste des Compétences Techniques & Outils
+// EN: Technical Skills & Tools List
 // ----------------------------------------------------------------------------
 
 export const skills: Skill[] = [
@@ -453,6 +579,10 @@ export const skills: Skill[] = [
   { name: "AWS Certified Developer - Associate (en cours)", category: "certification" },
 ];
 
+/**
+ * FR: Liste des Certifications Professionnelles
+ * EN: Professional Certifications List
+ */
 export const certifications: Certification[] = [
   {
     name: "Full Stack Software Developer",
@@ -534,6 +664,7 @@ export const certifications: Certification[] = [
   },
 ];
 
+// FR: Exports par défaut pour raccourcis directs / EN: Default exports for direct shorthand access
 export const navLinks = portfolioData.fr.navLinks;
 export const aboutIdentities = portfolioData.fr.aboutIdentities;
 export const education = portfolioData.fr.education;

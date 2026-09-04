@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Composant Barre de Navigation Principale / Navbar (Client Component)
+ * EN: Main Navigation Bar Component / Navbar (Client Component)
+ * ==============================================================================
+ * 
+ * FR: Gère l'en-tête fixe, la navigation bilingue réactive, le menu mobile
+ *     et les actions de consultation de CV avec suivi Analytics.
+ * EN: Handles fixed header, responsive bilingual navigation, mobile menu,
+ *     and resume viewing actions with Analytics tracking.
+ */
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -10,15 +22,18 @@ import { useLanguage } from "@/app/context/LanguageContext";
 import { useResumeModal } from "@/components/ResumeModal";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
-import { track } from "@vercel/analytics"; // Enpòtasyon pou Custom Events Tracking
+import { track } from "@vercel/analytics";
 
 export default function Navbar() {
+  // FR: Extraction du chemin d'accès actuel et gestion de l'état du menu mobile
+  // EN: Current pathname extraction and mobile menu state management
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openModal } = useResumeModal();
   const { language } = useLanguage();
 
-  // Rale lyen meni yo selon lang ki chwazi a (FR oswa EN)
+  // FR: Récupération des liens de navigation selon la langue sélectionnée (FR/EN)
+  // EN: Retrieve navigation links based on active language (FR/EN)
   const currentNavLinks =
     portfolioData?.[language]?.navLinks || portfolioData?.fr?.navLinks || [];
 
@@ -27,6 +42,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/75 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        
+        {/* FR: Logo / Initiales de marque / EN: Brand Logo / Initials */}
         <Link
           href="/"
           className="font-heading text-sm sm:text-base font-semibold tracking-wide text-paper flex items-center"
@@ -38,7 +55,9 @@ export default function Navbar() {
           <span className="ml-2.5 hidden sm:inline">{personalInfo.name}</span>
         </Link>
 
-        {/* Desktop links (Dinamik pa lang) */}
+        {/* ------------------------------------------------------------------ */}
+        {/* FR: LIENS DE NAVIGATION DESKTOP / EN: DESKTOP NAVIGATION LINKS     */}
+        {/* ------------------------------------------------------------------ */}
         <div className="hidden items-center gap-1 md:flex">
           {currentNavLinks.map((link: { href: string; label: string }) => {
             const isActive =
@@ -57,6 +76,8 @@ export default function Navbar() {
                 )}
               >
                 {link.label}
+                {/* FR: Ligne d'accentuation pour l'onglet actif */}
+                {/* EN: Active tab underline animation */}
                 {isActive && (
                   <motion.span
                     layoutId="nav-active"
@@ -68,33 +89,40 @@ export default function Navbar() {
           })}
         </div>
 
+        {/* ------------------------------------------------------------------ */}
+        {/* FR: ACTIONS D'EN-TÊTE / EN: HEADER ACTION BUTTONS                 */}
+        {/* ------------------------------------------------------------------ */}
         <div className="flex items-center gap-2">
-          {/* Bouton Chanje Lang */}
+          {/* FR: Commutateur de langue / EN: Language switcher dropdown */}
           <LanguageSwitcher />
 
-          {/* Bouton Desktop CV - Ak Vercel Analytics Tracking */}
+          {/* FR: Bouton CV Desktop avec tracking Analytics */}
+          {/* EN: Desktop Resume button with Analytics tracking */}
           <button
             onClick={() => {
               track("Open Resume", { language: language, device: "Desktop" });
               openModal(language);
             }}
-            className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex"
+            className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex cursor-pointer"
           >
             <FileText size={15} />
             {isEn ? "Resume / CV" : "CV"}
           </button>
 
+          {/* FR: Bouton bascule du menu mobile / EN: Mobile menu toggle button */}
           <button
             aria-label={isEn ? "Open menu" : "Ouvrir le menu"}
             onClick={() => setMobileOpen((v) => !v)}
-            className="rounded-lg p-2 text-paper/70 hover:bg-white/5 md:hidden"
+            className="rounded-lg p-2 text-paper/70 hover:bg-white/5 md:hidden cursor-pointer"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu (Dinamik pa lang tou) */}
+      {/* ------------------------------------------------------------------ */}
+      {/* FR: MENU TIROIR MOBILE / EN: MOBILE DRAWER MENU                     */}
+      {/* ------------------------------------------------------------------ */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -122,14 +150,15 @@ export default function Navbar() {
               ))}
 
               <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-3">
-                {/* Bouton Mobile CV - Ak Vercel Analytics Tracking */}
+                {/* FR: Bouton CV Mobile avec tracking Analytics */}
+                {/* EN: Mobile Resume button with Analytics tracking */}
                 <button
                   onClick={() => {
                     setMobileOpen(false);
                     track("Open Resume", { language: language, device: "Mobile" });
                     openModal(language);
                   }}
-                  className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper"
+                  className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper cursor-pointer"
                 >
                   <FileText size={15} />
                   {isEn ? "Download CV" : "Télécharger le CV"}

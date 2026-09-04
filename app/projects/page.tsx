@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Page "Projets & Réalisations" du Portfolio (Next.js Client Component)
+ * EN: Portfolio "Projects & Work" Page (Next.js Client Component)
+ * ==============================================================================
+ * 
+ * FR: Affiche la galerie de projets filtrable, la boîte à outils des compétences
+ *     et gère la modale de détails des projets (case studies).
+ * EN: Displays the filterable project gallery, technical toolbox,
+ *     and handles the project details modal (case studies).
+ */
+
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Code2, Server, ShieldCheck, Award, Sparkles, Cpu } from "lucide-react";
@@ -9,18 +21,59 @@ import { skills, portfolioData, type ProjectCategory, type Skill, type Project }
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
+/**
+ * FR: Type local pour la clé de filtrage des projets.
+ * EN: Local type for project filter key.
+ */
 type FilterKey = "all" | Exclude<ProjectCategory, "mobile-cloud">;
 
 export default function ProjectsPage() {
+  // FR: Contexte de langue et récupération des données du portfolio
+  // EN: Language context and portfolio data retrieval
   const { language } = useLanguage();
   const data = portfolioData[language] || portfolioData.fr;
+  
+  // FR: État pour la catégorie de filtre active
+  // EN: State for the active category filter
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
   
-  // State pou kontwole ouvèti modal la ak pwojè ki seleksyone a
+  // FR: État pour contrôler l'ouverture de la modale et le projet sélectionné
+  // EN: State to control modal visibility and selected project
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const labels = {
-    fr: {
+  // FR: Dictionnaire de chaînes de caractères bilingues
+  // EN: Bilingual UI strings dictionary
+  const labels =
+    {
+      fr: {
+        badge: "PROJETS & RÉALISATIONS",
+        title: "Ingénierie logicielle & Architecture applicative",
+        subtitle:
+          "Chaque projet est conçu comme une solution bout-en-bout - de la modélisation du problème au déploiement sécurisé.",
+        empty: "Aucun projet dans cette catégorie pour le moment.",
+        skillsBadge: "Compétences & Stack Technique",
+        skillsTitle: "La boîte à outils",
+        filters: {
+          all: "Tout",
+          "full-stack": "Full-Stack",
+          security: "DevSecOps / Sécurité",
+        },
+      },
+      en: {
+        badge: "PROJECTS & ENGINEERING WORK",
+        title: "Software Engineering & Application Architecture",
+        subtitle:
+          "Every project is engineered as an end-to-end solution - from problem scoping to production-ready deployment.",
+        empty: "No projects in this category at the moment.",
+        skillsBadge: "Skills & Tech Stack",
+        skillsTitle: "The Toolbox",
+        filters: {
+          all: "All",
+          "full-stack": "Full-Stack",
+          security: "DevSecOps / Security",
+        },
+      },
+    }[language] || {
       badge: "PROJETS & RÉALISATIONS",
       title: "Ingénierie logicielle & Architecture applicative",
       subtitle:
@@ -33,42 +86,18 @@ export default function ProjectsPage() {
         "full-stack": "Full-Stack",
         security: "DevSecOps / Sécurité",
       },
-    },
-    en: {
-      badge: "PROJECTS & ENGINEERING WORK",
-      title: "Software Engineering & Application Architecture",
-      subtitle:
-        "Every project is engineered as an end-to-end solution - from problem scoping to production-ready deployment.",
-      empty: "No projects in this category at the moment.",
-      skillsBadge: "Skills & Tech Stack",
-      skillsTitle: "The Toolbox",
-      filters: {
-        all: "All",
-        "full-stack": "Full-Stack",
-        security: "DevSecOps / Security",
-      },
-    },
-  }[language] || {
-    badge: "PROJETS & RÉALISATIONS",
-    title: "Ingénierie logicielle & Architecture applicative",
-    subtitle:
-      "Chaque projet est conçu comme une solution bout-en-bout - de la modélisation du problème au déploiement sécurisé.",
-    empty: "Aucun projet dans cette catégorie pour le moment.",
-    skillsBadge: "Compétences & Stack Technique",
-    skillsTitle: "La boîte à outils",
-    filters: {
-      all: "Tout",
-      "full-stack": "Full-Stack",
-      security: "DevSecOps / Sécurité",
-    },
-  };
+    };
 
+  // FR: Liste des filtres disponibles pour l'interface
+  // EN: Available filters list for the UI
   const filters: { key: FilterKey; label: string }[] = [
     { key: "all", label: labels.filters.all },
     { key: "full-stack", label: labels.filters["full-stack"] },
     { key: "security", label: labels.filters.security },
   ];
 
+  // FR: Regroupement des compétences techniques par catégorie avec leurs icônes
+  // EN: Technical skill grouping by category with icons
   const skillGroups: { key: Skill["category"]; label: string; icon: typeof Code2 }[] = [
     { key: "frontend", label: "Frontend", icon: Code2 },
     { key: "backend", label: "Backend", icon: Server },
@@ -77,6 +106,8 @@ export default function ProjectsPage() {
     { key: "certification", label: "Certifications", icon: Award },
   ];
 
+  // FR: Projets filtrés avec mémoïsation pour éviter des recalculs à chaque rendu
+  // EN: Memoized filtered projects to avoid unnecessary recalculations on re-render
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") return data.projects;
     return data.projects.filter((p) => p.categories.includes(activeFilter as any));
@@ -84,9 +115,10 @@ export default function ProjectsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-24 font-sans text-paper">
-      {/* ---------------------------------------------------------------- */}
-      {/* En-tête de la page                                               */}
-      {/* ---------------------------------------------------------------- */}
+      
+      {/* ------------------------------------------------------------------ */}
+      {/* 1. EN-TÊTE DE LA PAGE / PAGE HEADER                               */}
+      {/* ------------------------------------------------------------------ */}
       <div className="max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-300">
           {labels.badge}
@@ -99,9 +131,9 @@ export default function ProjectsPage() {
         </p>
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Barre de filtres                                                 */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 2. BARRE DE FILTRES / FILTER BAR                                  */}
+      {/* ------------------------------------------------------------------ */}
       <div className="mt-10 flex flex-wrap gap-3">
         {filters.map((f) => (
           <button
@@ -119,9 +151,9 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Grille des projets                                               */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 3. GRILLE DES PROJETS ANIMÉE / ANIMATED PROJECTS GRID             */}
+      {/* ------------------------------------------------------------------ */}
       <motion.div
         layout
         className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
@@ -135,6 +167,8 @@ export default function ProjectsPage() {
         ))}
       </motion.div>
 
+      {/* FR: Message si aucun projet ne correspond au filtre sélectionné */}
+      {/* EN: Message displayed if no project matches the selected filter */}
       {filteredProjects.length === 0 && (
         <div className="mt-12 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center">
           <p className="font-sans text-sm text-paper/50">
@@ -143,9 +177,9 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Section : Compétences / La Boîte à Outils                        */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 4. SECTION COMPÉTENCES / TOOLBOX & TECH STACK                      */}
+      {/* ------------------------------------------------------------------ */}
       <div className="mt-24 border-t border-white/10 pt-16">
         <div className="flex items-center gap-2">
           <Sparkles className="text-accent-300" size={18} />
@@ -190,9 +224,9 @@ export default function ProjectsPage() {
         </div>
       </div>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Fenêtre Modal (Case Study / Details)                             */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 5. MODALE DE DÉTAILS DE PROJET / PROJECT DETAILS MODAL             */}
+      {/* ------------------------------------------------------------------ */}
       <ProjectDetailsModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

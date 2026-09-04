@@ -1,13 +1,21 @@
-# Tout motè rechèch (Google, Bing, DuckDuckGo)
+# ==============================================================================
+# FR: Directives d'Indexation pour Moteurs de Recherche & Robots d'IA (robots.txt)
+# EN: Search Engine & AI Crawler Indexing Directives (robots.txt)
+# ==============================================================================
+
+# FR: Moteurs de recherche classiques (Google, Bing, DuckDuckGo, Yahoo)
+# EN: Standard search engines (Google, Bing, DuckDuckGo, Yahoo)
 User-agent: *
 Allow: /
 
-# Nou espesyalman envite IA yo pou yo ka rale sit la
+# FR: Autorisation explicite des crawlers d'IA pour le référencement AIO
+# EN: Explicit allowance for AI Search crawlers (AIO optimization)
 User-agent: GPTBot
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
-# Lyen sitemap la (Trè enpòtan pou Google konnen kote pou l kòmanse)
+# FR: Emplacement du fichier Sitemap XML
+# EN: Location of the XML Sitemap file
 Sitemap: https://fednelcharite.site/sitemap.xml

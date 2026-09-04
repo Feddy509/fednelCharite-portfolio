@@ -1,26 +1,48 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Widget de Chat Assistant Virtuel IA Feddy (Next.js Client Component)
+ * EN: Feddy AI Virtual Assistant Floating Chat Widget (Next.js Client Component)
+ * ==============================================================================
+ * 
+ * FR: Offre une interface conversationnelle flottante animée permettant aux 
+ *     visiteurs d'interagir directement avec l'assistant virtuel Feddy.
+ * EN: Provides an animated floating conversational interface allowing visitors
+ *     to interact directly with the Feddy virtual assistant.
+ */
+
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Bot, User, Loader2, Sparkles } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import ReactMarkdown from "react-markdown";
 
+/**
+ * FR: Structure d'un message individuel dans le fil de discussion.
+ * EN: Shape of an individual message in the chat thread.
+ */
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
 export default function ChatWidget() {
+  // FR: Gestion des états d'ouverture et de langue
+  // EN: State management for visibility and language context
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguage();
   const isEn = language === "en";
 
+  // FR: États locaux pour la liste des messages et l'envoi
+  // EN: Local state for message history and loading
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // FR: Initialisation du message d'accueil selon la langue active
+  // EN: Initialize welcome message based on active language
   useEffect(() => {
     setMessages([
       {
@@ -32,10 +54,16 @@ export default function ChatWidget() {
     ]);
   }, [language]);
 
+  // FR: Défilement automatique vers le dernier message du fil
+  // EN: Auto-scroll to the bottom of the conversation window
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
+  /**
+   * FR: Soumission du prompt à l'API interne /api/chat
+   * EN: Submit prompt to internal /api/chat route
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -103,166 +131,126 @@ export default function ChatWidget() {
   return (
     <div className="fixed bottom-4 right-4 sm:right-6 sm:bottom-6 z-50 font-sans flex flex-col items-end">
 
-    {/* =========================================================
-    FEDDY AI — CLEAN MINIMAL CONVERSATIONAL AVATAR
-    ========================================================= */}
-<AnimatePresence>
-  {!isOpen && (
-    <motion.button
-      initial={{ scale: 0, opacity: 0, y: 20 }}
-      animate={{ scale: 1, opacity: 1, y: 0 }}
-      exit={{ scale: 0, opacity: 0, y: 20 }}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.96 }}
-      onClick={() => setIsOpen(true)}
-      className="
-        relative
-        h-[71px] w-[75px]
-        sm:h-[76px] sm:w-[80px]
-        cursor-pointer
-        appearance-none
-        border-0
-        bg-transparent
-        p-0
-        focus:outline-none
-      "
-      aria-label="Open Feddy Chat"
-    >
-      <svg
-        viewBox="0 0 108 108"
-        className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
-        aria-hidden="true"
-      >
-        <defs>
-
-          {/* =====================================================
-              OVAL CLIP — image fills the entire bubble body
-              ===================================================== */}
-          <clipPath id="feddy-avatar-clip">
-            <ellipse
-              cx="54"
-              cy="52"
-              rx="45"
-              ry="41"
-            />
-          </clipPath>
-
-          {/* Subtle cyan glow */}
-          <filter
-            id="feddy-cyan-glow"
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
-            <feGaussianBlur
-              stdDeviation="2.2"
-              result="blur"
-            />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        {/* =====================================================
-            AVATAR
-            Enlarged slightly so the photo fills the oval cleanly
-            ===================================================== */}
-        <image
-          href="/images/avatar.png"
-          x="7"
-          y="8"
-          width="94"
-          height="88"
-          preserveAspectRatio="xMidYMid slice"
-          clipPath="url(#feddy-avatar-clip)"
-        />
-
-        {/* =====================================================
-            SPEECH BUBBLE OUTLINE
-            Slightly oval + compact conversational tail
-            ===================================================== */}
-        <path
-          d="
-            M54 8
-            C29 8 10 26 10 50
-            C10 63 16 75 27 83
-            L19 96
-            L36 89
-            C42 92 48 94 54 94
-            C79 94 98 76 98 50
-            C98 26 79 8 54 8
-            Z
-          "
-          fill="#081226"
-          fillOpacity="0.08"
-          stroke="#22d3ee"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-          filter="url(#feddy-cyan-glow)"
-        />
-
-        {/* =====================================================
-            AI SPARKLES
-            ===================================================== */}
-        <g
-          transform="translate(78 8)"
-          fill="none"
-          stroke="#22d3ee"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path
-            d="
-              M9 0.5
-              L11.2 6.8
-              L17.5 9
-              L11.2 11.2
-              L9 17.5
-              L6.8 11.2
-              L0.5 9
-              L6.8 6.8
-              Z
+      {/* ============================================================================== */}
+      {/* 1. BOUTON AVATAR FLOTTANT ET ANIMÉ / FLOATING ANIMATED AVATAR BUTTON           */}
+      {/* ============================================================================== */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 20 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setIsOpen(true)}
+            className="
+              relative
+              h-[71px] w-[75px]
+              sm:h-[76px] sm:w-[80px]
+              cursor-pointer
+              appearance-none
+              border-0
+              bg-transparent
+              p-0
+              focus:outline-none
             "
-            strokeWidth="1.9"
-          />
+            aria-label="Open Feddy Chat"
+          >
+            <svg
+              viewBox="0 0 108 108"
+              className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+              aria-hidden="true"
+            >
+              <defs>
+                {/* FR: Masque d'écrêtage ovale pour l'avatar / EN: Oval clip path for avatar image */}
+                <clipPath id="feddy-avatar-clip">
+                  <ellipse cx="54" cy="52" rx="45" ry="41" />
+                </clipPath>
 
-          <path
-            d="M22 1.5V7.5M19 4.5H25"
-            strokeWidth="1.5"
-          />
-        </g>
+                {/* FR: Effet de lueur néon cyan / EN: Subtle cyan glow filter */}
+                <filter
+                  id="feddy-cyan-glow"
+                  x="-50%"
+                  y="-50%"
+                  width="200%"
+                  height="200%"
+                >
+                  <feGaussianBlur stdDeviation="2.2" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-        {/* =====================================================
-            ONLINE STATUS
-            Subtle breathing / pulse animation
-            ===================================================== */}
-        <circle
-          cx="91"
-          cy="81"
-          r="8"
-          fill="#081226"
-          stroke="#081226"
-          strokeWidth="3"
-        />
+              {/* FR: Image de profil de l'assistant / EN: Assistant profile picture */}
+              <image
+                href="/images/avatar.png"
+                x="7"
+                y="8"
+                width="94"
+                height="88"
+                preserveAspectRatio="xMidYMid slice"
+                clipPath="url(#feddy-avatar-clip)"
+              />
 
-        <circle
-          cx="91"
-          cy="81"
-          r="6"
-          fill="#22c55e"
-          className="animate-pulse"
-        />
-      </svg>
-    </motion.button>
-  )}
-</AnimatePresence>
+              {/* FR: Bulle de dialogue vectorielle avec lueur cyan / EN: Vector speech bubble with cyan glow */}
+              <path
+                d="
+                  M54 8
+                  C29 8 10 26 10 50
+                  C10 63 16 75 27 83
+                  L19 96
+                  L36 89
+                  C42 92 48 94 54 94
+                  C79 94 98 76 98 50
+                  C98 26 79 8 54 8
+                  Z
+                "
+                fill="#081226"
+                fillOpacity="0.08"
+                stroke="#22d3ee"
+                strokeWidth="2.5"
+                strokeLinejoin="round"
+                filter="url(#feddy-cyan-glow)"
+              />
 
-      {/* =========================================================
-          CHAT WINDOW
-          ========================================================= */}
+              {/* FR: Étincelles graphiques IA / EN: Graphical AI sparkles */}
+              <g
+                transform="translate(78 8)"
+                fill="none"
+                stroke="#22d3ee"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path
+                  d="
+                    M9 0.5
+                    L11.2 6.8
+                    L17.5 9
+                    L11.2 11.2
+                    L9 17.5
+                    L6.8 11.2
+                    L0.5 9
+                    L6.8 6.8
+                    Z
+                  "
+                  strokeWidth="1.9"
+                />
+                <path d="M22 1.5V7.5M19 4.5H25" strokeWidth="1.5" />
+              </g>
+
+              {/* FR: Indicateur de statut en ligne / EN: Online pulse status circle */}
+              <circle cx="91" cy="81" r="8" fill="#081226" stroke="#081226" strokeWidth="3" />
+              <circle cx="91" cy="81" r="6" fill="#22c55e" className="animate-pulse" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* ============================================================================== */}
+      {/* 2. FENÊTRE DE DISCUSSION / CONVERSATIONAL CHAT WINDOW                          */}
+      {/* ============================================================================== */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -272,18 +260,15 @@ export default function ChatWidget() {
             transition={{ duration: 0.2 }}
             className="flex flex-col h-[440px] sm:h-[480px] w-[94vw] sm:w-[380px] max-w-[380px] max-h-[80vh] rounded-2xl border border-cyan-500/40 bg-[#081226]/98 backdrop-blur-2xl shadow-2xl overflow-hidden fixed bottom-4 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 mx-auto"
           >
-
-            {/* Header */}
+            {/* FR: En-tête du Chat / EN: Chat Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#060b18]/90 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
-
                 <div className="relative flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden border border-cyan-400/40 bg-[#060b18]">
                   <img
                     src="/images/avatar.png"
                     alt="Feddy Avatar"
                     className="h-full w-full object-cover"
                   />
-
                   <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border border-[#060b18]" />
                 </div>
 
@@ -294,11 +279,8 @@ export default function ChatWidget() {
                       AI Assistant
                     </span>
                   </h3>
-
                   <p className="text-[11px] text-paper/60">
-                    {isEn
-                      ? "Online • Ready to assist"
-                      : "En ligne • Prêt à vous aider"}
+                    {isEn ? "Online • Ready to assist" : "En ligne • Prêt à vous aider"}
                   </p>
                 </div>
               </div>
@@ -312,15 +294,13 @@ export default function ChatWidget() {
               </button>
             </div>
 
-            {/* Kò Konvèsasyon an */}
+            {/* FR: Fil de discussion / EN: Messages thread viewport */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((msg, index) => (
                 <div
                   key={index}
                   className={`flex gap-2.5 ${
-                    msg.role === "user"
-                      ? "justify-end"
-                      : "justify-start"
+                    msg.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
                   {msg.role === "assistant" && (
@@ -342,9 +322,7 @@ export default function ChatWidget() {
                   >
                     {msg.role === "assistant" ? (
                       <div className="markdown-content space-y-1.5 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_a]:text-cyan-400 [&_a]:underline">
-                        <ReactMarkdown>
-                          {msg.content}
-                        </ReactMarkdown>
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
                       </div>
                     ) : (
                       msg.content
@@ -359,9 +337,10 @@ export default function ChatWidget() {
                 </div>
               ))}
 
+              {/* FR: Indicateur de génération de réponse en cours */}
+              {/* EN: Response generation spinner indicator */}
               {isLoading && (
                 <div className="flex gap-2.5 items-center">
-
                   <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl overflow-hidden border border-cyan-400/30 bg-[#060b18]">
                     <img
                       src="/images/avatar.png"
@@ -371,15 +350,9 @@ export default function ChatWidget() {
                   </div>
 
                   <div className="bg-white/[0.06] border border-white/10 rounded-xl rounded-bl-none px-3.5 py-2.5 text-paper/70 flex items-center gap-2">
-                    <Loader2
-                      size={14}
-                      className="animate-spin text-cyan-400"
-                    />
-
+                    <Loader2 size={14} className="animate-spin text-cyan-400" />
                     <span className="text-xs">
-                      {isEn
-                        ? "Feddy is thinking..."
-                        : "Feddy réfléchit..."}
+                      {isEn ? "Feddy is thinking..." : "Feddy réfléchit..."}
                     </span>
                   </div>
                 </div>
@@ -388,7 +361,7 @@ export default function ChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Fòm pou voye mesaj */}
+            {/* FR: Formulaire de saisie du message / EN: Input submission form */}
             <form
               onSubmit={handleSubmit}
               className="border-t border-white/10 bg-[#060b18]/90 p-3 flex items-center gap-2"

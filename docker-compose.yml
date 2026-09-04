@@ -1,6 +1,13 @@
+# ==============================================================================
+# FR: Fichier d'Orchestration Docker Compose (Production)
+# EN: Docker Compose Orchestration File (Production)
+# ==============================================================================
+
 version: '3.8'
 
 services:
+  # FR: Service principal de l'application Portfolio Next.js
+  # EN: Primary Next.js Portfolio application service
   portfolio:
     build:
       context: .
