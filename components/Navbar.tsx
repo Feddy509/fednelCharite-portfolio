@@ -24,6 +24,18 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 import { track } from "@vercel/analytics";
 
+/**
+ * FR: Alias de compatibilité de typage pour Framer Motion / React.
+ * EN: Framer Motion / React typing compatibility aliases.
+ *
+ * FR: Ces alias conservent les animations existantes tout en évitant
+ *     le conflit de typage entre Framer Motion et React.
+ * EN: These aliases preserve the existing animations while avoiding
+ *     the Framer Motion / React typing conflict.
+ */
+const MotionSpan = motion.span as any;
+const MotionDiv = motion.div as any;
+
 export default function Navbar() {
   // FR: Extraction du chemin d'accès actuel et gestion de l'état du menu mobile
   // EN: Current pathname extraction and mobile menu state management
@@ -64,6 +76,7 @@ export default function Navbar() {
               link.href === "/"
                 ? pathname === "/"
                 : pathname.startsWith(link.href);
+
             return (
               <Link
                 key={link.href}
@@ -76,10 +89,11 @@ export default function Navbar() {
                 )}
               >
                 {link.label}
+
                 {/* FR: Ligne d'accentuation pour l'onglet actif */}
                 {/* EN: Active tab underline animation */}
                 {isActive && (
-                  <motion.span
+                  <MotionSpan
                     layoutId="nav-active"
                     className="absolute inset-x-3 -bottom-[1px] h-px bg-accent-400"
                   />
@@ -93,6 +107,7 @@ export default function Navbar() {
         {/* FR: ACTIONS D'EN-TÊTE / EN: HEADER ACTION BUTTONS                 */}
         {/* ------------------------------------------------------------------ */}
         <div className="flex items-center gap-2">
+          
           {/* FR: Commutateur de langue / EN: Language switcher dropdown */}
           <LanguageSwitcher />
 
@@ -100,7 +115,10 @@ export default function Navbar() {
           {/* EN: Desktop Resume button with Analytics tracking */}
           <button
             onClick={() => {
-              track("Open Resume", { language: language, device: "Desktop" });
+              track("Open Resume", {
+                language: language,
+                device: "Desktop",
+              });
               openModal(language);
             }}
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 font-sans text-sm font-medium text-paper transition hover:border-accent-500/50 hover:bg-accent-600/10 sm:flex cursor-pointer"
@@ -125,7 +143,7 @@ export default function Navbar() {
       {/* ------------------------------------------------------------------ */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <MotionDiv
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -133,29 +151,35 @@ export default function Navbar() {
             className="overflow-hidden border-t border-white/5 md:hidden"
           >
             <div className="flex flex-col gap-1 px-6 py-4">
-              {currentNavLinks.map((link: { href: string; label: string }) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={cn(
-                    "rounded-lg px-3 py-2.5 font-sans text-sm",
-                    pathname === link.href
-                      ? "bg-white/5 text-paper font-medium"
-                      : "text-paper/60"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {currentNavLinks.map(
+                (link: { href: string; label: string }) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "rounded-lg px-3 py-2.5 font-sans text-sm",
+                      pathname === link.href
+                        ? "bg-white/5 text-paper font-medium"
+                        : "text-paper/60"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
 
               <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-3">
+                
                 {/* FR: Bouton CV Mobile avec tracking Analytics */}
                 {/* EN: Mobile Resume button with Analytics tracking */}
                 <button
                   onClick={() => {
                     setMobileOpen(false);
-                    track("Open Resume", { language: language, device: "Mobile" });
+                    track("Open Resume", {
+                      language: language,
+                      device: "Mobile",
+                    });
                     openModal(language);
                   }}
                   className="flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-2 font-sans text-sm font-medium text-paper cursor-pointer"
@@ -165,7 +189,7 @@ export default function Navbar() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </header>

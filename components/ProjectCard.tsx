@@ -17,6 +17,10 @@ import { ArrowUpRight, Github, Clock, BookOpen } from "lucide-react";
 import type { Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
+// FR: Alias typé pour contourner le conflit de types Framer Motion / React 19
+// EN: Typed alias to bypass the Framer Motion / React 19 type conflict
+const MotionArticle = motion.article as any;
+
 /**
  * FR: Définition des propriétés transmises au composant ProjectCard
  * EN: Interface props definition for the ProjectCard component
@@ -72,7 +76,7 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
   };
 
   return (
-    <motion.article
+    <MotionArticle
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -123,7 +127,7 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
         </p>
 
         {/* ------------------------------------------------------------------ */}
-        {/* 3. SECTION PROBLÈME & SOLUTION / PROBLEM & SOLUTION OVERVIEW      */}
+        {/* 3. SECTION PROBLÈME & SOLUTION / PROBLEM & SOLUTION OVERVIEW        */}
         {/* ------------------------------------------------------------------ */}
         {(project.problem || project.solution) && (
           <div className="mt-4 space-y-2 border-t border-white/5 pt-4">
@@ -137,6 +141,7 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
                 </p>
               </div>
             )}
+
             {project.solution && (
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-paper/40">
@@ -182,6 +187,7 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
                 <ArrowUpRight size={14} />
               </a>
             )}
+
             {project.githubUrl && (
               <a
                 href={project.githubUrl}
@@ -193,6 +199,7 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
                 {labels.code}
               </a>
             )}
+
             {!project.liveUrl && !project.githubUrl && (
               <span className="flex items-center gap-1.5 font-sans text-xs sm:text-sm text-paper/35">
                 <Clock size={13} />
@@ -214,6 +221,6 @@ export default function ProjectCard({ project, onOpenDetails }: ProjectCardProps
           )}
         </div>
       </div>
-    </motion.article>
+    </MotionArticle>
   );
 }

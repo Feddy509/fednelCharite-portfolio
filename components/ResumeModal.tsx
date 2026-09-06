@@ -23,6 +23,11 @@ import { X, Download, Layers, Server, ShieldCheck, Check } from "lucide-react";
 import { portfolioData, type ResumeProfile } from "@/data/portfolioData";
 import { cn } from "@/lib/utils";
 
+// FR: Alias typés pour contourner le conflit de types Framer Motion / React 19
+// EN: Typed aliases to bypass the Framer Motion / React 19 type conflict
+const MotionDiv = motion.div as any;
+const MotionButton = motion.button as any;
+
 /**
  * FR: Interface du contexte de la modale de CV
  * EN: Resume modal context interface
@@ -105,7 +110,7 @@ export function ResumeModalProvider({
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <MotionDiv
             className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -113,7 +118,7 @@ export function ResumeModalProvider({
             transition={{ duration: 0.2 }}
           >
             {/* FR: Arrière-plan flouté / EN: Backdrop */}
-            <motion.button
+            <MotionButton
               aria-label={uiLabels.close}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
               onClick={closeModal}
@@ -122,7 +127,7 @@ export function ResumeModalProvider({
             {/* ------------------------------------------------------------------ */}
             {/* PANNEAU PRINCIPAL / MAIN DIALOG PANEL                              */}
             {/* ------------------------------------------------------------------ */}
-            <motion.div
+            <MotionDiv
               role="dialog"
               aria-modal="true"
               aria-labelledby="resume-modal-title"
@@ -252,8 +257,8 @@ export function ResumeModalProvider({
                   </div>
                 )}
               </div>
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </ResumeModalContext.Provider>

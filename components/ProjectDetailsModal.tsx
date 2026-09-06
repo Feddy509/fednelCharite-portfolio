@@ -17,6 +17,10 @@ import { X, ExternalLink, Github, ShieldAlert, Cpu, CheckCircle, Wrench } from "
 import { portfolioData, type Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
+// FR: Alias typé pour contourner le conflit de types Framer Motion / React 19
+// EN: Typed alias to bypass the Framer Motion / React 19 type conflict
+const MotionDiv = motion.div as any;
+
 /**
  * FR: Propriétés du composant Modale de détails de projet
  * EN: Props interface for ProjectDetailsModal component
@@ -45,7 +49,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
         {/* ------------------------------------------------------------------ */}
         {/* 1. FOND DE FLOU ET D'OMBRE / BACKDROP                              */}
         {/* ------------------------------------------------------------------ */}
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -56,7 +60,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
         {/* ------------------------------------------------------------------ */}
         {/* 2. FENÊTRE PRINCIPALE DE LA MODALE / MAIN MODAL CONTAINER          */}
         {/* ------------------------------------------------------------------ */}
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -234,7 +238,7 @@ export default function ProjectDetailsModal({ project, onClose }: ProjectDetails
               {labels.close}
             </button>
           </div>
-        </motion.div>
+        </MotionDiv>
       </div>
     </AnimatePresence>
   );

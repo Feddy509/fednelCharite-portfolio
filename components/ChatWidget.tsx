@@ -5,8 +5,8 @@
  * FR: Widget de Chat Assistant Virtuel IA Feddy (Next.js Client Component)
  * EN: Feddy AI Virtual Assistant Floating Chat Widget (Next.js Client Component)
  * ==============================================================================
- * 
- * FR: Offre une interface conversationnelle flottante animée permettant aux 
+ *
+ * FR: Offre une interface conversationnelle flottante animée permettant aux
  *     visiteurs d'interagir directement avec l'assistant virtuel Feddy.
  * EN: Provides an animated floating conversational interface allowing visitors
  *     to interact directly with the Feddy virtual assistant.
@@ -17,6 +17,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Bot, User, Loader2, Sparkles } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import ReactMarkdown from "react-markdown";
+
+/**
+ * ==============================================================================
+ * FR: Compatibilité de typage Framer Motion / React
+ * EN: Framer Motion / React typing compatibility
+ * ==============================================================================
+ *
+ * FR: Ces alias conservent exactement les animations existantes tout en évitant
+ *     le conflit de types entre Framer Motion et les types React utilisés.
+ * EN: These aliases preserve the existing animations while avoiding the
+ *     Framer Motion / React type compatibility issue.
+ */
+const MotionButton = motion.button as any;
+const MotionDiv = motion.div as any;
 
 /**
  * FR: Structure d'un message individuel dans le fil de discussion.
@@ -52,7 +66,7 @@ export default function ChatWidget() {
           : "Bonjour ! Je suis Feddy, l'assistant virtuel de Fednel Charité. Comment puis-je vous aider à découvrir son parcours, ses compétences ou ses projets ?",
       },
     ]);
-  }, [language]);
+  }, [language, isEn]);
 
   // FR: Défilement automatique vers le dernier message du fil
   // EN: Auto-scroll to the bottom of the conversation window
@@ -136,7 +150,7 @@ export default function ChatWidget() {
       {/* ============================================================================== */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.button
+          <MotionButton
             initial={{ scale: 0, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0, opacity: 0, y: 20 }}
@@ -241,10 +255,23 @@ export default function ChatWidget() {
               </g>
 
               {/* FR: Indicateur de statut en ligne / EN: Online pulse status circle */}
-              <circle cx="91" cy="81" r="8" fill="#081226" stroke="#081226" strokeWidth="3" />
-              <circle cx="91" cy="81" r="6" fill="#22c55e" className="animate-pulse" />
+              <circle
+                cx="91"
+                cy="81"
+                r="8"
+                fill="#081226"
+                stroke="#081226"
+                strokeWidth="3"
+              />
+              <circle
+                cx="91"
+                cy="81"
+                r="6"
+                fill="#22c55e"
+                className="animate-pulse"
+              />
             </svg>
-          </motion.button>
+          </MotionButton>
         )}
       </AnimatePresence>
 
@@ -253,7 +280,7 @@ export default function ChatWidget() {
       {/* ============================================================================== */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -387,8 +414,7 @@ export default function ChatWidget() {
                 <Send size={15} />
               </button>
             </form>
-
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </div>

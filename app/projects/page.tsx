@@ -13,7 +13,6 @@
  */
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { Code2, Server, ShieldCheck, Award, Sparkles, Cpu } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectDetailsModal from "@/components/ProjectDetailsModal";
@@ -152,12 +151,9 @@ export default function ProjectsPage() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* 3. GRILLE DES PROJETS ANIMÉE / ANIMATED PROJECTS GRID             */}
+      {/* 3. GRILLE DES PROJETS / PROJECTS GRID                              */}
       {/* ------------------------------------------------------------------ */}
-      <motion.div
-        layout
-        className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-      >
+      <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {filteredProjects.map((project) => (
           <ProjectCard
             key={project.slug}
@@ -165,7 +161,7 @@ export default function ProjectsPage() {
             onOpenDetails={(p) => setSelectedProject(p)}
           />
         ))}
-      </motion.div>
+      </div>
 
       {/* FR: Message si aucun projet ne correspond au filtre sélectionné */}
       {/* EN: Message displayed if no project matches the selected filter */}

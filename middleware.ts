@@ -31,8 +31,11 @@ const ratelimit = new Ratelimit({
 });
 
 export async function middleware(request: NextRequest) {
-  // FR: Extraction de l'adresse IP du client / EN: Extract client IP address
-  const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? '127.0.0.1';
+  // FR: Extraction de l'adresse IP du client via les en-têtes HTTP
+  // EN: Extract client IP address using standard HTTP headers
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 
+             request.headers.get('x-real-ip') ?? 
+             '127.0.0.1';
 
   // FR: Application du Rate Limiting exclusivement sur les endpoints API sensibles
   // EN: Apply rate limiting strictly on sensitive API endpoints
