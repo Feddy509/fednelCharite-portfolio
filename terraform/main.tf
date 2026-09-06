@@ -1,3 +1,8 @@
+# ==============================================================================
+# FR: Infrastructure as Code (IaC) - Security Hardening & Cloudflare WAF
+# EN: Infrastructure as Code (IaC) - Cloudflare Security Hardening & WAF
+# ==============================================================================
+
 terraform {
   required_version = ">= 1.5.0"
   required_providers {
@@ -8,11 +13,13 @@ terraform {
   }
 }
 
-# Variables pou evite gen sekrè ki ekri nan kòd la (Secret Management)
+# ------------------------------------------------------------------------------
+# 1. GESTION DES VARIABLES ET SECRETS / VARIABLES & SECRET MANAGEMENT
+# ------------------------------------------------------------------------------
 
 variable "cloudflare_api_token" {
   type        = string
-  description = "Cloudflare API Token for domain management"
+  description = "Cloudflare API Token for domain and WAF management"
   sensitive   = true
 }
 
@@ -26,7 +33,9 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
-# 1. Enforcement HTTPS & Security Standards (Hardening)
+# ------------------------------------------------------------------------------
+# 2. RENFORCEMENT HTTPS & PARAMÈTRES DE SÉCURITÉ / HTTPS HARDENING
+# ------------------------------------------------------------------------------
 
 resource "cloudflare_zone_settings_override" "fednelcharite_security" {
   zone_id = var.zone_id
@@ -41,14 +50,20 @@ resource "cloudflare_zone_settings_override" "fednelcharite_security" {
   }
 }
 
-# 2. Basic Web Application Firewall (WAF) Rule - Block Malicious Bots
+# ------------------------------------------------------------------------------
+# 3. RÈGLE PARE-FEU WEB (WAF) / WEB APPLICATION FIREWALL (WAF) BOT BLOCKING
+# ------------------------------------------------------------------------------
 
+# FR: Filtre d'inspection des User-Agents suspects
+# EN: Filter inspecting suspicious User-Agent headers
 resource "cloudflare_filter" "bad_bots" {
   zone_id     = var.zone_id
   description = "Filter bad bots and automated scanners"
   expression  = "(http.user_agent contains \"python-requests\") or (http.user_agent contains \"libwww-perl\")"
 }
 
+# FR: Règle de blocage automatique des bots malveillants
+# EN: Firewall rule blocking malicious automated requests
 resource "cloudflare_firewall_rule" "block_bad_bots" {
   zone_id     = var.zone_id
   description = "Block known bad bots from accessing fednelcharite.site"

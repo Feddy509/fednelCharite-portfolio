@@ -1,17 +1,47 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Page "Contact" du Portfolio (Next.js App Router Client Component)
+ * EN: Portfolio "Contact" Page (Next.js App Router Client Component)
+ * ==============================================================================
+ * 
+ * FR: Permet aux visiteurs et recruteurs d'envoyer un message sécurisé via 
+ *     Turnstile, de télécharger un CV et d'accéder aux liens professionnels.
+ * EN: Allows visitors and recruiters to submit a secure message via Turnstile,
+ *     download a resume, and access professional social links.
+ */
+
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { Mail, Send, FileText, CheckCircle2, ArrowRight, MessageSquare, Linkedin, Github, Quote, Loader2, AlertCircle, RefreshCw } from "lucide-react";
+import {
+  Mail,
+  Send,
+  FileText,
+  CheckCircle2,
+  ArrowRight,
+  MessageSquare,
+  Linkedin,
+  Github,
+  Quote,
+  Loader2,
+  AlertCircle,
+  RefreshCw,
+} from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
 import { useResumeModal } from "@/components/ResumeModal";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function ContactPage() {
+  // FR: Hooks de contexte pour la gestion des modales et de la langue
+  // EN: Context hooks for modal management and language state
   const { openModal } = useResumeModal();
   const { language } = useLanguage();
+
+  // FR: États locaux pour le formulaire, la sécurité et la soumission
+  // EN: Local states for form data, security token, and submission status
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,8 +50,71 @@ export default function ContactPage() {
 
   const officialEmail = "contact@fednelcharite.site";
 
-  const labels = {
-    fr: {
+  // FR: Dictionnaire bilingue pour l'interface utilisateur
+  // EN: Bilingual UI dictionary
+  const labels =
+    {
+      fr: {
+        badge: "CONTACT & COLLABORATION",
+        status: "Disponible pour de nouvelles opportunités",
+        title: "Parlons de votre projet ou opportunité",
+        subtitle:
+          "Que ce soit pour un recrutement (Full-Stack / DevSecOps), une collaboration ou une question technique - je vous réponds généralement sous 24 heures.",
+        nameLabel: "Nom complet",
+        namePlaceholder: "Ex: Jean Lucien",
+        emailLabel: "Adresse email",
+        emailPlaceholder: "vous@exemple.com",
+        messageLabel: "Message",
+        messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
+        btnSend: "Envoyer le message",
+        btnSending: "Envoi en cours...",
+        successTitle: "Message envoyé avec succès !",
+        successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
+        btnNewMessage: "Envoyer un autre message",
+        errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
+        errorTurnstile: "Veuillez valider le test de sécurité anti-bot.",
+        directEmailTitle: "Écrire directement",
+        hiringTitle: "Vous recrutez ?",
+        hiringDesc:
+          "Téléchargez la version du CV adaptée au profil que vous cherchez à pourvoir.",
+        btnResume: "Télécharger le CV",
+        socialTitle: "Réseaux professionnels",
+        socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
+        quoteText:
+          "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
+        quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
+      },
+      en: {
+        badge: "CONTACT & COLLABORATION",
+        status: "Available for new opportunities",
+        title: "Let's discuss your project or opportunity",
+        subtitle:
+          "Whether it's for a hiring opportunity (Full-Stack / DevSecOps), a collaboration, or a technical inquiry - I typically respond within 24 hours.",
+        nameLabel: "Full Name",
+        namePlaceholder: "Ex: Jean Lucien",
+        emailLabel: "Email Address",
+        emailPlaceholder: "you@example.com",
+        messageLabel: "Message",
+        messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
+        btnSend: "Send Message",
+        btnSending: "Sending message...",
+        successTitle: "Message sent successfully!",
+        successDesc: "Thank you for reaching out. I have received your message and will respond in less than 24 hours.",
+        btnNewMessage: "Send another message",
+        errorGeneral: "An error occurred while sending. Please try again.",
+        errorTurnstile: "Please complete the anti-bot security check.",
+        directEmailTitle: "Write directly",
+        hiringTitle: "Are you hiring?",
+        hiringDesc:
+          "Download the version of the resume tailored to the position you are looking to fill.",
+        btnResume: "Download Resume",
+        socialTitle: "Professional Networks",
+        socialDesc: "Connect with me on LinkedIn or check my GitHub repositories.",
+        quoteText:
+          "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
+        quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
+      },
+    }[language] || {
       badge: "CONTACT & COLLABORATION",
       status: "Disponible pour de nouvelles opportunités",
       title: "Parlons de votre projet ou opportunité",
@@ -50,68 +143,12 @@ export default function ContactPage() {
       quoteText:
         "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
       quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
-    },
-    en: {
-      badge: "CONTACT & COLLABORATION",
-      status: "Available for new opportunities",
-      title: "Let's discuss your project or opportunity",
-      subtitle:
-        "Whether it's for a hiring opportunity (Full-Stack / DevSecOps), a collaboration, or a technical inquiry - I typically respond within 24 hours.",
-      nameLabel: "Full Name",
-      namePlaceholder: "Ex: Jean Lucien",
-      emailLabel: "Email Address",
-      emailPlaceholder: "you@example.com",
-      messageLabel: "Message",
-      messagePlaceholder: "Tell me about your project, the job opening, or your inquiry...",
-      btnSend: "Send Message",
-      btnSending: "Sending message...",
-      successTitle: "Message sent successfully!",
-      successDesc: "Thank you for reaching out. I have received your message and will respond in less than 24 hours.",
-      btnNewMessage: "Send another message",
-      errorGeneral: "An error occurred while sending. Please try again.",
-      errorTurnstile: "Please complete the anti-bot security check.",
-      directEmailTitle: "Write directly",
-      hiringTitle: "Are you hiring?",
-      hiringDesc:
-        "Download the version of the resume tailored to the position you are looking to fill.",
-      btnResume: "Download Resume",
-      socialTitle: "Professional Networks",
-      socialDesc: "Connect with me on LinkedIn or check my GitHub repositories.",
-      quoteText:
-        "Software engineering goes far beyond syntax: it is about building robust, security-first architectures designed for long-term impact.",
-      quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
-    },
-  }[language] || {
-    badge: "CONTACT & COLLABORATION",
-    status: "Disponible pour de nouvelles opportunités",
-    title: "Parlons de votre projet ou opportunité",
-    subtitle:
-      "Que ce soit pour un recrutement (Full-Stack / DevSecOps), une collaboration ou une question technique - je vous réponds généralement sous 24 heures.",
-    nameLabel: "Nom complet",
-    namePlaceholder: "Ex: Jean Lucien",
-    emailLabel: "Adresse email",
-    emailPlaceholder: "vous@exemple.com",
-    messageLabel: "Message",
-    messagePlaceholder: "Décrivez votre projet, le poste à pourvoir ou votre question...",
-    btnSend: "Envoyer le message",
-    btnSending: "Envoi en cours...",
-    successTitle: "Message envoyé avec succès !",
-    successDesc: "Merci d'être entré en contact. J'ai bien reçu votre message et je vous répondrai en moins de 24 heures.",
-    btnNewMessage: "Envoyer un autre message",
-    errorGeneral: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
-    errorTurnstile: "Veuillez valider le test de sécurité anti-bot.",
-    directEmailTitle: "Écrire directement",
-    hiringTitle: "Vous recrutez ?",
-    hiringDesc:
-      "Téléchargez la version du CV adaptée au profil que vous cherchez à pourvoir.",
-    btnResume: "Télécharger le CV",
-    socialTitle: "Réseaux professionnels",
-    socialDesc: "Rejoignez-moi sur LinkedIn ou consultez mes dépôts GitHub.",
-    quoteText:
-      "Développer un logiciel va bien au-delà de la syntaxe : c'est concevoir des architectures robustes, sécurisées par conception et taillées pour l'avenir.",
-    quoteAuthor: "Fednel Charité · Software Engineer & Aspiring DevSecOps",
-  };
+    };
 
+  /**
+   * FR: Gestionnaire de soumission du formulaire vers l'API interne
+   * EN: Form submission handler forwarding requests to internal API
+   */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -154,7 +191,10 @@ export default function ContactPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-3 sm:px-6 pt-4 sm:pt-6 pb-16 sm:pb-24 font-sans text-paper overflow-x-hidden">
-      {/* En-tête de la page */}
+      
+      {/* ------------------------------------------------------------------ */}
+      {/* 1. EN-TÊTE DE LA PAGE / PAGE HEADER                               */}
+      {/* ------------------------------------------------------------------ */}
       <div className="max-w-3xl">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs text-emerald-400 mb-4">
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -172,12 +212,16 @@ export default function ContactPage() {
         </p>
       </div>
 
-      {/* Section Formulaire / Ecran Succès & Sidebar */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 2. FORMULAIRE ET GRILLE / FORM & SIDEBAR GRID                      */}
+      {/* ------------------------------------------------------------------ */}
       <div className="mt-8 sm:mt-12 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        {/* Kolòn Gòch : Formulaire OUBYEN Ecran Succès */}
+        
+        {/* FR: Colonne gauche : Formulaire ou Écran de succès */}
+        {/* EN: Left column: Form or Success State */}
         <div className="space-y-8">
           {sent ? (
-            /* Bèl Ekran Siksè ki pran tout espas fòm lan */
+            /* FR: Écran de confirmation de succès / EN: Success state display */
             <div className="flex flex-col items-center justify-center text-center rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-8 sm:p-12 backdrop-blur-md shadow-card transition-all">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 ring-8 ring-emerald-500/10 mb-6">
                 <CheckCircle2 size={48} className="animate-bounce" />
@@ -197,7 +241,7 @@ export default function ContactPage() {
               </button>
             </div>
           ) : (
-            /* Fòm Kontak Nòmal la */
+            /* FR: Formulaire de contact / EN: Contact Form */
             <form
               onSubmit={handleSubmit}
               className="space-y-5 rounded-2xl border border-white/10 bg-ink-surface/40 p-4 sm:p-8 backdrop-blur-md shadow-card transition-all"
@@ -258,7 +302,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Widget Cloudflare Turnstile */}
+              {/* FR: Intégration du Widget Cloudflare Turnstile / EN: Cloudflare Turnstile Widget */}
               <div className="flex justify-start py-1">
                 <Turnstile
                   siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
@@ -290,9 +334,10 @@ export default function ContactPage() {
             </form>
           )}
 
-          {/* Seksyon Pòtrè: Adaptasyon Desktop/Mobil */}
+          {/* FR: Section Portrait & Citation (Adaptation Responsive) */}
+          {/* EN: Portrait & Quote Section (Responsive Layout) */}
           <div className="space-y-6">
-            {/* Vèsyon DESKTOP */}
+            {/* Desktop Layout */}
             <div className="hidden sm:block group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-surface/40 p-8 backdrop-blur-md shadow-card transition-all hover:border-cyan-500/30">
               <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
               <div className="grid gap-6 grid-cols-[1fr_180px] lg:grid-cols-[1fr_200px] items-center">
@@ -317,7 +362,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Vèsyon MOBIL */}
+            {/* Mobile Layout */}
             <div className="block sm:hidden relative flex flex-col items-center justify-center text-center pt-2">
               <div className="relative w-full max-w-xs overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_95%)]">
                 <Image
@@ -342,7 +387,8 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Kolòn Dwat */}
+        {/* FR: Colonne droite : Informations de contact direct et réseaux */}
+        {/* EN: Right column: Direct contact info and social links */}
         <div className="space-y-6">
           {/* Direct Email Card */}
           <div className="group rounded-2xl border border-white/10 bg-ink-surface/40 p-5 sm:p-8 backdrop-blur-md shadow-card transition hover:border-accent-500/30">
@@ -423,6 +469,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -1,5 +1,17 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * FR: Page d'accueil principale du Portfolio (Next.js Client Component)
+ * EN: Main Portfolio Home Page (Next.js Client Component)
+ * ==============================================================================
+ * 
+ * FR: Présente la section Hero, les projets phares, la vision technique 
+ *     DevSecOps et la preuve sociale.
+ * EN: Displays the Hero section, featured projects, DevSecOps technical
+ *     perspective, and social proof metrics.
+ */
+
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Mail, ShieldCheck, Code2, Rocket } from "lucide-react";
@@ -9,6 +21,10 @@ import ProjectDetailsModal from "@/components/ProjectDetailsModal";
 import { portfolioData, type Project } from "@/data/portfolioData";
 import { useLanguage } from "@/app/context/LanguageContext";
 
+/**
+ * FR: Mappage dynamique des icônes pour les rôles et piliers techniques
+ * EN: Dynamic icon mapping for roles and technical pillars
+ */
 const identityIcons: Record<string, any> = {
   engineer: Code2,
   securiste: ShieldCheck,
@@ -16,14 +32,21 @@ const identityIcons: Record<string, any> = {
 };
 
 export default function HomePage() {
+  // FR: Extraction de la langue actuelle depuis le contexte
+  // EN: Extract current language from context
   const { language } = useLanguage();
   const data = portfolioData?.[language] || portfolioData?.fr || {};
 
-  // State pou xere ouvèti ak kontni modal Case Study an
+  // FR: État local pour gérer l'affichage de la modale d'étude de cas (Case Study)
+  // EN: Local state to control Case Study modal visibility and content
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+  // FR: Filtrage des projets mis en vedette
+  // EN: Filter featured projects for home display
   const featuredProjects = (data?.projects || []).filter((p: any) => p?.featured);
 
+  // FR: Dictionnaire bilingue pour les éléments textuels de la page d'accueil
+  // EN: Bilingual UI dictionary for home page elements
   const labels =
     {
       fr: {
@@ -66,9 +89,9 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ---------------------------------------------------------------- */}
-      {/* Hero Section                                                     */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 1. SECTION HERO / HERO SECTION                                    */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-2 sm:pt-4">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           
@@ -127,6 +150,8 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* FR: Composant d'illustration visuelle Hero */}
+          {/* EN: Hero visual illustration component */}
           <div className="flex justify-center lg:justify-end">
             {typeof HeroIllustration === "function" ? <HeroIllustration /> : null}
           </div>
@@ -134,9 +159,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Featured Projects                                                */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 2. PROJETS EN VEDETTE / FEATURED PROJECTS SECTION                  */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
@@ -169,9 +194,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Vision Section                                                   */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 3. SECTION VISION TECHNIQUE / TECHNICAL PERSPECTIVE                */}
+      {/* ------------------------------------------------------------------ */}
       <section className="border-y border-white/10 bg-ink-surface/30 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-6 py-16">
           <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:items-center">
@@ -195,9 +220,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Social proof                                                     */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 4. PREUVE SOCIALE & STATISTIQUES / SOCIAL PROOF METRICS           */}
+      {/* ------------------------------------------------------------------ */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-6 sm:grid-cols-3">
           {(data.socialProof || []).map((item: any) => (
@@ -216,9 +241,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Fenêtre Modal (Case Study / Details)                             */}
-      {/* ---------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------ */}
+      {/* 5. MODALE DE DÉTAILS D'ÉTUDE DE CAS / CASE STUDY DETAILS MODAL     */}
+      {/* ------------------------------------------------------------------ */}
       <ProjectDetailsModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

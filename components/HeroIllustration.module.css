@@ -1,7 +1,9 @@
-/* ==========================================================
-   HERO ILLUSTRATION (SYNCHRONISÉ & RESPONSIVE)
-========================================================== */
+/* ==============================================================================
+   FR: Styles du composant HeroIllustration (CSS Module)
+   EN: HeroIllustration Component Styles (CSS Module)
+   ============================================================================== */
 
+/* FR: Conteneur principal de l'illustration / EN: Main illustration container */
 .container {
   position: relative;
   width: 100%;
@@ -14,9 +16,10 @@
   overflow: visible;
 }
 
-/* ==========================================================
-   FORME GÉOMÉTRIQUE
-========================================================== */
+/* ==============================================================================
+   FR: Formes Géométriques Vectorielles (SVG)
+   EN: Vector Geometric Shapes (SVG)
+   ============================================================================== */
 
 .heroSvg {
   position: absolute;
@@ -43,9 +46,10 @@
   stroke-width: 2.5;
 }
 
-/* ==========================================================
-   BADGE TERMINAL
-========================================================== */
+/* ==============================================================================
+   FR: Badge Icône Terminal
+   EN: Terminal Icon Badge
+   ============================================================================== */
 
 .terminalBadge {
   position: absolute;
@@ -62,9 +66,10 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* ==========================================================
-   PHOTO DE PROFIL (DÉFAUT / DESKTOP)
-========================================================== */
+/* ==============================================================================
+   FR: Enveloppe de Photo de Profil (Desktop)
+   EN: Profile Picture Wrapper (Desktop)
+   ============================================================================== */
 
 .photoWrapper {
   position: absolute;
@@ -90,9 +95,10 @@
   filter: drop-shadow(-12px 12px 25px rgba(0, 0, 0, 0.5));
 }
 
-/* ==========================================================
-   GLOW EFFECT
-========================================================== */
+/* ==============================================================================
+   FR: Effet de Lueur Néon (Background Glow)
+   EN: Neon Glow Background Effect
+   ============================================================================== */
 
 .glowEffect {
   position: absolute;
@@ -111,11 +117,12 @@
   pointer-events: none;
 }
 
-/* ==========================================================
-   RESPONSIVE DESIGN (TABLETTE & MOBILE)
-========================================================== */
+/* ==============================================================================
+   FR: Adaptation Responsive (Tablettes et Mobiles)
+   EN: Responsive Media Queries (Tablet & Mobile)
+   ============================================================================== */
 
-/* Tablette (~633x644) */
+/* FR: Format Tablette / EN: Tablet Format */
 @media (max-width: 768px) {
   .container {
     max-width: 540px;
@@ -136,7 +143,7 @@
   }
 }
 
-/* Mobile (~299x452) */
+/* FR: Format Mobile / EN: Mobile Format */
 @media (max-width: 480px) {
   .container {
     max-width: 340px;
