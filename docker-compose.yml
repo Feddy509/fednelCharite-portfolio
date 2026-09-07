@@ -12,8 +12,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
+      - PORT=3000
+    restart: always
+
+  # FR: Reverse Proxy et WAF avec Nginx pour la sécurité et le Rate Limiting
+  # EN: Nginx Reverse Proxy and WAF for security and Rate Limiting
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - portfolio
     restart: always
