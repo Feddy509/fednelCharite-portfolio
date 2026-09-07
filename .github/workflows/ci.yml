@@ -172,7 +172,7 @@ jobs:
           cosign version
           echo "Cosign OIDC Environment Ready for Keyless Signing."
 
-  # ==========================================
+ # ==========================================
   # 6. SONARQUBE / SONARCLOUD CODE QUALITY GATE
   # FR: Analyse approfondie de la qualité du code, couverture et dette technique
   # EN: Deep code quality, coverage, and technical debt analysis
@@ -188,7 +188,7 @@ jobs:
           fetch-depth: 0 # Deep clone pour historique Git SonarQube
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
