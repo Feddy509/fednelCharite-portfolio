@@ -1,0 +1,96 @@
+---
+# ==============================================================================
+# DevSecOps Portfolio Infrastructure Automation & Hardening Playbook
+# Author: Fednel Charité
+# Target OS: Ubuntu 22.04 LTS / 24.04 LTS
+# ==============================================================================
+
+- name: Server Hardening and Portfolio Containerized Deployment
+  hosts: webservers
+  become: true
+  vars:
+    repo_url: "https://github.com/fednelcharite/fednel-portfolio.git"
+    app_dir: "/opt/fednel-portfolio"
+
+  tasks:
+    # --------------------------------------------------------------------------
+    # 1. SYSTEM UPDATES & DEPENDENCIES
+    # --------------------------------------------------------------------------
+    - name: Update apt cache and upgrade system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+
+    - name: Install required security and core packages
+      apt:
+        name:
+          - curl
+          - git
+          - ufw
+          - fail2ban
+          - docker.io
+          - docker-compose-v2
+        state: present
+
+    # --------------------------------------------------------------------------
+    # 2. SERVER HARDENING (UFW FIREWALL & FAIL2BAN)
+    # --------------------------------------------------------------------------
+    - name: Configure UFW default policies (Zero Trust approach)
+      ufw:
+        direction: "{{ item.direction }}"
+        policy: "{{ item.policy }}"
+      loop:
+        - { direction: 'incoming', policy: 'deny' }
+        - { direction: 'outgoing', policy: 'allow' }
+
+    - name: Allow essential network ports (SSH, HTTP, HTTPS)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - '22'
+        - '80'
+        - '443'
+
+    - name: Enable UFW Firewall service
+      ufw:
+        state: enabled
+
+    - name: Ensure Fail2ban service is running (Brute-force protection)
+      systemd:
+        name: fail2ban
+        state: started
+        enabled: yes
+
+    # --------------------------------------------------------------------------
+    # 3. DOCKER SERVICE SETUP
+    # --------------------------------------------------------------------------
+    - name: Ensure Docker service is active and enabled on boot
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    # --------------------------------------------------------------------------
+    # 4. APPLICATION DEPLOYMENT (DOCKER COMPOSE)
+    # --------------------------------------------------------------------------
+    - name: Ensure deployment directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Clone or pull the latest DevSecOps Portfolio repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    - name: Deploy Portfolio and Nginx stack via Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}"
+        state: present
+        build: always

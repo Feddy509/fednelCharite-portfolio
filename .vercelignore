@@ -1,0 +1,5 @@
+/ansible
+/nginx
+/terraform
+.github
+sonar-project.properties
