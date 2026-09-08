@@ -189,7 +189,13 @@ jobs:
           fetch-depth: 0
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v3.0.0
+        uses: SonarSource/sonarcloud-github-action@v3.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=fednel_charite
+            -Dsonar.projectKey=Fednel_Charite_fednelCharite-portfolio
+            -Dsonar.sources=app,components,lib
+            -Dsonar.exclusions=**/*.node_modules/**,**/.next/**,**/public/**,**/ansible/**
