@@ -195,7 +195,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=fednel_charite
+            -Dsonar.organization=feddy509
             -Dsonar.projectKey=Fednel_Charite_fednelCharite-portfolio
             -Dsonar.sources=app,components,lib
             -Dsonar.exclusions=**/*.node_modules/**,**/.next/**,**/public/**,**/ansible/**
