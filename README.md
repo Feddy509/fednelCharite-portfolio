@@ -1,93 +1,213 @@
-# DevSecOps Portfolio Infrastructure - fednelcharite.site
+# DevSecOps Portfolio Infrastructure — fednelcharite.site
 
-[![CI Quality & Security Gate](https://img.shields.io/badge/SonarCloud-passing-brightgreen)](https://sonarcloud.io/dashboard?id=Fednel_Charite_fednelCharite-portfolio)
-[![SAST CodeQL](https://github.com/Feddy509/fednelCharite-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Feddy509/fednelCharite-portfolio/actions/workflows/ci.yml)
-[![Secrets Gitleaks](https://img.shields.io/badge/Secrets-Gitleaks-blue)](https://github.com/gitleaks/gitleaks)
-[![Infrastructure as Code Checkov](https://img.shields.io/badge/IaC-Checkov-orange)](https://www.checkov.io/)
+> Production-grade, security-hardened infrastructure behind a full-stack software engineering portfolio — from `git push` to production, every deployment passes through the same automated security and quality gates.
 
----
-
-## 🌐 Overview / Vue d'ensemble
-
-**[EN]** Production-grade, highly hardened software engineering portfolio infrastructure for [fednelcharite.site](https://fednelcharite.site). Built with Next.js, TypeScript, and Tailwind CSS, orchestrated with Docker, automated via Terraform and Ansible, and secured through a rigorous end-to-end DevSecOps pipeline.
-
-**[FR]** Infrastructure de portfolio en génie logiciel hautement sécurisée et de niveau production pour [fednelcharite.site](https://fednelcharite.site). Développée avec Next.js, TypeScript et Tailwind CSS, orchestrée avec Docker, automatisée via Terraform et Ansible, et sécurisée par un pipeline DevSecOps rigoureux.
+[![CI/CD Pipeline](https://github.com/Feddy509/fednelCharite-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Feddy509/fednelCharite-portfolio/actions/workflows/ci.yml)
+[![SonarCloud Quality Gate](https://img.shields.io/badge/SonarCloud-passing-brightgreen)](https://sonarcloud.io/dashboard?id=Fednel_Charite_fednelCharite-portfolio)
+[![SAST: CodeQL](https://img.shields.io/badge/SAST-CodeQL-1f6feb)](https://github.com/Feddy509/fednelCharite-portfolio/actions/workflows/ci.yml)
+[![Secrets: Gitleaks](https://img.shields.io/badge/Secrets-Gitleaks-orange)](https://github.com/gitleaks/gitleaks)
+[![IaC: Checkov](https://img.shields.io/badge/IaC-Checkov-8250df)](https://www.checkov.io/)
+[![Live Site](https://img.shields.io/badge/Live-fednelcharite.site-informational)](https://fednelcharite.site)
 
 ---
 
-## 🏗️ Architecture & Infrastructure Workflow / Architecture et Flux d'Infrastructure
+## Overview
 
-**[EN]** This project implements a complete Infrastructure as Code (IaC) and Configuration Management lifecycle, ensuring zero manual intervention from code commit to production deployment.
+This repository holds the application and infrastructure code behind [fednelcharite.site](https://fednelcharite.site) - a full-stack portfolio built not just to showcase software engineering skill, but to demonstrate a security-first, production-grade delivery pipeline in practice.
 
-**[FR]** Ce projet implémente un cycle de vie complet d'infrastructure en tant que code (IaC) et de gestion de configuration, garantissant zéro intervention manuelle du commit jusqu'au déploiement en production.
+The application (Next.js, TypeScript, Tailwind CSS) is containerized with Docker, provisioned with Terraform, configured and hardened with Ansible, and gated end-to-end by a DevSecOps pipeline - secret scanning, static analysis, container and dependency scanning, SBOM generation, and signed image supply chain — before anything reaches production.
+
+<details>
+<summary>🇫🇷 Aperçu (Français)</summary>
+<br>
+
+Ce dépôt contient le code applicatif et l'infrastructure derrière <a href="https://fednelcharite.site">fednelcharite.site</a> - un portfolio full-stack conçu pour démontrer non seulement des compétences en développement logiciel, mais aussi un pipeline de livraison sécurisé et de niveau production, mis en pratique.
+
+L'application (Next.js, TypeScript, Tailwind CSS) est conteneurisée avec Docker, provisionnée avec Terraform, configurée et durcie avec Ansible, et protégée de bout en bout par un pipeline DevSecOps - détection de secrets, analyse statique, analyse des dépendances et des conteneurs, génération de SBOM et signature de la chaîne d'approvisionnement - avant tout déploiement en production.
+
+</details>
+
+---
+
+## Architecture & pipeline
+
+```mermaid
+flowchart TD
+    Dev(["💻 Local development<br/>Next.js · TypeScript · Tailwind CSS"]) -->|git push| CI["⚙️ GitHub Actions CI/CD"]
+
+    subgraph SEC["🔐 Security & quality gates"]
+        direction LR
+        S1["Gitleaks<br/>Secret scanning"]
+        S2["CodeQL<br/>SAST"]
+        S3["Checkov<br/>IaC scanning"]
+        S4["SonarCloud<br/>Quality gate"]
+    end
+
+    subgraph SUP["📦 Container & supply chain"]
+        direction LR
+        P1["Docker build<br/>Multi-stage · non-root"]
+        P2["Trivy<br/>CVE scanning"]
+        P3["Syft<br/>SBOM generation"]
+        P4["Cosign<br/>OIDC image signing"]
+    end
+
+    subgraph INF["☁️ Infrastructure provisioning"]
+        direction LR
+        I1["Terraform<br/>Cloud resources"]
+        I2["Ansible<br/>Hardening + Nginx reverse proxy"]
+    end
+
+    CI --> SEC --> Gate{"All gates passed?"}
+    CI --> SUP --> Gate
+    CI --> INF --> Gate
+
+    Gate -->|✅ Pass| Prod(["🚀 Production<br/>fednelcharite.site"])
+    Gate -->|❌ Fail| Block(["⛔ Blocked - fix & re-push"])
+```
+
+*Zero manual intervention from commit to production - every build passes through the same automated gates before it can ship.*
+
+---
+
+## Tech stack
+
+| Layer | Tools |
+|---|---|
+| **Application** | Next.js, React, TypeScript, Tailwind CSS |
+| **Containerization** | Docker (multi-stage, non-root user), Docker Compose |
+| **Infrastructure as Code** | Terraform |
+| **Configuration management** | Ansible (server hardening, Nginx reverse proxy) |
+| **CI/CD** | GitHub Actions |
+| **Code quality** | SonarCloud |
+| **Static analysis (SAST)** | CodeQL |
+| **Secret scanning** | Gitleaks |
+| **IaC scanning** | Checkov |
+| **Container scanning** | Trivy |
+| **Supply chain security** | Syft (SBOM), Cosign (OIDC image signing) |
+| **Package manager** | pnpm |
+
+---
+
+## Security & DevOps features
+
+**Automated security gates & code quality**
+- **SonarCloud** - continuous code quality tracking: security ratings, technical debt, test coverage.
+- **Gitleaks** - blocks hardcoded API keys and credentials before they ever reach the repository.
+- **CodeQL** - static analysis for TypeScript/React vulnerability patterns (XSS, injection).
+
+**Infrastructure & configuration management**
+- **Terraform** - provisions clean, reproducible cloud infrastructure.
+- **Ansible** - configures target servers, applies system hardening, and sets up Nginx as a secure reverse proxy in front of the Next.js container.
+
+**Container & supply chain**
+- **Hardened Dockerfile** - multi-stage build running as an isolated, non-root user (`nextjs:1001`).
+- **Trivy** - scans container images for known CVEs.
+- **Syft** - generates a Software Bill of Materials (SBOM) for every build.
+- **Cosign** - signs container images via OIDC for supply-chain integrity.
+
+<details>
+<summary>🇫🇷 Fonctionnalités de sécurité et DevOps (Français)</summary>
+<br>
+
+**Contrôles automatisés et qualité du code**
+- **SonarCloud** - suivi continu de la qualité du code, des notes de sécurité et de la dette technique.
+- **Gitleaks** - bloque l'exposition de clés API et d'identifiants avant tout commit.
+- **CodeQL** - analyse statique des failles de sécurité dans TypeScript et React.
+
+**Infrastructure et gestion de configuration**
+- **Terraform** - provisionne des ressources cloud propres et reproductibles.
+- **Ansible** - configure les serveurs cibles, applique le durcissement système et met en place Nginx comme reverse proxy sécurisé devant le conteneur Next.js.
+
+**Conteneurs et chaîne d'approvisionnement**
+- **Dockerfile sécurisé** - construction multi-étapes exécutée sous un utilisateur non-root isolé (`nextjs:1001`).
+- **Trivy** - analyse les images de conteneurs à la recherche de CVE connues.
+- **Syft** - génère une nomenclature logicielle (SBOM) pour chaque build.
+- **Cosign** - signe les images de conteneurs via OIDC pour l'intégrité de la chaîne d'approvisionnement.
+
+</details>
+
+---
+
+## Project structure
 
 ```text
-[ Local Dev / Git Push ] 
-        │
-        ▼
-[ GitHub Actions CI/CD Pipeline ]
-        ├── Security Gates: Gitleaks (Secrets) + CodeQL (SAST) + Checkov (IaC) + SonarCloud (Quality Gate)
-        ├── Container & Supply Chain: Docker Build + Trivy + Syft (SBOM) + Cosign (OIDC Signing)
-        └── Infrastructure Provisioning: Terraform (Cloud Resources) & Ansible (Nginx Reverse Proxy & Hardening)
-
-        ```
-
----
-
-🔒 Security & DevOps Features / Fonctionnalités de Sécurité et DevOps
-1. Automated Security Gates & Code Quality / Contrôles Automatisés et Qualité de Code
-[EN] SonarCloud Quality Gate: Enforces continuous code quality, tracking security ratings, technical debt, and test coverage.
-
-[FR] SonarCloud Quality Gate : Garantit la qualité continue du code, le suivi des notes de sécurité et de la dette technique.
-
-[EN] Secret Leak Detection (Gitleaks): Blocks hardcoded API keys and credentials before code reaches the repository.
-
-[FR] Détection de Secrets (Gitleaks) : Bloque l'exposition de clés API et d'identifiants avant tout commit.
-
-[EN] Static Application Security Testing (CodeQL): Analyzes TypeScript and React vulnerability patterns (XSS, Injection).
-
-[FR] Analyse Statique (CodeQL) : Analyse les failles de sécurité dans TypeScript et React.
-
-2. Infrastructure & Configuration Management / Gestion d'Infrastructure (Terraform & Ansible)
-[EN] Terraform: Automatically provisions clean, reproducible cloud infrastructure resources.
-
-[FR] Terraform : Provisionne automatiquement des ressources cloud propres et reproductibles.
-
-[EN] Ansible: Configures target servers, performs system hardening, and sets up Nginx as a secure Reverse Proxy for the Next.js container.
-
-[FR] Ansible : Configure les serveurs cibles, gère le durcissement système et met en place Nginx comme Reverse Proxy sécurisé.
-
-3. Container & Supply Chain / Sécurité des Conteneurs
-[EN] Hardened Dockerfile: Multi-stage build running under an isolated, non-root user (nextjs:1001).
-
-[FR] Dockerfile Sécurisé : Construction multi-étapes exécutée sous un utilisateur non-root isolé (nextjs:1001).
-
-[EN] Vulnerability & SBOM (Trivy & Syft): Scans container images for CVEs and generates automated SBOMs.
-
-[FR] Vulnérabilités & SBOM (Trivy & Syft) : Analyse les conteneurs et génère une nomenclature logicielle (SBOM).
+fednel-portfolio/
+├── .github/workflows/         # CI/CD pipeline definitions
+│   └── ci.yml
+├── ansible/                   # Configuration management & hardening
+│   ├── deploy.yml
+│   └── inventory.ini
+├── terraform/                 # Infrastructure as Code
+│   └── main.tf
+├── nginx/
+│   └── nginx.conf             # Reverse proxy configuration
+├── app/                       # Next.js App Router
+│   ├── about/
+│   ├── api/
+│   │   ├── chat/route.ts
+│   │   └── contact/
+│   ├── contact/
+│   ├── context/LanguageContext.tsx
+│   ├── projects/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── sitemap.ts
+├── components/                # Reusable UI components
+│   ├── ChatWidget.tsx
+│   ├── Navbar.tsx
+│   ├── ProjectCard.tsx
+│   ├── ProjectDetailsModal.tsx
+│   ├── ResumeModal.tsx
+│   └── LanguageSwitcher.tsx
+├── data/portfolioData.ts      # Centralized content layer
+├── lib/                       # Shared utilities & logging
+│   ├── logger.ts
+│   └── utils.ts
+├── public/                    # Static assets, resumes, certificates
+├── Dockerfile                 # Hardened multi-stage build
+├── docker-compose.yml
+├── sonar-project.properties
+├── SECURITY.md
+└── README.md
+```
 
 ---
 
-🚀 Local Development / Développement Local
-Clone the repository / Cloner le dépôt
+## Local development
 
-git clone [https://github.com/Feddy509/fednelCharite-portfolio.git](https://github.com/Feddy509/fednelCharite-portfolio.git)
+```bash
+# Clone the repository
+git clone https://github.com/Feddy509/fednelCharite-portfolio.git
 cd fednelCharite-portfolio
 
-Install dependencies / Installer les dépendances
-
+# Install dependencies
 pnpm install
-Run development server / Lancer le serveur de développement
 
+# Run the development server
 pnpm dev
-🐳 Docker & Deployment / Déploiement Docker
-Build local hardened container / Construire l'image Docker sécurisée
+```
 
+## Docker & deployment
+
+```bash
+# Build the hardened container
 docker build -t fednel-portfolio:latest .
-Run container locally / Exécuter le conteneur en local
 
+# Run it locally
 docker run -p 3000:3000 fednel-portfolio:latest
-🛡️ Security Reporting / Signalement de Failles
-[EN] For security concerns or vulnerability disclosure, please refer to our SECURITY.md policy.
+```
 
-[FR] Pour tout signalement de vulnérabilité, veuillez consulter notre politique SECURITY.md.
+---
+
+## Security reporting
+
+For security concerns or vulnerability disclosure, please refer to [SECURITY.md](./SECURITY.md).
+
+---
+
+## Author
+
+**Fednel Charité** - Software Engineer · Aspiring DevSecOps Engineer
+Port-au-Prince, Haiti - Open to Remote / Hybrid roles (Local & International)
+
+[Portfolio](https://fednelcharite.site) · [LinkedIn](https://www.linkedin.com/in/fednel-charité-05271823b/) · [GitHub](https://github.com/feddy509)
